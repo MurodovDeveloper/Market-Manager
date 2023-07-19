@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace MarketManager.Infrastructure.Data.Configurations
+﻿using MarketManager.Domain.Entities;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Microsoft.EntityFrameworkCore;
+namespace MarketManager.Infrastructure.Data.Configurations;
+public class ClientConfiguration : IEntityTypeConfiguration<Client>
 {
-    internal class ClientConfiguration
+    public void Configure(EntityTypeBuilder<Client> builder)
     {
+        builder.Property(client => client.TotalPrice).IsRequired();
+        builder.Property(client => client.Discount).IsRequired();
     }
 }

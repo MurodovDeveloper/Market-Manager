@@ -1,12 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace MarketManager.Application.UseCases.Clients.Queries.GetClientById
+﻿using AutoMapper;
+using MarketManager.Application.Common.Interfaces;
+using MarketManager.Domain.Entities;
+using MediatR;
+namespace MarketManager.Application.UseCases.Clients.Queries.GetClientById;
+public record GetClientByIdQuery(Guid Id) : IRequest<GetClientByIdQueryResponse>;
+public class GetClientByIdQueryHandler : IRequestHandler<GetClientByIdQuery, GetClientByIdQueryResponse>
 {
-    internal class GetClientByIdQuery
+    private readonly IMapper _mapper;
+    private readonly IApplicationDbContext _context;
+
+    public GetClientByIdQueryHandler(IApplicationDbContext context, IMapper mapper)
     {
+        _context = context;
+        _mapper = mapper;
     }
+    public async Task<GetClientByIdQueryResponse> Handle(GetClientByIdQuery request, CancellationToken cancellationToken)
+    {
+        Client? client = await _context.Clients.FindAsync(request.Id);
+        if(client is null)
+            throw new NotFoundException(nameof(Client), request.Id);
+        return _mapper.Map<GetClientByIdQueryResponse>(client);
+    }
+}
+public class GetClientByIdQueryResponse
+{
+    public Guid Id { get; set; }
 }
