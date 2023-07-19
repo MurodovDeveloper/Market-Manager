@@ -1,13 +1,7 @@
-﻿using MarketManager.Application.Common.Interfaces;
-using MarketManager.Application.UseCases.Users.Commands.CreateUser;
+﻿using AutoMapper;
+using MarketManager.Application.Common.Interfaces;
 using MarketManager.Domain.Entities;
-using MarketManager.Domain.Entities.Identity;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MarketManager.Application.UseCases.Suppliers.Commands.CreateSupplier
 {
@@ -20,18 +14,16 @@ namespace MarketManager.Application.UseCases.Suppliers.Commands.CreateSupplier
     public class CreateSupplierCommandHandler : IRequestHandler<CreateSupplierCommand, Guid>
     {
         private readonly IApplicationDbContext _context;
-
-        public CreateSupplierCommandHandler(IApplicationDbContext context)
-                => _context = context;
+        private readonly IMapper _mapper;
+        public CreateSupplierCommandHandler(IApplicationDbContext context, IMapper mapper)
+        {
+            _context = context;
+            _mapper = mapper;
+        }
 
         public async Task<Guid> Handle(CreateSupplierCommand request, CancellationToken cancellationToken)
         {
-            Supplier supplier = new()
-            {
-                Id = Guid.NewGuid(),
-                Name = request.Name,
-                Phone = request.Phone
-            };
+            Supplier supplier = _mapper.Map<Supplier>(request);
             await _context.Suppliers.AddAsync(supplier, cancellationToken);
             await _context.SaveChangesAsync(cancellationToken);
             return supplier.Id;
