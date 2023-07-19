@@ -9,8 +9,8 @@ namespace MarketManager.Application.UseCases.Packages.Queries.GetPackageById
 
     public class GetPackageByIdQueryHandler : IRequestHandler<GetPackageByIdQuery, GetPackageByIdQueryResponse>
     {
-        private readonly IMapper _mapper;
-        private readonly IApplicationDbContext _context;
+            private readonly IMapper _mapper;
+            private readonly IApplicationDbContext _context;
 
         public GetPackageByIdQueryHandler(IMapper mapper, IApplicationDbContext context)
         {

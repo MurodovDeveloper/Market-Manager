@@ -1,14 +1,13 @@
 ﻿using MarketManager.Application.Common.Interfaces;
+using MarketManager.Domain.Entities;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
-
 namespace MarketManager.Application.UseCases.Clients.Commands.DeleteClient;
 
-public class DeleteClientCommand:IRequest<bool>
+public class DeleteClientCommand:IRequest
 {
     public Guid Id { get; set; }
 }
-public class DeleteClientCommandHandler:IRequestHandler<DeleteClientCommand, bool>
+public class DeleteClientCommandHandler:IRequestHandler<DeleteClientCommand>
 {
     private readonly IApplicationDbContext _dbContext;
 
@@ -16,17 +15,16 @@ public class DeleteClientCommandHandler:IRequestHandler<DeleteClientCommand, boo
     {
         _dbContext = dbContext;
     }
-    public async Task<bool> Handle(DeleteClientCommand request, CancellationToken cancellationToken)
+    public async Task Handle(DeleteClientCommand request, CancellationToken cancellationToken)
     {
-        var clientToDelete = await _dbContext.Clients.FirstOrDefaultAsync(c => c.Id == request.Id, cancellationToken);
+        Client? client = await _dbContext.Clients.FindAsync(request.Id);
 
-        if (clientToDelete == null)
+        if (client is null)
         {
-            return false;
+            throw new NotFoundException(nameof(client), request.Id);
         }
 
-        _dbContext.Clients.Remove(clientToDelete);
+        _dbContext.Clients.Remove(client);
         await _dbContext.SaveChangesAsync(cancellationToken);
-        return true;
     }
 }

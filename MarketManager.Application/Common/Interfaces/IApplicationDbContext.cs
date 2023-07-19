@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 namespace MarketManager.Application.Common.Interfaces;
 public interface IApplicationDbContext
 {
-
+    DbSet<Supplier> Suppliers { get; }
     DbSet<User> Users { get; }
     DbSet<Client> Clients { get; }
     DbSet<Product> Products { get; }
