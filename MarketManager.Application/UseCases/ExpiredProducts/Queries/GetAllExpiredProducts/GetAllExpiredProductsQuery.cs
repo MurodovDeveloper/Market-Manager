@@ -28,12 +28,12 @@ namespace MarketManager.Application.UseCases.ExpiredProducts.Queries.GetAllExpir
             _context = context;
         }
 
-        public async Task<IEnumerable<GetAllExpiredProductsResponce>> Handle
+        public Task<IEnumerable<GetAllExpiredProductsResponce>> Handle
             (GetAllExpiredProductsQuery request, CancellationToken cancellationToken)
         {
-            IEnumerable<ExpiredProduct> expiredProducts = await _context.ExpiredProducts.ToListAsync(cancellationToken);
-            IEnumerable<GetAllExpiredProductsResponce> resExpiredProducts = _mapper.Map<IEnumerable<GetAllExpiredProductsResponce>>(expiredProducts);
-            return resExpiredProducts;
+            IEnumerable<ExpiredProduct> expiredProducts = _context.ExpiredProducts;
+
+            return Task.FromResult(_mapper.Map<IEnumerable<GetAllExpiredProductsResponce>>(expiredProducts));
         }
     }
 }

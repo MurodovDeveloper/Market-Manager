@@ -1,19 +1,15 @@
 ﻿using MarketManager.Application.Common.Interfaces;
+using MarketManager.Domain.Entities;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MarketManager.Application.UseCases.ExpiredProducts.Command.DeleteExpiredProduct
 {
-    public class DeleteExpiredProductCommand : IRequest<bool>
+    public class DeleteExpiredProductCommand : IRequest
     {
-        
+        public Guid Id { get; set; }
     }
 
-    public class DeleteExpiredProductHandler : IRequestHandler<DeleteExpiredProductCommand, bool>
+    public class DeleteExpiredProductHandler : IRequestHandler<DeleteExpiredProductCommand>
     {
         private readonly IApplicationDbContext _context;
 
@@ -22,9 +18,14 @@ namespace MarketManager.Application.UseCases.ExpiredProducts.Command.DeleteExpir
             _context = context;
         }
 
-        public Task<bool> Handle(DeleteExpiredProductCommand request, CancellationToken cancellationToken)
+        public async Task Handle(DeleteExpiredProductCommand request, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            ExpiredProduct? expiredProduct = await _context.ExpiredProducts.FindAsync(request.Id);
+            if (expiredProduct != null)
+                throw new NotFoundException(nameof(ExpiredProduct), request.Id);
+
+             _context.ExpiredProducts.Remove(expiredProduct);
+            await _context.SaveChangesAsync(cancellationToken);
         }
     }
 
