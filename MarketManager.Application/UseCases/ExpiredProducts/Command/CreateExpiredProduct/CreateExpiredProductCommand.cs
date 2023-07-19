@@ -46,4 +46,5 @@ namespace MarketManager.Application.UseCases.ExpiredProducts.Command.CreateExpir
             return res;
         }
     }
+
 }
