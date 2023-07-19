@@ -1,17 +1,23 @@
 ﻿using AutoMapper;
+using MarketManager.Application.Common.Abstraction;
 using MarketManager.Application.Common.Interfaces;
-using MarketManager.Application.Common.Models;
 using MarketManager.Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 namespace MarketManager.Application.UseCases.ExpiredProducts.Queries.GetAllExpiredProducts
 {
-    public class GetAllExpiredProductsQuery : IRequest<List<ExpiredProductGetDto>>
+    public class GetAllExpiredProductsQuery : IRequest<IEnumerable<GetAllExpiredProductsResponce>>
     {
     }
 
-    public class GetAllExpiredProductsQueryHandler : IRequestHandler<GetAllExpiredProductsQuery, List<ExpiredProductGetDto>>
+    public class GetAllExpiredProductsResponce : ExpiredProductBaseResponce
+    {
+       
+    }
+
+    public class GetAllExpiredProductsQueryHandler 
+        : IRequestHandler<GetAllExpiredProductsQuery, IEnumerable<GetAllExpiredProductsResponce>>
     {
         private readonly IApplicationDbContext _context;
         private readonly IMapper _mapper;
@@ -22,11 +28,12 @@ namespace MarketManager.Application.UseCases.ExpiredProducts.Queries.GetAllExpir
             _context = context;
         }
 
-        public async Task<List<ExpiredProductGetDto>> Handle(GetAllExpiredProductsQuery request, CancellationToken cancellationToken)
+        public Task<IEnumerable<GetAllExpiredProductsResponce>> Handle
+            (GetAllExpiredProductsQuery request, CancellationToken cancellationToken)
         {
-            List<ExpiredProduct> expiredProducts = await _context.ExpiredProducts.ToListAsync(cancellationToken);
-            List<ExpiredProductGetDto> resExpiredProducts = _mapper.Map<List<ExpiredProductGetDto>>(expiredProducts);
-            return resExpiredProducts;
+            IEnumerable<ExpiredProduct> expiredProducts = _context.ExpiredProducts;
+
+            return Task.FromResult(_mapper.Map<IEnumerable<GetAllExpiredProductsResponce>>(expiredProducts));
         }
     }
 }

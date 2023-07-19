@@ -5,14 +5,16 @@ using Microsoft.EntityFrameworkCore;
 namespace MarketManager.Application.Common.Interfaces;
 public interface IApplicationDbContext
 {
+    DbSet<Supplier> Suppliers { get; }
+    DbSet<User> Users { get; }
+    DbSet<Client> Clients { get; }
+    DbSet<Product> Products { get; }
+    DbSet<ExpiredProduct> ExpiredProducts { get; }
+    DbSet<Role> Roles { get; }
+    DbSet<Permission> Permissions { get; }
+    DbSet<Package> Packages { get; }
 
-    public DbSet<Product> Products { get; set; }
-    public DbSet<Package> Packages { get; set; }
-    public DbSet<ProductType> ProductTypes { get; set; }
-    public DbSet<User> Users { get; }
-    public DbSet<Client> Clients { get; }   
-    public DbSet<ExpiredProduct> ExpiredProducts { get; }
-    public DbSet<Role> Roles { get; }
-    public DbSet<Permission> Permissions { get; }
+    DbSet<Order> Orders { get; }
+    DbSet<Cart> Carts { get; }
     Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
 }

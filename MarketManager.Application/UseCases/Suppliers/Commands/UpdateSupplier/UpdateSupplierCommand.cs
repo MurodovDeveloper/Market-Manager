@@ -1,13 +1,7 @@
-﻿using MarketManager.Application.Common.Interfaces;
-using MarketManager.Application.UseCases.Users.Commands.UpdateUser;
+﻿using AutoMapper;
+using MarketManager.Application.Common.Interfaces;
 using MarketManager.Domain.Entities;
-using MarketManager.Domain.Entities.Identity;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MarketManager.Application.UseCases.Suppliers.Commands.UpdateSupplier
 {
@@ -21,12 +15,17 @@ namespace MarketManager.Application.UseCases.Suppliers.Commands.UpdateSupplier
     public class UpdateSupplierCommandHandler : IRequestHandler<UpdateSupplierCommand, bool>
     {
         private readonly IApplicationDbContext _context;
-
-        public UpdateSupplierCommandHandler(IApplicationDbContext context)
-                => _context = context;
+        private readonly IMapper _mapper;
+        public UpdateSupplierCommandHandler(IApplicationDbContext context, IMapper mapper)
+        {
+            _context = context;
+            _mapper = mapper;
+        }
         public async Task<bool> Handle(UpdateSupplierCommand request, CancellationToken cancellationToken)
         {
             var foundSupplier = await _context.Suppliers.FindAsync(new object[] { request.Id }, cancellationToken);
+            _mapper.Map(foundSupplier, request);
+            
             if (foundSupplier is null)
                 throw new NotFoundException(nameof(Supplier), request.Id);
 
@@ -34,7 +33,6 @@ namespace MarketManager.Application.UseCases.Suppliers.Commands.UpdateSupplier
             foundSupplier.Phone = request.Phone;
 
             return (await _context.SaveChangesAsync(cancellationToken)) > 0;
-
         }
     }
 }
