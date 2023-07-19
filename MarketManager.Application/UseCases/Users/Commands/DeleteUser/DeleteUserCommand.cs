@@ -18,6 +18,8 @@ public class DeleteUserCommandHandler : IRequestHandler<DeleteUserCommand>
         var foundUser = await _context.Users.FindAsync(new object[] {request.Id},cancellationToken);
         if (foundUser is null)
             throw new NotFoundException(nameof(User), request.Id);
+
+        
         _context.Users.Remove(foundUser);
 
        await _context.SaveChangesAsync(cancellationToken);
