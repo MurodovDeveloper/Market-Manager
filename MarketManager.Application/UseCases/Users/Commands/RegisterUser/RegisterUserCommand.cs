@@ -29,6 +29,11 @@ public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, T
     }
     public async Task<TokenResponse> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
     {
+        if (_context.Users.Any(x => x.Username == request.Username))
+            throw new AlreadyExistsException(nameof(User), request.Username);
+        
+        
+
         var user = _mapper.Map<User>(request); 
         await _context.Users.AddAsync(user,cancellationToken);
         await  _context.SaveChangesAsync(cancellationToken);

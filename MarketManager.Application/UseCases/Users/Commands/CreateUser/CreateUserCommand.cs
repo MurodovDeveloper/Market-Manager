@@ -26,6 +26,12 @@ public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, Guid>
 
     public async Task<Guid> Handle(CreateUserCommand request, CancellationToken cancellationToken)
     {
+
+       if(_context.Users.Any(x=> x.Username== request.Username))
+            throw new AlreadyExistsException(nameof(User),request.Username);
+        
+        
+
         var roles = await _context.Roles.ToListAsync(cancellationToken);
       
         
