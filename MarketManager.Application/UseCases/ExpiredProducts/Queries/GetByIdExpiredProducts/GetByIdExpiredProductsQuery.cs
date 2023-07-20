@@ -6,10 +6,8 @@ using MediatR;
 
 namespace MarketManager.Application.UseCases.ExpiredProducts.Queries
 {
-    public class GetByIdExpiredProductsQuery : IRequest<GetByIdExpiredProductsResponce>
-    {
-        public Guid Id { get; set; }
-    }
+    public record GetByIdExpiredProductsQuery(Guid Id) : IRequest<GetByIdExpiredProductsResponce>;
+    
 
     public class GetByIdExpiredProductsResponce : ExpiredProductBaseResponce
     {
