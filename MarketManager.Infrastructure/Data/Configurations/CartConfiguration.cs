@@ -8,8 +8,9 @@ namespace MarketManager.Infrastructure.Data.Configurations
     {
         public void Configure(EntityTypeBuilder<Cart> builder)
         {
-            builder.Property(x => x.PackageId).IsRequired();
-            builder.Property(x => x.SoldId).IsRequired();
+            builder.Property(x => x.PackageId)
+                .IsRequired();
+            
         }
     }
 }
