@@ -8,8 +8,8 @@ using System.Threading.Tasks;
 
 namespace MarketManager.Application.UseCases.Permissions.Commands.DeletePermission
 {
-    public record DeletePermissionCommand(Guid PermissionId):IRequest<bool>;
-    public class DeletePermissionCommandHandler : IRequestHandler<DeletePermissionCommand, bool>
+    public record DeletePermissionCommand(Guid PermissionId):IRequest;
+    public class DeletePermissionCommandHandler : IRequestHandler<DeletePermissionCommand>
     {
         private readonly IApplicationDbContext _context;
 
@@ -18,7 +18,7 @@ namespace MarketManager.Application.UseCases.Permissions.Commands.DeletePermissi
             _context = context;
         }
 
-        public async Task<bool> Handle(DeletePermissionCommand request, CancellationToken cancellationToken)
+        public async Task Handle(DeletePermissionCommand request, CancellationToken cancellationToken)
         {
             var permission =await _context.Permissions.FindAsync(request.PermissionId, cancellationToken);
             if (permission is null)
@@ -27,8 +27,6 @@ namespace MarketManager.Application.UseCases.Permissions.Commands.DeletePermissi
             }
             _context.Permissions.Remove(permission);
             var result = await _context.SaveChangesAsync(cancellationToken);
-            return result > 0;
-
         }
     }
 }

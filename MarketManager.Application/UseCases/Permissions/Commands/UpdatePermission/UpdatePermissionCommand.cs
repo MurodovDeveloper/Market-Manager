@@ -31,14 +31,14 @@ namespace MarketManager.Application.UseCases.Permissions.Commands.UpdatePermissi
 
         public async Task Handle(UpdatePermissionCommand request, CancellationToken cancellationToken)
         {
-            var permission = await _dbContext.Permissions.FindAsync(new object[] { request.Id }, cancellationToken);
+            var permission = await _dbContext.Permissions.FindAsync(request.Id, cancellationToken);
 
             if(permission is null)
             {
                 throw new NotFoundException(nameof(Permission), request.Id);
             }
 
-            permission.Roles.Clear();
+            permission?.Roles?.Clear();
             permission.Name = request.Name;
             _dbContext.Permissions.Update(permission);
             await _dbContext.SaveChangesAsync(cancellationToken);
