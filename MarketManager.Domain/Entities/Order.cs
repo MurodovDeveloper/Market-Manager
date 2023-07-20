@@ -15,7 +15,7 @@ namespace MarketManager.Domain.Entities
         public decimal CashPurchaseSum  { get; set; }
        
         public ICollection<Cart> Carts { get; set; }
-
+            
         public Client Client { get; set; }
     }
 }

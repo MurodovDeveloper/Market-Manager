@@ -12,4 +12,8 @@ public class Package : BaseAuditableEntity
     public double SalePrice { get; set; }
 
     public DateTime IncomingDate { get; set; }
+
+    public virtual ICollection<Cart> Carts { get; set; }
+    public virtual ICollection<ExpiredProduct> ExpiredProducts { get; set; }
+
 }
