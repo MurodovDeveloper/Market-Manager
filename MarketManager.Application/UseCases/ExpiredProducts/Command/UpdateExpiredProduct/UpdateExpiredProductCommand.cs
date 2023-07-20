@@ -31,9 +31,9 @@ namespace MarketManager.Application.UseCases.ExpiredProducts.Command.UpdateExpir
             if (expiredProduct == null)
                 throw new NotFoundException(nameof(ExpiredProduct), request.Id);
 
-            var package = await _context.Products.FindAsync(request.PackageId);
+            var package = await _context.Packages.FindAsync(request.PackageId);
             if(package == null)
-                throw new NotFoundException(nameof(Product), request.PackageId);
+                throw new NotFoundException(nameof(Package), request.PackageId);
 
             _context.ExpiredProducts.Update(expiredProduct);
             await _context.SaveChangesAsync();

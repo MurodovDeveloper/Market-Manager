@@ -1,22 +1,16 @@
 ﻿using AutoMapper;
-using FluentValidation.Validators;
 using MarketManager.Application.Common.Interfaces;
 using MarketManager.Application.UseCases.Permissions.ResponseModels;
 using MarketManager.Domain.Entities;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MarketManager.Application.UseCases.Permissions.Commands.CreatePermission
 {
-    public class CreatePermissionCommand: IRequest<IEnumerable<PermissionGetDto>>
+    public class CreatePermissionCommand: IRequest<List<PermissionResponse>>
     {
         public string[] Name { get; set; }
     }
-    public class CreatePermissionCommandHanler : IRequestHandler<CreatePermissionCommand, IEnumerable<PermissionGetDto>>
+    public class CreatePermissionCommandHanler : IRequestHandler<CreatePermissionCommand, List<PermissionResponse>>
     {
         private IApplicationDbContext _dbContext;
         private readonly IMapper _mapper;
@@ -26,7 +20,7 @@ namespace MarketManager.Application.UseCases.Permissions.Commands.CreatePermissi
             _mapper = mapper;
         }
 
-        public async Task<IEnumerable<PermissionGetDto>> Handle(CreatePermissionCommand request, CancellationToken cancellationToken)
+        public async Task<List<PermissionResponse>> Handle(CreatePermissionCommand request, CancellationToken cancellationToken)
         {
 
             var _permissions = new List<Permission>();
@@ -41,7 +35,7 @@ namespace MarketManager.Application.UseCases.Permissions.Commands.CreatePermissi
 
             await _dbContext.Permissions.AddRangeAsync(_permissions, cancellationToken);
             await _dbContext.SaveChangesAsync(cancellationToken);
-            var result = _mapper.Map<IEnumerable<PermissionGetDto>>(_permissions);
+            var result = _mapper.Map<List<PermissionResponse>>(_permissions);
             return result;
         }
     }
