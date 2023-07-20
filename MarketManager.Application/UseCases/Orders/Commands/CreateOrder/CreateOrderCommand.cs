@@ -14,7 +14,7 @@ namespace MarketManager.Application.UseCases.Orders.Commands.CreateOrder
         public decimal CardPriceSum { get; set; }
         public decimal CashPurchaseSum { get; set; }
 
-        public ICollection<Guid> Carts { get; set; }
+        public ICollection<Guid> Items { get; set; }
     }
 
     public class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand, Guid>
@@ -31,21 +31,21 @@ namespace MarketManager.Application.UseCases.Orders.Commands.CreateOrder
         public async Task<Guid> Handle(CreateOrderCommand request, CancellationToken cancellationToken)
         {
 
-            IEnumerable<Cart>? carts = FilterIfAllCartsExsist(request.Carts);
+            IEnumerable<Item>? items = FilterIfAllItemsExsist(request.Items);
             
             Order order= _mapper.Map<Order>(request);
-            order.Carts = carts.ToList();
+            order.Items = items.ToList();
             await _dbContext.Orders.AddAsync(order, cancellationToken);
             await _dbContext.SaveChangesAsync(cancellationToken);
 
             return order.Id;
         }
 
-        private IEnumerable<Cart> FilterIfAllCartsExsist(ICollection<Guid> carts)
+        private IEnumerable<Item> FilterIfAllItemsExsist(ICollection<Guid> items)
         {
-            foreach (Guid Id in carts)
-               yield return _dbContext.Carts.FirstOrDefault(c => c.Id == Id)
-                    ?? throw new NotFoundException($" There is no cart with this {Id} id. ");
+            foreach (Guid Id in items)
+               yield return _dbContext.Items.FirstOrDefault(c => c.Id == Id)
+                    ?? throw new NotFoundException($" There is no item with this {Id} id. ");
         }
     }
 }

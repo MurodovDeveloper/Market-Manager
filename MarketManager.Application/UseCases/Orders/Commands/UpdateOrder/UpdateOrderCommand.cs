@@ -15,7 +15,7 @@ public class UpdateOrderCommand : IRequest
     public decimal CardPriceSum { get; set; }
     public decimal CashPurchaseSum { get; set; }
 
-    public ICollection<Guid> Carts { get; set; }
+    public ICollection<Guid> Items { get; set; }
 
 }
 public class UpdateOrderCommandHandler : IRequestHandler<UpdateOrderCommand>
@@ -32,23 +32,23 @@ public class UpdateOrderCommandHandler : IRequestHandler<UpdateOrderCommand>
     public async Task Handle(UpdateOrderCommand request, CancellationToken cancellationToken)
     {
         Order order = await FilterIfOrderExists(request.Id);
-        IEnumerable<Cart> carts = FilterifCartIdsAreAvialible(request.Carts);
+        IEnumerable<Item> items = FilterifItemIdsAreAvialible(request.Items);
         _mapper.Map(request, order);
-        order.Carts = carts.ToArray();
+        order.Items = items.ToArray();
         _dbContext.Orders.Update(order);
         await _dbContext.SaveChangesAsync(cancellationToken);
     }
 
-    private IEnumerable<Cart> FilterifCartIdsAreAvialible(ICollection<Guid> orderIds)
+    private IEnumerable<Item> FilterifItemIdsAreAvialible(ICollection<Guid> orderIds)
     {
         foreach (var Id in orderIds)
-            yield return _dbContext.Carts.Find(Id)
+            yield return _dbContext.Items.Find(Id)
                 ?? throw new NotFoundException(
-                    $" there is no cart with this {Id} id. ");
+                    $" there is no item with this {Id} id. ");
     }
 
     private async Task<Order> FilterIfOrderExists(Guid id)
-     =>     await _dbContext.Orders.Include("Carts")
+     =>     await _dbContext.Orders//.Include("Items")
                 .FirstOrDefaultAsync(x => x.Id == id)
                  ?? throw new NotFoundException(
                           " there is no order with this id. ");

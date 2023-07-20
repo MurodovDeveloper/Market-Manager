@@ -7,17 +7,17 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="UseCases\Carts\**" />
-    <EmbeddedResource Remove="UseCases\Carts\**" />
-    <None Remove="UseCases\Carts\**" />
+    <Compile Remove="UseCases\Items\**" />
+    <EmbeddedResource Remove="UseCases\Items\**" />
+    <None Remove="UseCases\Items\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Include="UseCases\Carts\Commands\CreateCart\CreateCartCommand.cs" />
-    <Compile Include="UseCases\Carts\Commands\DeleteCart\DeleteCartCommand.cs" />
-    <Compile Include="UseCases\Carts\Commands\UpdateCart\UpdateCartCommand.cs" />
-    <Compile Include="UseCases\Carts\Queries\GetAllCarts\GetAllCartsQuery.cs" />
-    <Compile Include="UseCases\Carts\Queries\GetCartById\GetCartByIdQuery.cs" />
+    <Compile Include="UseCases\Items\Commands\CreateItem\CreateItemCommand.cs" />
+    <Compile Include="UseCases\Items\Commands\DeleteItem\DeleteItemommand.cs" />
+    <Compile Include="UseCases\Items\Commands\UpdateItem\UpdateItemCommand.cs" />
+    <Compile Include="UseCases\Items\Queries\GetAllItem\GetAllItemsQuery.cs" />
+    <Compile Include="UseCases\Items\Queries\GetItemById\GetItemByIdQuery.cs" />
   </ItemGroup>
 
   <ItemGroup>

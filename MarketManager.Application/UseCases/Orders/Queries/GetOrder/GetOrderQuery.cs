@@ -30,7 +30,7 @@ public class GetOrderQueryHandler : IRequestHandler<GetOrderQuery, GetOrderByIdR
 
     private Order FilterIfOrderExsists(Guid id)
         => _dbContext.Orders
-            .Include(x => x.Carts)
+            .Include(x => x.Items)
             .FirstOrDefault(x => x.Id == id)
                  ?? throw new NotFoundException(
                         " There is no order with this Id. ");
