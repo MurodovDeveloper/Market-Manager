@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
+using MarketManager.Application.UseCases.Users.Commands.CreateUser;
 using MarketManager.Application.UseCases.Users.Commands.RegisterUser;
+using MarketManager.Application.UseCases.Users.Commands.UpdateUser;
 using MarketManager.Application.UseCases.Users.Response;
 using MarketManager.Domain.Entities.Identity;
 
@@ -10,5 +12,6 @@ public class UserMapping :Profile
     {
         CreateMap<UserResponse,User>().ReverseMap();
         CreateMap<RegisterUserCommand,User>().ReverseMap();
+        CreateMap<CreateUserCommand,User>().ReverseMap();
     }
 }
