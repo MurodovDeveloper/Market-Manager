@@ -1,14 +1,15 @@
-﻿namespace MarketManager.Domain.Entities
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace MarketManager.Domain.Entities;
+
+public class Cart : BaseAuditableEntity
 {
-    public class Cart : BaseAuditableEntity
-    {
-        public Guid PackageId { get; set; }
-        public Guid OrderId { get; set; }
-        public double Count { get; set; }
-        public double SoldPrice { get; set; }
+    public double Count { get; set; }
+    public double SoldPrice { get; set; }
 
-        public Package Package { get; set; }
+    public Guid PackageId { get; set; }
+    public virtual Package Package { get; set; }
 
-        public Order Order { get; set; }
-    }
+    public Guid OrderId { get; set; }
+    public virtual Order Order { get; set; }
 }
