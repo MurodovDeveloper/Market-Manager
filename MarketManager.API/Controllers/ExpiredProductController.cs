@@ -11,35 +11,35 @@ namespace MarketManager.API.Controllers
     [ApiController]
     public class ExpiredProductController : BaseApiController
     {
-        [HttpGet]
+        [HttpGet("[action]")]
         public async ValueTask<IEnumerable<GetAllExpiredProductsResponce>> GelAllExpiredProduct()
         {
             return await _mediator.Send(new GetAllExpiredProductsQuery());
         }
 
-        [HttpGet]
-        public async ValueTask<GetByIdExpiredProductsResponce> GetByIdExpiredProduct()
+        [HttpGet("[action]")]
+        public async ValueTask<GetByIdExpiredProductsResponce> GetByIdExpiredProduct(Guid Id)
         {
-            return await _mediator.Send(new GetByIdExpiredProductsQuery());
+            return await _mediator.Send(new GetByIdExpiredProductsQuery(Id));
         }
 
         [HttpPost]
-        public async ValueTask<Guid> CreateExpiredProduct()
+        public async ValueTask<Guid> CreateExpiredProduct(CreateExpiredProductCommand command)
         {
-            return await _mediator.Send(new CreateExpiredProductCommand());
+            return await _mediator.Send(command);
         }
 
         [HttpPut]
-        public async ValueTask<IActionResult> UpdateExpiredProduct()
+        public async ValueTask<IActionResult> UpdateExpiredProduct(UpdateExpiredProductCommand command)
         {
-             await _mediator.Send(new UpdateExpiredProductCommand());
+             await _mediator.Send(command);
             return NoContent();
         }
 
         [HttpDelete]
-        public async ValueTask<IActionResult> DeleteExpiredProduct()
+        public async ValueTask<IActionResult> DeleteExpiredProduct(DeleteExpiredProductCommand command)
         {
-            await _mediator.Send(new DeleteExpiredProductCommand());
+            await _mediator.Send(command);
             return NoContent();
         }
     }
