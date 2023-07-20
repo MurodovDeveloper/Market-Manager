@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using Serilog;
 using System.Net;
 using System.Text;
@@ -60,8 +61,8 @@ public class GlobalExceptionMiddleware
     {
 
         Log.Error("EXCEPTION:🔴 CLIENT_IP:{ClientIp}  CLIENT:{ERROR} " + $"\nDatetime:{DateTime.Now} | Message:{message} | Path:{httpContext.Request.Path}");
-        string text = $"EXCEPTION 🔴:{message}\nDATE:{DateTime.Now}\nSTATUSCODE:{httpStatusCode}\nREQUEST_PATH:{httpContext.Request.Path}\n";
-        await _botClient.SendTextMessageAsync(chatId: "-1001856623462", text: text);
+        //string text = $"EXCEPTION 🔴:{message}\nDATE:{DateTime.Now}\nSTATUSCODE:{httpStatusCode}\nREQUEST_PATH:{httpContext.Request.Path}\n";
+        //await _botClient.SendTextMessageAsync(chatId: "-1001856623462", text: text);
         HttpResponse response = httpContext.Response;
         response.ContentType = "application/json";
         response.StatusCode = (int)httpStatusCode;
@@ -73,8 +74,8 @@ public class GlobalExceptionMiddleware
             IsSuccess = false,
             Result = ex
         };
-
-        await response.WriteAsJsonAsync(error);
+        var result = JsonConvert.SerializeObject(error);
+        await response.WriteAsync(result);
 
     }
 }
