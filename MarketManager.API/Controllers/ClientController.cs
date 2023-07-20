@@ -43,4 +43,4 @@ namespace MarketManager.API.Controllers
         }
     }
 }
-}
+
