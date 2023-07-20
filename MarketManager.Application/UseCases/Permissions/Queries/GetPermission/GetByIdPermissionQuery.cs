@@ -11,9 +11,9 @@ using System.Threading.Tasks;
 
 namespace MarketManager.Application.UseCases.Permissions.Queries.GetPermission
 {
-    public record GetByIdPermissionQuery(Guid PermissionId):IRequest<PermissionGetDto>;
+    public record GetByIdPermissionQuery(Guid PermissionId):IRequest<PermissionResponse>;
 
-    public class GetByIdPermissionQueryHandler : IRequestHandler<GetByIdPermissionQuery, PermissionGetDto>
+    public class GetByIdPermissionQueryHandler : IRequestHandler<GetByIdPermissionQuery, PermissionResponse>
     {
         public readonly IApplicationDbContext _dbContext;
         private readonly IMapper _mapper;
@@ -23,14 +23,14 @@ namespace MarketManager.Application.UseCases.Permissions.Queries.GetPermission
             _mapper = mapper;
         }
 
-        public Task<PermissionGetDto> Handle(GetByIdPermissionQuery request, CancellationToken cancellationToken)
+        public Task<PermissionResponse> Handle(GetByIdPermissionQuery request, CancellationToken cancellationToken)
         {
             var permission = _dbContext.Permissions.FirstOrDefault(x=>x.Id == request.PermissionId);
             if (permission == null)
             {
                 throw new NotFoundException(nameof(Permission), request.PermissionId);
             }
-            var result = _mapper.Map<PermissionGetDto>(permission);
+            var result = _mapper.Map<PermissionResponse>(permission);
             return Task.FromResult(result);
         }
     }
