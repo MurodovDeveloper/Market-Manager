@@ -1,12 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using AutoMapper;
+using MarketManager.Application.UseCases.PaymentTypes.Commands.CreatePaymentType;
+using MarketManager.Application.UseCases.PaymentTypes.Commands.DeletePaymentType;
+using MarketManager.Application.UseCases.PaymentTypes.Commands.UpdatePaymentType;
+using MarketManager.Application.UseCases.PaymentTypes.Queries.GetAllPaymentType;
+using MarketManager.Application.UseCases.PaymentTypes.Queries.GetByIdPaymentType;
+using MarketManager.Domain.Entities;
 
 namespace MarketManager.Application.Common.Mappings
 {
-    internal class PaymentTypeMapping
+    public class PaymentTypeMapping:Profile
     {
+        public PaymentTypeMapping()
+        {
+            CreateMap<CreatePaymentTypeCommand, PaymentType>();
+            CreateMap<DeletePaymentTypeCommand, PaymentType>();
+            CreateMap<UpdatePaymentTypeCommand, PaymentType>();
+
+            CreateMap<PaymentType, GetAllPaymentTypeQueryResponse>();
+            CreateMap<PaymentType, GetByIdPaymentTypeQueryResponse>();
+        }
     }
 }
