@@ -13,13 +13,13 @@ namespace MarketManager.API.Controllers
     public class SupplierController : BaseApiController
     {
         [HttpGet("[action]")]
-        public async ValueTask<IEnumerable<GetAllSuppliersQueryResponse>> GetAllSuppliers()
+        public async ValueTask<List<GetAllSuppliersQueryResponse>> GetAllSuppliers()
         {
             return await _mediator.Send(new GetAllSuppliersQuery());
         }
 
         [HttpGet("[action]")]
-        public async ValueTask<GetSupplierByIdQueryRespnse> GetSupplierById(Guid Id)
+        public async ValueTask<GetSupplierByIdQueryRespоnse> GetSupplierById(Guid Id)
         {
             return await _mediator.Send(new GetSupplierByIdQuery(Id));
         }
