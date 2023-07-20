@@ -7,6 +7,8 @@ namespace MarketManager.API.Controllers;
 [ApiController]
 public class PermissionController : BaseApiController
 {
+
+
     [HttpGet("[action]")]
     public async ValueTask<List<PermissionResponse>> GetAllPermissions(GetAllPermissionQuery query)
         => await _mediator.Send(query);
