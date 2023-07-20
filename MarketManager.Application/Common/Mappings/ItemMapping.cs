@@ -6,9 +6,9 @@ using MarketManager.Domain.Entities;
 
 namespace MarketManager.Application.Common.Mappings
 {
-    public class CartMapping : Profile
+    public class ItemMapping : Profile
     {
-        public CartMapping()
+        public ItemMapping()
         {
             CartWithCart();
         }
