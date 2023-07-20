@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using MarketManager.Application.Common.Extensions;
 using MarketManager.Application.Common.Interfaces;
 using MarketManager.Application.Common.JWT.Interfaces;
 using MarketManager.Application.Common.JWT.Models;

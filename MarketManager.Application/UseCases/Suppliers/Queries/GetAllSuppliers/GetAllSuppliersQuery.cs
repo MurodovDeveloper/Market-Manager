@@ -2,6 +2,7 @@
 using MarketManager.Application.Common.Interfaces;
 using MarketManager.Domain.Entities;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 
 namespace MarketManager.Application.UseCases.Suppliers.Queries.GetAllSuppliers;
 
@@ -17,11 +18,11 @@ public class GetAllSuppliersQueryHandler : IRequestHandler<GetAllSuppliersQuery,
         _context = context;
     }
 
-    public Task<IEnumerable<GetAllSuppliersQueryResponse>> Handle(GetAllSuppliersQuery request, CancellationToken cancellationToken)
+    public async Task<IEnumerable<GetAllSuppliersQueryResponse>> Handle(GetAllSuppliersQuery request, CancellationToken cancellationToken)
     {
-        IEnumerable<Supplier> suppliers = _context.Suppliers;
+        IEnumerable<Supplier> suppliers = await _context.Suppliers.ToListAsync(cancellationToken);
 
-        return Task.FromResult(_mapper.Map<IEnumerable<GetAllSuppliersQueryResponse>>(suppliers));
+        return _mapper.Map<IEnumerable<GetAllSuppliersQueryResponse>>(suppliers);
 
     }
 }
