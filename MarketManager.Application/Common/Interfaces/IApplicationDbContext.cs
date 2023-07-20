@@ -13,7 +13,7 @@ public interface IApplicationDbContext
     DbSet<Role> Roles { get; }
     DbSet<Permission> Permissions { get; }
     DbSet<Package> Packages { get; }
-
+    DbSet<ProductType> ProductTypes { get; }    
     DbSet<Order> Orders { get; }
     DbSet<Cart> Carts { get; }
     DbSet<UserRefreshToken> RefreshTokens { get; }
