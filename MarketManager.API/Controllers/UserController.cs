@@ -38,7 +38,7 @@ public class UserController : BaseApiController
         => await _mediator.Send(command);
 
    
-    [HttpPut]
+    [HttpPut("[action]")]
     public async ValueTask<IActionResult> UpdateUser(UpdateUserCommand command)
     {
         await _mediator.Send(command); 
@@ -46,7 +46,7 @@ public class UserController : BaseApiController
     }
 
    
-    [HttpDelete] 
+    [HttpDelete("[action]")] 
     public async ValueTask<IActionResult> DeleteUser(DeleteUserCommand command)
     {
         await _mediator.Send(command);  
