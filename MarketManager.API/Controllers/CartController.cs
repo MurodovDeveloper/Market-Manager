@@ -10,13 +10,13 @@ namespace MarketManager.API.Controllers
     [ApiController]
     public class CartController : BaseApiController
     {
-        [HttpGet]
+        [HttpGet("[action]")]
         public async ValueTask<IEnumerable<GetAllCartsQueryResponse>> GetAllCarts()
         {
             return await _mediator.Send(new GetAllCartsQuery());
         }
 
-        [HttpGet]
+        [HttpGet("[action]")]
         public async ValueTask<GetCartByIdQueryResponse> GetCartById(Guid Id)
         {
             return await _mediator.Send(new GetCartByIdQuery(Id));

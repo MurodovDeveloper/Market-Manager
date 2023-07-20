@@ -9,13 +9,13 @@ namespace MarketManager.API.Controllers
 {
     public class OrderController : BaseApiController
     {
-        [HttpGet]
+        [HttpGet("[action]")]
         public async ValueTask<IEnumerable<GetAllOrderQueryResponse>> GetAllOrders()
         {
             return await _mediator.Send(new GetAllOrderQuery());
         }
 
-        [HttpGet]
+        [HttpGet("[action]")]
         public async ValueTask<GetOrderByIdResponse> GetOrderById(Guid Id)
         {
             return await _mediator.Send(new GetOrderQuery(Id));
