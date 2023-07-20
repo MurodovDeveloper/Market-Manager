@@ -29,7 +29,7 @@ namespace MarketManager.Application.UseCases.Carts.Queries.GetAllCarts
     public class GetAllCartsQueryResponse
     {
         public Guid PackageId { get; set; }
-        public Guid SoldId { get; set; }
+        public Guid OrderId { get; set; }
         public double Count { get; set; }
         public double SoldPrice { get; set; }
     }
