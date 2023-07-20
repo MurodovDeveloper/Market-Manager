@@ -26,7 +26,7 @@ public class JwtToken : IJwtToken
             new Claim(ClaimTypes.NameIdentifier,UserId)
 
         };
-
+        if(Roles.Count > 0 )
         foreach (var role in Roles)
         {
             foreach (var permission in role.Permissions)
