@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using MarketManager.Application.Common.Interfaces;
-using MarketManager.Application.UseCases.Carts.ResponseModels;
 using MarketManager.Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -41,5 +40,5 @@ public class GetOrderQueryHandler : IRequestHandler<GetOrderQuery, GetOrderByIdR
 
 public class GetOrderByIdResponse : GetAllOrderQueryResponse
 {
-    public ICollection<CartDto> Cards { get; set; }
+  //  public ICollection<CartDto> Cards { get; set; }
 }
