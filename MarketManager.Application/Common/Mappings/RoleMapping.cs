@@ -7,6 +7,6 @@ public class RoleMapping : Profile
 {
     public RoleMapping()
     {
-        CreateMap<GetAllRolesQueryResponse, Role>().ReverseMap();
+      //  CreateMap<GetAllRolesQueryResponse, Role>().ReverseMap();
     }
 }

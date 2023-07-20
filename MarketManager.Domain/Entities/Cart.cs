@@ -8,8 +8,11 @@ public class Cart : BaseAuditableEntity
     public double SoldPrice { get; set; }
 
     public Guid PackageId { get; set; }
+    public Guid OrderId { get; set; }
+
+
     public virtual Package Package { get; set; }
 
-    public Guid OrderId { get; set; }
+    [ForeignKey("OrderId")]
     public virtual Order Order { get; set; }
 }

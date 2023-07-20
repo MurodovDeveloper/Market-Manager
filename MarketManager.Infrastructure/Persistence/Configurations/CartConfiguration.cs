@@ -14,3 +14,4 @@ namespace MarketManager.Infrastructure.Persistence.Configurations
         }
     }
 }
+

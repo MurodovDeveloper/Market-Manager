@@ -10,7 +10,8 @@ namespace MarketManager.Infrastructure.Persistence.Configurations
         {
             builder.Property(x => x.ClientId).IsRequired();
             builder.Property(x => x.Carts).IsRequired();
-
+            builder.HasMany(x => x.Carts)
+                .WithOne(x => x.Order).HasForeignKey(x => x.OrderId);
         }
     }
 }
