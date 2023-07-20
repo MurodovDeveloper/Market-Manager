@@ -3,6 +3,8 @@ using MarketManager.Application.Common.Interfaces;
 using Serilog.Events;
 using Serilog;
 using TelegramSink;
+using Telegram.Bot;
+using Telegram.Bot.Polling;
 
 namespace MarketManager.API;
 
@@ -11,6 +13,10 @@ public static class ConfigureServices
     public static IServiceCollection AddApi(this IServiceCollection services,IConfiguration configuration)
     {
         SerilogSettings(configuration);
+        //services.AddHostedService<BotBackgroundService>();
+        services.AddSingleton<ITelegramBotClient>(
+            new TelegramBotClient(configuration?.GetConnectionString("TelegramToken")));
+        //services.AddTransient<IUpdateHandler, UpdateHandler>();
         services.AddScoped<ICurrentUserService, CurrentUserService>();
         services.AddControllers();
         services.AddEndpointsApiExplorer();
@@ -30,7 +36,7 @@ public static class ConfigureServices
            .Enrich.WithClientIp()
            .WriteTo.TeleSink(
             telegramApiKey: configuration.GetConnectionString("TelegramToken"),
-            telegramChatId: "1856623462",
+            telegramChatId: "-1001856623462",
             minimumLevel: LogEventLevel.Error)
            .CreateLogger();
     }
