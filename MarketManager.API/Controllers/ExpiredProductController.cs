@@ -1,0 +1,46 @@
+﻿using MarketManager.Application.UseCases.ExpiredProducts.Command.CreateExpiredProduct;
+using MarketManager.Application.UseCases.ExpiredProducts.Command.DeleteExpiredProduct;
+using MarketManager.Application.UseCases.ExpiredProducts.Command.UpdateExpiredProduct;
+using MarketManager.Application.UseCases.ExpiredProducts.Queries;
+using MarketManager.Application.UseCases.ExpiredProducts.Queries.GetAllExpiredProducts;
+using Microsoft.AspNetCore.Mvc;
+
+namespace MarketManager.API.Controllers
+{
+    [Route("api/[controller]")]
+    [ApiController]
+    public class ExpiredProductController : BaseApiController
+    {
+        [HttpGet("[action]")]
+        public async ValueTask<IEnumerable<GetAllExpiredProductsResponce>> GelAllExpiredProduct()
+        {
+            return await _mediator.Send(new GetAllExpiredProductsQuery());
+        }
+
+        [HttpGet("[action]")]
+        public async ValueTask<GetByIdExpiredProductsResponce> GetByIdExpiredProduct(Guid Id)
+        {
+            return await _mediator.Send(new GetByIdExpiredProductsQuery(Id));
+        }
+
+        [HttpPost]
+        public async ValueTask<Guid> CreateExpiredProduct(CreateExpiredProductCommand command)
+        {
+            return await _mediator.Send(command);
+        }
+
+        [HttpPut]
+        public async ValueTask<IActionResult> UpdateExpiredProduct(UpdateExpiredProductCommand command)
+        {
+             await _mediator.Send(command);
+            return NoContent();
+        }
+
+        [HttpDelete]
+        public async ValueTask<IActionResult> DeleteExpiredProduct(DeleteExpiredProductCommand command)
+        {
+            await _mediator.Send(command);
+            return NoContent();
+        }
+    }
+}

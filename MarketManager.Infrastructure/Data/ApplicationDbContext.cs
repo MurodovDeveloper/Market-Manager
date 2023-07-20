@@ -21,9 +21,15 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
 
     public DbSet<Order> Orders { get; set; }
     public DbSet<Role> Roles { get; set; }
+    public DbSet<Product> Products { get; set ; }
+    public DbSet<Package> Packages { get ; set; }
+    public DbSet<ProductType> ProductTypes { get; set ; }
 
-    public DbSet<Permission> Permissions { get; set; }
+    public DbSet<Permission> Permissions => throw new NotImplementedException();
+
     public DbSet<Cart> Carts { get; set; }
+
+    public DbSet<UserRefreshToken> RefreshTokens { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

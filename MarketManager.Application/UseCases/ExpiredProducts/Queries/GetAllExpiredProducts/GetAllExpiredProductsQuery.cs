@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace MarketManager.Application.UseCases.ExpiredProducts.Queries.GetAllExpiredProducts
 {
-    public class GetAllExpiredProductsQuery : IRequest<List<GetAllExpiredProductsResponce>>
+    public class GetAllExpiredProductsQuery : IRequest<IEnumerable<GetAllExpiredProductsResponce>>
     {
     }
 
@@ -16,7 +16,8 @@ namespace MarketManager.Application.UseCases.ExpiredProducts.Queries.GetAllExpir
        
     }
 
-    public class GetAllExpiredProductsQueryHandler : IRequestHandler<GetAllExpiredProductsQuery, List<GetAllExpiredProductsResponce>>
+    public class GetAllExpiredProductsQueryHandler 
+        : IRequestHandler<GetAllExpiredProductsQuery, IEnumerable<GetAllExpiredProductsResponce>>
     {
         private readonly IApplicationDbContext _context;
         private readonly IMapper _mapper;
@@ -27,11 +28,12 @@ namespace MarketManager.Application.UseCases.ExpiredProducts.Queries.GetAllExpir
             _context = context;
         }
 
-        public async Task<List<GetAllExpiredProductsResponce>> Handle(GetAllExpiredProductsQuery request, CancellationToken cancellationToken)
+        public Task<IEnumerable<GetAllExpiredProductsResponce>> Handle
+            (GetAllExpiredProductsQuery request, CancellationToken cancellationToken)
         {
-            List<ExpiredProduct> expiredProducts = await _context.ExpiredProducts.ToListAsync(cancellationToken);
-            List<GetAllExpiredProductsResponce> resExpiredProducts = _mapper.Map<List<GetAllExpiredProductsResponce>>(expiredProducts);
-            return resExpiredProducts;
+            IEnumerable<ExpiredProduct> expiredProducts = _context.ExpiredProducts;
+
+            return Task.FromResult(_mapper.Map<IEnumerable<GetAllExpiredProductsResponce>>(expiredProducts));
         }
     }
 }

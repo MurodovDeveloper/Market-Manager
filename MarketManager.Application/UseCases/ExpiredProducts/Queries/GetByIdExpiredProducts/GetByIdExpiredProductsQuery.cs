@@ -3,14 +3,11 @@ using MarketManager.Application.Common.Abstraction;
 using MarketManager.Application.Common.Interfaces;
 using MarketManager.Domain.Entities;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 
 namespace MarketManager.Application.UseCases.ExpiredProducts.Queries
 {
-    public class GetByIdExpiredProductsQuery : IRequest<GetByIdExpiredProductsResponce>
-    {
-        public Guid Id { get; set; }
-    }
+    public record GetByIdExpiredProductsQuery(Guid Id) : IRequest<GetByIdExpiredProductsResponce>;
+    
 
     public class GetByIdExpiredProductsResponce : ExpiredProductBaseResponce
     {
@@ -30,9 +27,11 @@ namespace MarketManager.Application.UseCases.ExpiredProducts.Queries
 
         public async Task<GetByIdExpiredProductsResponce> Handle(GetByIdExpiredProductsQuery request, CancellationToken cancellationToken)
         {
-            ExpiredProduct? getByIdExpiredProducts = await _context.ExpiredProducts.FirstOrDefaultAsync(x=>x.Id== request.Id);
-            GetByIdExpiredProductsResponce getByIdExpiredProductsMap = _mapper.Map<GetByIdExpiredProductsResponce>(getByIdExpiredProducts);
-            return getByIdExpiredProductsMap;
+            ExpiredProduct? getByIdExpiredProducts = await _context.ExpiredProducts.FindAsync(request.Id);
+            if(getByIdExpiredProducts == null) 
+                throw new NotFoundException(nameof(ExpiredProduct), request.Id);
+
+            return _mapper.Map<GetByIdExpiredProductsResponce>(getByIdExpiredProducts); 
         }
     }
 }

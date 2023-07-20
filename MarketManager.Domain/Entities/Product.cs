@@ -6,4 +6,7 @@ public class Product : BaseAuditableEntity
     public string Description { get; set; }
     public Guid ProductTypeId { get; set; }
     public virtual ProductType ProductType { get; set; }
+
+    public ICollection<Package> Packages { get; set; }
+
 }

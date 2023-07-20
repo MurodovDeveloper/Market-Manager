@@ -1,36 +1,37 @@
-﻿using MarketManager.Application.Common.Interfaces;
+﻿using AutoMapper;
+using MarketManager.Application.Common.Interfaces;
+using MarketManager.Domain.Entities;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+namespace MarketManager.Application.UseCases.Clients.Commands.UpdateClient;
 
-namespace MarketManager.Application.UseCases.Clients.Commands.UpdateClient
+public class UpdateClientCommand : IRequest<bool>
 {
-    public class UpdateClientCommand : IRequest<bool>
+    public Guid Id { get; set; }
+    public double TotalPrice { get; set; }
+    public double Discount { get; set; }
+}
+public class UpdateClientCommandHandler : IRequestHandler<UpdateClientCommand, bool>
+{
+    private readonly IApplicationDbContext _dbContext;
+    private readonly IMapper _mapper;
+
+    public UpdateClientCommandHandler(IApplicationDbContext context, IMapper mapper)
     {
-        public Guid Id { get; set; }
-        public double TotalPrice { get; set; }
-        public double Discount { get; set; }
+        _dbContext = context;
+        _mapper = mapper;
     }
-    public class UpdateClientCommandHandler : IRequestHandler<UpdateClientCommand, bool>
+    public async Task<bool> Handle(UpdateClientCommand request, CancellationToken cancellationToken)
     {
-        private readonly IApplicationDbContext _dbContext;
-
-        public UpdateClientCommandHandler(IApplicationDbContext context)
+        var clientToUpdate = await _dbContext.Clients.FindAsync(request.Id, cancellationToken);
+        _mapper.Map(clientToUpdate, request);
+        if(clientToUpdate is null)
         {
-            _dbContext = context;
+            throw new NotFoundException(nameof(Client), request.Id);
         }
-        public async Task<bool> Handle(UpdateClientCommand request, CancellationToken cancellationToken)
-        {
-            var clientToUpdate = await _dbContext.Clients.FirstOrDefaultAsync(c => c.Id == request.Id, cancellationToken);
 
-            clientToUpdate.TotalPrice = request.TotalPrice;
-            clientToUpdate.Discount = request.Discount;
-            await _dbContext.SaveChangesAsync(cancellationToken);
-            return true;
-        }
+        clientToUpdate.TotalPrice = request.TotalPrice;
+        clientToUpdate.Discount = request.Discount;
+        await _dbContext.SaveChangesAsync(cancellationToken);
+        return true;
     }
 }
