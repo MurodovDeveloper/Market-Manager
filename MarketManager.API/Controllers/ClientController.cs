@@ -10,13 +10,13 @@ namespace MarketManager.API.Controllers
     [ApiController]
     public class ClientController : BaseApiController
     {
-        [HttpGet]
+        [HttpGet("[action]")]
         public async ValueTask<IEnumerable<GetAllClientsQueryResponse>> GetAllClients()
         {
             return await _mediator.Send(new GetAllClientsQuery());
         }
 
-        [HttpGet]
+        [HttpGet("[action]")]
         public async ValueTask<GetClientByIdQueryResponse> GetClientById(Guid Id)
         {
             return await _mediator.Send(new GetClientByIdQuery(Id));

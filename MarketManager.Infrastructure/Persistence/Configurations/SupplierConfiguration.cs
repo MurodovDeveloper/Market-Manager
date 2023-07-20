@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using MarketManager.Domain.Entities;
 
-namespace MarketManager.Infrastructure.Data.Configurations
+namespace MarketManager.Infrastructure.Persistence.Configurations
 {
     public class SupplierConfiguration : IEntityTypeConfiguration<Supplier>
     {

@@ -11,13 +11,13 @@ namespace MarketManager.API.Controllers
     [ApiController]
     public class ExpiredProductController : BaseApiController
     {
-        [HttpGet]
+        [HttpGet("[action]")]
         public async ValueTask<IEnumerable<GetAllExpiredProductsResponce>> GelAllExpiredProduct()
         {
             return await _mediator.Send(new GetAllExpiredProductsQuery());
         }
 
-        [HttpGet]
+        [HttpGet("[action]")]
         public async ValueTask<GetByIdExpiredProductsResponce> GetByIdExpiredProduct()
         {
             return await _mediator.Send(new GetByIdExpiredProductsQuery());

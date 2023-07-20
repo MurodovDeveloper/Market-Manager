@@ -7,7 +7,7 @@ public static class ConfigureServices
 {
     public static IServiceCollection AddApi(this IServiceCollection services)
     {
-        services.AddScoped<ICurrentUser, CurrentUser>();
+        services.AddScoped<ICurrentUserService, CurrentUserService>();
         services.AddControllers();
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen();
