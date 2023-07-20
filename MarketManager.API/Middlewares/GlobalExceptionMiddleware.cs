@@ -69,7 +69,7 @@ public class GlobalExceptionMiddleware
 
         ResponseCore<TException> error = new()
         {
-            Errors = new string[] { message },
+            Errors = new string[] { message},
             StatusCode = httpStatusCode,
             IsSuccess = false,
             Result = ex
