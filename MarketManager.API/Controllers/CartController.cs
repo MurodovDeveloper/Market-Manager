@@ -1,42 +1,42 @@
-﻿using MarketManager.Application.UseCases.Carts.Commands.CreateCart;
-using MarketManager.Application.UseCases.Carts.Commands.UpdateCart;
-using MarketManager.Application.UseCases.Carts.Queries.GetAllCarts;
-using MarketManager.Application.UseCases.Carts.Queries.GetCartById;
+﻿using MarketManager.Application.UseCases.Items.Commands.CreateItem;
+using MarketManager.Application.UseCases.Items.Commands.UpdateItem;
+using MarketManager.Application.UseCases.Items.Queries.GetAllItems;
+using MarketManager.Application.UseCases.Items.Queries.GetItemById;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MarketManager.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CartController : BaseApiController
+    public class ItemController : BaseApiController
     {
         [HttpGet("[action]")]
-        public async ValueTask<IEnumerable<GetAllCartsQueryResponse>> GetAllCarts()
+        public async ValueTask<IEnumerable<GetAllItemsQueryResponse>> GetAllItems()
         {
-            return await _mediator.Send(new GetAllCartsQuery());
+            return await _mediator.Send(new GetAllItemsQuery());
         }
 
         [HttpGet("[action]")]
-        public async ValueTask<GetCartByIdQueryResponse> GetCartById(Guid Id)
+        public async ValueTask<GetItemByIdQueryResponse> GetItemById(Guid Id)
         {
-            return await _mediator.Send(new GetCartByIdQuery(Id));
+            return await _mediator.Send(new GetItemByIdQuery(Id));
         }
 
         [HttpPost]
-        public async ValueTask<Guid> CreateCart(CreateCartCommand command)
+        public async ValueTask<Guid> CreateItem(CreateItemCommand command)
         {
             return await _mediator.Send(command);
         }
 
         [HttpPut]
-        public async ValueTask<IActionResult> UpdateCart(UpdateCartCommand command)
+        public async ValueTask<IActionResult> UpdateItem(UpdateItemCommand command)
         {
             await _mediator.Send(command);
             return NoContent();
         }
 
         [HttpDelete]
-        public async ValueTask<IActionResult> DeleteCart(UpdateCartCommand command)
+        public async ValueTask<IActionResult> DeleteItem(UpdateItemCommand command)
         {
             await _mediator.Send(command);
             return NoContent();

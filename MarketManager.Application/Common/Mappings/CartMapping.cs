@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
-using MarketManager.Application.UseCases.Carts.Commands.CreateCart;
-using MarketManager.Application.UseCases.Carts.Commands.DeleteCart;
-using MarketManager.Application.UseCases.Carts.Commands.UpdateCart;
+using MarketManager.Application.UseCases.Items.Commands.CreateItem;
+using MarketManager.Application.UseCases.Items.Commands.DeleteItem;
+using MarketManager.Application.UseCases.Items.Commands.UpdateItem;
 using MarketManager.Domain.Entities;
 
 namespace MarketManager.Application.Common.Mappings
@@ -15,9 +15,9 @@ namespace MarketManager.Application.Common.Mappings
 
         private void CartWithCart()
         {
-            CreateMap<CreateCartCommand, Cart>();
-            CreateMap<UpdateCartCommand, Cart>();
-            CreateMap<DeleteCartCommand, Cart>();
+            CreateMap<CreateItemCommand, Item>();
+            CreateMap<UpdateItemCommand, Item>();
+            CreateMap<DeleteItemCommand, Item>();
         }
     }
 }
