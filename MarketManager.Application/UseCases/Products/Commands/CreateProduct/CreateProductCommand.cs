@@ -1,4 +1,6 @@
-﻿using MarketManager.Application.Common.Interfaces;
+﻿using AutoMapper;
+using MarketManager.Application.Common.Interfaces;
+using MarketManager.Application.UseCases.Products.Commands.CreateProduct;
 using MarketManager.Domain.Entities;
 using MediatR;
 
@@ -12,34 +14,21 @@ namespace MarketManager.Application.UseCases.Products.Commands.CreateProduct
     }
     public class CreateProductCommandHandler : IRequestHandler<CreateProductCommand, Guid>
     {
-        private readonly IApplicationDbContext _dbContext;
+        private readonly IMapper _mapper;
+        private readonly IApplicationDbContext _context;
 
-        public CreateProductCommandHandler(IApplicationDbContext dbContext)
+        public CreateProductCommandHandler(IMapper mapper, IApplicationDbContext context)
         {
-            _dbContext = dbContext;
+            _mapper = mapper;
+            _context = context;
         }
 
         public async Task<Guid> Handle(CreateProductCommand request, CancellationToken cancellationToken)
         {
-            ProductType maybeProductType =
-                await _dbContext.ProductTypes.FindAsync(request.ProductTypeId);
-
-            if (maybeProductType == null)
-            {
-                throw new NotFoundException("Product type not found.");
-            }
-
-            var newProduct = new Product
-            {
-                Name = request.Name,
-                Description = request.Description,
-                ProductType=maybeProductType
-
-            };
-
-            _dbContext.Products.Add(newProduct);
-            await _dbContext.SaveChangesAsync(cancellationToken);
-            return newProduct.Id;
+            Product Product = _mapper.Map<Product>(request);
+            await _context.Products.AddAsync(Product, cancellationToken);
+            await _context.SaveChangesAsync();
+            return Product.Id;
         }
     }
 }
