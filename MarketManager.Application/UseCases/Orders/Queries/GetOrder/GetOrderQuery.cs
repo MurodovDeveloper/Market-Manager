@@ -40,5 +40,5 @@ public class GetOrderQueryHandler : IRequestHandler<GetOrderQuery, GetOrderByIdR
 
 public class GetOrderByIdResponse : GetAllOrderQueryResponse
 {
-    public ICollection<CartDto> Cards { get; set; }
+  //  public ICollection<CartDto> Cards { get; set; }
 }
