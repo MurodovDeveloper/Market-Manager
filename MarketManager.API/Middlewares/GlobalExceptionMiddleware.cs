@@ -65,7 +65,7 @@ public class GlobalExceptionMiddleware
         //await _botClient.SendTextMessageAsync(chatId: "-1001856623462", text: text);
         HttpResponse response = httpContext.Response;
         response.ContentType = "application/json";
-        response.StatusCode = (int)httpStatusCode;
+        
 
         ResponseCore<TException> error = new()
         {
