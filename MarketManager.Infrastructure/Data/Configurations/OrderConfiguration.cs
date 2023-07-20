@@ -15,7 +15,7 @@ namespace MarketManager.Infrastructure.Data.Configurations
         {
             builder.Property(x => x.ClientId).IsRequired();
             builder.Property(x=>x.Carts).IsRequired();
-                
+        
         }
     }
 }

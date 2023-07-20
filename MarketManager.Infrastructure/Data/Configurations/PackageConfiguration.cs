@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MarketManager.Infrastructure.Data.Configurations
 {
-    internal class PackageConfiguration
+    public class PackageConfiguration
     {
     }
 }
