@@ -38,7 +38,7 @@ public class RefreshToken : IUserRefreshToken
     public async ValueTask<UserResponse> AuthenAsync(LoginUserCommand user)
     {
         string hashPassword = user.Password.GetHashedString();
-        User? founUser = await _context.Users.SingleOrDefaultAsync(x => x.Username == user.Username && x.Password == user.Password);
+        User? founUser = await _context.Users.SingleOrDefaultAsync(x => x.Username == user.Username && x.Password == hashPassword);
         if (founUser is null)
         {
             return null;

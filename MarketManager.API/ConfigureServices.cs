@@ -5,6 +5,9 @@ using Serilog;
 using TelegramSink;
 using Telegram.Bot;
 using Telegram.Bot.Polling;
+using Microsoft.OpenApi.Models;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using MarketManager.Application.Common.JWT;
 
 namespace MarketManager.API;
 
@@ -18,10 +21,44 @@ public static class ConfigureServices
             new TelegramBotClient(configuration?.GetConnectionString("TelegramToken")));
         //services.AddTransient<IUpdateHandler, UpdateHandler>();
         services.AddScoped<ICurrentUserService, CurrentUserService>();
+
+        //FOR SHOWING "/pages"//
+        services.AddEndpointsApiExplorer();
+        //-------------------//
         services.AddControllers();
         services.AddEndpointsApiExplorer();
-        services.AddSwaggerGen();
+        services.AddAuthorization();
+        services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtSettings(configuration);
         services.AddHttpContextAccessor();
+        services.AddSwaggerGen(c =>
+        {
+            c.SwaggerDoc("v1", new OpenApiInfo { Title = "Example API", Version = "v1" });
+
+            c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+            {
+                Type = SecuritySchemeType.Http,
+                BearerFormat = "JWT",
+                In = ParameterLocation.Header,
+                Scheme = "bearer",
+                Description = "Please insert JWT token into field"
+            });
+
+            c.AddSecurityRequirement(new OpenApiSecurityRequirement
+            {
+                {
+                    new OpenApiSecurityScheme
+                    {
+                        Reference = new OpenApiReference
+                        {
+                            Type = ReferenceType.SecurityScheme,
+                            Id = "Bearer"
+                        }
+                    },
+                    new string[] { }
+                }
+            });
+
+        });
         return services;
     }
     public static void SerilogSettings(IConfiguration configuration)
