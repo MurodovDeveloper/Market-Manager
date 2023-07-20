@@ -1,13 +1,9 @@
-﻿using MarketManager.Domain.Entities.Identity;
+﻿namespace MarketManager.Domain.Entities;
 
-namespace MarketManager.Domain.Entities
+public class ExpiredProduct : BaseAuditableEntity
 {
-    public class ExpiredProduct : BaseAuditableEntity
-    {
-       
-        public Guid PackageId { get; set; }
-        public virtual Package Packages { get; set; }
-        public int Count { get; set; }
-        public DateTime DeletedTime { get; set; }
-    }
+    public Guid PackageId { get; set; }
+    public virtual Package Packages { get; set; }
+    public int Count { get; set; }
+    public DateTime DeletedTime { get; set; }
 }
