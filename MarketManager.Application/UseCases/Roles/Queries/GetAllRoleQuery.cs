@@ -5,11 +5,11 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 namespace MarketManager.Application.UseCases.Roles.Queries;
-public record GetAllRoleQuery : IRequest<List<RoleGetDto>>
+public record GetAllRoleQuery : IRequest<List<GetAllRolesQueryResponse>>
 {
 }
 
-public class GetAllRoleQueryHandler : IRequestHandler<GetAllRoleQuery, List<RoleGetDto>>
+public class GetAllRoleQueryHandler : IRequestHandler<GetAllRoleQuery, List<GetAllRolesQueryResponse>>
 {
     private readonly IApplicationDbContext _context;
     private readonly IMapper _mapper;
@@ -19,10 +19,16 @@ public class GetAllRoleQueryHandler : IRequestHandler<GetAllRoleQuery, List<Role
         _mapper = mapper;
     }
 
-    public async Task<List<RoleGetDto>> Handle(GetAllRoleQuery request, CancellationToken cancellationToken)
+    public async Task<List<GetAllRolesQueryResponse>> Handle(GetAllRoleQuery request, CancellationToken cancellationToken)
     {
         var entities = await _context.Roles.ToListAsync(cancellationToken);
-        var result = _mapper.Map<List<RoleGetDto>>(entities);
+        var result = _mapper.Map<List<GetAllRolesQueryResponse>>(entities);
         return result;
     }
+}
+
+public class GetAllRolesQueryResponse
+{
+    public Guid Id { get; set; }
+    public string Name { get; set; }
 }
