@@ -12,7 +12,7 @@ public static class ConfigureServices
     {
         services.AddDbContext<IApplicationDbContext, ApplicationDbContext>(options =>
         {
-            options.UseNpgsql(configuration.GetConnectionString("DbConnect"));
+            options.UseNpgsql(configuration.GetConnectionString("DbConnection"));
             options.UseLazyLoadingProxies();
         });
 
