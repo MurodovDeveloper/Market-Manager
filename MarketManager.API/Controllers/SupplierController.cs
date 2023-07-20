@@ -19,7 +19,7 @@ namespace MarketManager.API.Controllers
         }
 
         [HttpGet("[action]")]
-        public async ValueTask<GetSupplierByIdQueryRespnse> GetSupplierById(Guid Id)
+        public async ValueTask<GetSupplierByIdQueryRespоnse> GetSupplierById(Guid Id)
         {
             return await _mediator.Send(new GetSupplierByIdQuery(Id));
         }
