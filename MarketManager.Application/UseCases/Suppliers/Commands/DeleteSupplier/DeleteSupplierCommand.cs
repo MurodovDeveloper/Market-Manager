@@ -20,10 +20,10 @@ namespace MarketManager.Application.UseCases.Suppliers.Commands.DeleteSupplier
             var foundSupplier = await _context.Suppliers.FindAsync(new object[] { request.Id }, cancellationToken);
             if (foundSupplier is null)
                 throw new NotFoundException(nameof(Supplier), request.Id);
+
             _context.Suppliers.Remove(foundSupplier);
 
             return (await _context.SaveChangesAsync(cancellationToken)) > 0;
-
 
         }
     }

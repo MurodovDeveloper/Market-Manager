@@ -21,10 +21,11 @@ public class CreateUserCommandValidator:AbstractValidator<CreateUserCommand>
             .Matches(@"^\+998(33|9[0-9])\d{7}$")
                 .WithMessage("Phone must be in the format of '+998 90 123 45 67'.");
 
-        RuleFor(user => user.Password)
-           .NotEmpty().WithMessage("Password is required.")
-           .MinimumLength(8).WithMessage("Password must be at least 8 characters long.")
-           .Matches(@"^\+998(33|9[0-9])\d{7}$")
-               .WithMessage("Password must contain at least one uppercase letter, one lowercase letter, and one digit.");
+        RuleFor(p => p.Password).NotEmpty().WithMessage("Your password cannot be empty")
+                   .MinimumLength(8).WithMessage("Your password length must be at least 8.")
+                   .MaximumLength(16).WithMessage("Your password length must not exceed 16.")
+                   .Matches(@"[A-Z]+").WithMessage("Your password must contain at least one uppercase letter.")
+                   .Matches(@"[a-z]+").WithMessage("Your password must contain at least one lowercase letter.")
+                   .Matches(@"[0-9]+").WithMessage("Your password must contain at least one number.");
     }
 }

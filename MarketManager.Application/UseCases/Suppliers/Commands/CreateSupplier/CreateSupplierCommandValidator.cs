@@ -13,7 +13,7 @@ namespace MarketManager.Application.UseCases.Suppliers.Commands.CreateSupplier
 
             RuleFor(supplier => supplier.Phone)
                 .NotEmpty().WithMessage("Phone is required.")
-                .Matches(@"^\+998\s\d{2}\s\d{3}\s\d{2}\s\d{2}$")
+                .Matches(@"^\+998(33|9[0-9])\d{7}$")
                 .WithMessage("Phone must be in the format of '+998 90 123 45 67'.");
         }
     }

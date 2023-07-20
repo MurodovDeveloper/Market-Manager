@@ -24,7 +24,9 @@ public class Program
         {
             app.UseSwagger();
             app.UseSwaggerUI();
+            
         }
+       
         app.UseStaticFiles();
 
         app.UseHttpsRedirection();
@@ -33,9 +35,10 @@ public class Program
 
         app.UseGlobalExceptionMiddleware();
 
+        app.UseAuthentication();
         app.UseAuthorization();
 
-        
+
         app.MapControllers();
 
         app.Run();
