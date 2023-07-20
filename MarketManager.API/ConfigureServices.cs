@@ -4,7 +4,6 @@ using Serilog.Events;
 using Serilog;
 using TelegramSink;
 using Telegram.Bot;
-using Telegram.Bot.Polling;
 using Microsoft.OpenApi.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using MarketManager.Application.Common.JWT;
