@@ -1,5 +1,7 @@
 ﻿using MarketManager.Application.Common.Interfaces;
-using MarketManager.Infrastructure.Data;
+using MarketManager.Infrastructure.Persistence;
+using MarketManager.Infrastructure.Persistence.Interceptors;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -15,6 +17,9 @@ public static class ConfigureServices
         //});
 
         //services.AddScoped<IApplicationDbContext, ApplicationDbContext>();
+
+        services.AddScoped<AuditableEntitySaveChangesInterceptor>();
+
         return services;
     }
 }

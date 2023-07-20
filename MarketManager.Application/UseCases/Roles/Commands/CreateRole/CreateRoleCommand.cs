@@ -13,8 +13,8 @@ public record CreateRoleCommand : IRequest<Guid>
 public class CreateRoleCommandHandler : IRequestHandler<CreateRoleCommand, Guid>
 {
     private readonly IApplicationDbContext _context;
-    private readonly ICurrentUser _currentUser;
-    public CreateRoleCommandHandler(IApplicationDbContext context, ICurrentUser currentUser)
+    private readonly ICurrentUserService _currentUser;
+    public CreateRoleCommandHandler(IApplicationDbContext context, ICurrentUserService currentUser)
     {
         _context = context;
         _currentUser = currentUser;

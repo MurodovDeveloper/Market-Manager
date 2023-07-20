@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MarketManager.Infrastructure.Data.Configurations
+namespace MarketManager.Infrastructure.Persistence.Configurations
 {
     public class OrderConfiguration : IEntityTypeConfiguration<Order>
     {
