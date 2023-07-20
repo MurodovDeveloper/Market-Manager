@@ -32,5 +32,7 @@ namespace MarketManager.Application.UseCases.Suppliers.Queries.GetSupplierById
     public class GetSupplierByIdQueryRespоnse
     {
         public Guid Id { get; set; }
+        public string Name { get; set; }
+        public string Phone { get; set; }
     }
 }

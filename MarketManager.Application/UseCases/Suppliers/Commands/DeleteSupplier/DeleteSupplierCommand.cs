@@ -17,7 +17,7 @@ namespace MarketManager.Application.UseCases.Suppliers.Commands.DeleteSupplier
         public async Task<bool> Handle(DeleteSupplierCommand request, CancellationToken cancellationToken)
         {
 
-            var foundSupplier = await _context.Suppliers.FindAsync(new object[] { request.Id }, cancellationToken);
+            var foundSupplier = await _context.Suppliers.FindAsync(request.Id, cancellationToken);
             if (foundSupplier is null)
                 throw new NotFoundException(nameof(Supplier), request.Id);
 
