@@ -22,20 +22,20 @@ namespace MarketManager.API.Controllers
             return await _mediator.Send(new GetClientByIdQuery(Id));
         }
 
-        [HttpPost]
+        [HttpPost("[action]")]
         public async ValueTask<Guid> CreateClient(CreateClientCommand command)
         {
             return await _mediator.Send(command);
         }
 
-        [HttpPut]
+        [HttpPut("[action]")]
         public async ValueTask<IActionResult> UpdateClient(UpdateClientCommand command)
         {
             await _mediator.Send(command);
             return NoContent();
         }
 
-        [HttpDelete]
+        [HttpDelete("[action]")]
         public async ValueTask<IActionResult> DeleteClient(UpdateClientCommand command)
         {
             await _mediator.Send(command);

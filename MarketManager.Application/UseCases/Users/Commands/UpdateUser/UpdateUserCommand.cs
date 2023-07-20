@@ -5,7 +5,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 namespace MarketManager.Application.UseCases.Users.Commands.UpdateUser;
-public record UpdateUserCommand:IRequest
+public class UpdateUserCommand:IRequest
 {
     public Guid Id { get; set; }
     public string FullName { get; set; }
