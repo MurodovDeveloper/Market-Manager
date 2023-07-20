@@ -1,15 +1,15 @@
 ﻿using AutoMapper;
 using MarketManager.Application.Common.Interfaces;
-using MarketManager.Application.Common.Models;
+using MarketManager.Application.UseCases.Roles.Response;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 namespace MarketManager.Application.UseCases.Roles.Queries;
-public record GetAllRoleQuery : IRequest<List<GetAllRolesQueryResponse>>
+public record GetAllRoleQuery : IRequest<List<RoleResponse>>
 {
 }
 
-public class GetAllRoleQueryHandler : IRequestHandler<GetAllRoleQuery, List<GetAllRolesQueryResponse>>
+public class GetAllRoleQueryHandler : IRequestHandler<GetAllRoleQuery, List<RoleResponse>>
 {
     private readonly IApplicationDbContext _context;
     private readonly IMapper _mapper;
@@ -19,16 +19,11 @@ public class GetAllRoleQueryHandler : IRequestHandler<GetAllRoleQuery, List<GetA
         _mapper = mapper;
     }
 
-    public async Task<List<GetAllRolesQueryResponse>> Handle(GetAllRoleQuery request, CancellationToken cancellationToken)
+    public async Task<List<RoleResponse>> Handle(GetAllRoleQuery request, CancellationToken cancellationToken)
     {
         var entities = await _context.Roles.ToListAsync(cancellationToken);
-        var result = _mapper.Map<List<GetAllRolesQueryResponse>>(entities);
+        var result = _mapper.Map<List<RoleResponse>>(entities);
         return result;
     }
 }
 
-public class GetAllRolesQueryResponse
-{
-    public Guid Id { get; set; }
-    public string Name { get; set; }
-}

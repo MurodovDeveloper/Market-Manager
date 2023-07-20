@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using MarketManager.Application.Common.Extensions;
 using MarketManager.Application.Common.Interfaces;
 using MarketManager.Application.Common.JWT.Interfaces;
 using MarketManager.Application.Common.JWT.Models;
@@ -29,15 +30,16 @@ public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, T
     }
     public async Task<TokenResponse> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
     {
+
         if (_context.Users.Any(x => x.Username == request.Username))
             throw new AlreadyExistsException(nameof(User), request.Username);
         
         
-
-        var user = _mapper.Map<User>(request); 
+        var user = _mapper.Map<User>(request);
+        user.Password = user.Password.GetHashedString();
         await _context.Users.AddAsync(user,cancellationToken);
         await  _context.SaveChangesAsync(cancellationToken);
-        var tokenResponse = await _jwtToken.CreateTokenAsync(user.Username, user.Roles, cancellationToken);
+        var tokenResponse = await _jwtToken.CreateTokenAsync(user.Username,user.Id.ToString() ,new List<Role>(), cancellationToken);
         return tokenResponse;
     }
 }
