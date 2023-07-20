@@ -20,10 +20,6 @@ public static class ConfigureServices
             new TelegramBotClient(configuration?.GetConnectionString("TelegramToken")));
         //services.AddTransient<IUpdateHandler, UpdateHandler>();
         services.AddScoped<ICurrentUserService, CurrentUserService>();
-
-        //FOR SHOWING "/pages"//
-        services.AddEndpointsApiExplorer();
-        //-------------------//
         services.AddControllers();
         services.AddEndpointsApiExplorer();
         services.AddAuthorization();

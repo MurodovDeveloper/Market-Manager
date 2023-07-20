@@ -26,8 +26,7 @@ public class Program
             app.UseSwaggerUI();
             
         }
-        app.UseDirectoryBrowser("/pages");
-        app.UseFileServer();
+       
         app.UseStaticFiles();
 
         app.UseHttpsRedirection();

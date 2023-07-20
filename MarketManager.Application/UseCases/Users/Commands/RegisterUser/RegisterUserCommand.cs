@@ -38,7 +38,7 @@ public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, T
         user.Password = user.Password.GetHashedString();
         await _context.Users.AddAsync(user,cancellationToken);
         await  _context.SaveChangesAsync(cancellationToken);
-        var tokenResponse = await _jwtToken.CreateTokenAsync(user.Username,user.Id.ToString() ,user.Roles, cancellationToken);
+        var tokenResponse = await _jwtToken.CreateTokenAsync(user.Username,user.Id.ToString() ,new List<Role>(), cancellationToken);
         return tokenResponse;
     }
 }
