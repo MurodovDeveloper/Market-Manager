@@ -1,4 +1,5 @@
-﻿using MarketManager.Application.Common.Extensions;
+﻿using AutoMapper;
+using MarketManager.Application.Common.Extensions;
 using MarketManager.Application.Common.Interfaces;
 using MarketManager.Domain.Entities.Identity;
 using MediatR;
@@ -18,11 +19,13 @@ public record CreateUserCommand : IRequest<Guid>
 public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, Guid>
 {
     private readonly IApplicationDbContext _context;
+    private readonly IMapper _mapper;
 
-    public CreateUserCommandHandler(IApplicationDbContext context)
-            => _context = context;
-
-
+    public CreateUserCommandHandler(IApplicationDbContext context, IMapper mapper)
+           => (_context, _mapper) = (context,mapper);
+    
+       
+    
 
     public async Task<Guid> Handle(CreateUserCommand request, CancellationToken cancellationToken)
     {
@@ -44,16 +47,9 @@ public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, Guid>
                   userRole.Add(role); 
             });
 
-            
 
-        User user = new User
-        {
-            Id = Guid.NewGuid(),
-            Username = request.Username,
-            Password = request.Password.GetHashedString(),
-            Phone = request.Phone,
-            Roles = userRole
-        };
+        var user = _mapper.Map<User>(request);
+        
         await _context.Users.AddAsync(user, cancellationToken);
         await _context.SaveChangesAsync(cancellationToken);
         return user.Id;
