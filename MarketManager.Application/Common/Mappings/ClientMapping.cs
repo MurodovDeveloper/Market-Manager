@@ -19,7 +19,7 @@ public class ClientMapping:Profile
         CreateMap<CreateClientCommand, Client>();
         CreateMap<UpdateClientCommand, Client>();
         CreateMap<DeleteClientCommand, Client>();
-        CreateMap<GetAllClientsQuery, Client>();
-        CreateMap<GetClientByIdQuery, Client>();
+        CreateMap<Client, GetAllClientsQueryResponse>().ReverseMap();
+        CreateMap <Client, GetClientByIdQueryResponse>().ReverseMap();
     }
 }
