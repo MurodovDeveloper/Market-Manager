@@ -21,7 +21,7 @@ namespace MarketManager.Application.UseCases.ExpiredProducts.Command.DeleteExpir
         public async Task Handle(DeleteExpiredProductCommand request, CancellationToken cancellationToken)
         {
             ExpiredProduct? expiredProduct = await _context.ExpiredProducts.FindAsync(request.Id);
-            if (expiredProduct != null)
+            if (expiredProduct == null)
                 throw new NotFoundException(nameof(ExpiredProduct), request.Id);
 
              _context.ExpiredProducts.Remove(expiredProduct);
