@@ -15,7 +15,6 @@ public class Program
         builder.Services.AddApplication();
         builder.Services.AddInfrastructure(builder.Configuration);
         builder.Services.AddApi();
-        builder.Services.AddScoped<ICurrentUserService, CurrentUserService>();
 
         var app = builder.Build();
         AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);

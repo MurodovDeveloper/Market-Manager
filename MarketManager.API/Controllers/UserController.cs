@@ -15,25 +15,25 @@ namespace MarketManager.API.Controllers;
 public class UserController : BaseApiController
 {
 
-    [HttpGet]
+    [HttpGet("[action]")]
     public async ValueTask<UserResponse> GetUserById(GetByIdUserQuery query)
         => await _mediator.Send(query);
    
-    [HttpGet]
+    [HttpGet("[action]")]
     public async ValueTask<List<UserResponse>> GetAllUser(GetAllUserQuery query)
      => await _mediator.Send(query);
 
     
-    [HttpPost]
+    [HttpPost("[action]")]
     public async ValueTask<TokenResponse> RegisterUser(RegisterUserCommand command)
         => await _mediator.Send(command);
 
    
-    [HttpPost] 
+    [HttpPost("[action]")] 
     public async ValueTask<TokenResponse> LoginUser(LoginUserCommand command) 
         => await _mediator.Send(command);
 
-    [HttpPost] 
+    [HttpPost("[action]")] 
     public async ValueTask<Guid> CreateUser(CreateUserCommand command) 
         => await _mediator.Send(command);
 

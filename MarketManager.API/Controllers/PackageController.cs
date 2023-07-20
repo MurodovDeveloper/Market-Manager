@@ -10,13 +10,13 @@ namespace MarketManager.API.Controllers
     [ApiController]
     public class PackageController : BaseApiController
     {
-        [HttpGet]
+        [HttpGet("[action]")]
         public async ValueTask<IEnumerable<GetAllPackagesQueryResponse>> GetAllPackages()
         {
             return await _mediator.Send(new GetAllPackagesQuery());
         }
 
-        [HttpGet]
+        [HttpGet("[action]")]
         public async ValueTask<GetPackageByIdQueryResponse> GetPackageById(Guid Id)
         {
             return await _mediator.Send(new GetPackageByIdQuery(Id));
