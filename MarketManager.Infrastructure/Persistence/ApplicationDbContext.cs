@@ -28,7 +28,7 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
     public DbSet<Permission> Permissions { get; set; }
     public DbSet<Package> Packages { get; set; }
     public DbSet<Order> Orders { get; set; }
-    public DbSet<Cart> Carts { get; set; }
+    public DbSet<Item> Items { get; set; }
     public DbSet<ProductType> ProductTypes { get; set; }
     public DbSet<PaymentType> PaymentTypes { get; set; }
 

@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace MarketManager.Infrastructure.Persistence.Configurations
 {
-    public class CartConfiguration : IEntityTypeConfiguration<Cart>
+    public class ItemConfiguration : IEntityTypeConfiguration<Item>
     {
-        public void Configure(EntityTypeBuilder<Cart> builder)
+        public void Configure(EntityTypeBuilder<Item> builder)
         {
             builder.Property(x => x.PackageId)
                 .IsRequired();
