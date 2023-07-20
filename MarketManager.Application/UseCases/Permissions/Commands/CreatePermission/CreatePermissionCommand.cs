@@ -6,11 +6,11 @@ using MediatR;
 
 namespace MarketManager.Application.UseCases.Permissions.Commands.CreatePermission
 {
-    public class CreatePermissionCommand: IRequest<Guid>
+    public class CreatePermissionCommand: IRequest<List<PermissionResponse>>
     {
         public string[] Name { get; set; }
     }
-    public class CreatePermissionCommandHanler : IRequestHandler<CreatePermissionCommand, Guid>
+    public class CreatePermissionCommandHanler : IRequestHandler<CreatePermissionCommand, List<PermissionResponse>>
     {
         private IApplicationDbContext _dbContext;
         private readonly IMapper _mapper;
@@ -20,7 +20,7 @@ namespace MarketManager.Application.UseCases.Permissions.Commands.CreatePermissi
             _mapper = mapper;
         }
 
-        public async Task<Guid> Handle(CreatePermissionCommand request, CancellationToken cancellationToken)
+        public async Task<List<PermissionResponse>> Handle(CreatePermissionCommand request, CancellationToken cancellationToken)
         {
 
             var _permissions = new List<Permission>();
@@ -35,7 +35,7 @@ namespace MarketManager.Application.UseCases.Permissions.Commands.CreatePermissi
 
             await _dbContext.Permissions.AddRangeAsync(_permissions, cancellationToken);
             await _dbContext.SaveChangesAsync(cancellationToken);
-            var result = _mapper.Map<Guid>(_permissions);
+            var result = _mapper.Map<List<PermissionResponse>>(_permissions);
             return result;
         }
     }

@@ -3,11 +3,6 @@ using MarketManager.Application.Common.Interfaces;
 using MarketManager.Application.UseCases.Permissions.ResponseModels;
 using MarketManager.Domain.Entities;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MarketManager.Application.UseCases.Permissions.Queries.GetPermission
 {
@@ -23,14 +18,14 @@ namespace MarketManager.Application.UseCases.Permissions.Queries.GetPermission
             _mapper = mapper;
         }
 
-        public async Task<PermissionGetDto> Handle(GetByIdPermissionQuery request, CancellationToken cancellationToken)
+        public async Task<PermissionResponse> Handle(GetByIdPermissionQuery request, CancellationToken cancellationToken)
         {
             var permission =await _dbContext.Permissions.FindAsync(new object[] {request.PermissionId},cancellationToken);
             if (permission == null)
             {
                 throw new NotFoundException(nameof(Permission), request.PermissionId);
             }
-            var result = _mapper.Map<PermissionGetDto>(permission);
+            var result = _mapper.Map<PermissionResponse>(permission);
             return result;
         }
     }
