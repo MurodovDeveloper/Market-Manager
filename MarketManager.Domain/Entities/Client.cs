@@ -4,5 +4,6 @@
     {
         public double TotalPrice { get; set; }
         public double Discount { get; set; }
+        public ICollection<Order> Orders { get; set; }
     }
 }

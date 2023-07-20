@@ -13,6 +13,7 @@ namespace MarketManager.Application.Common.Behaviours
             }
             catch (Exception ex)
             {
+                
                 string requestName = typeof(TRequest).Name;
                 Log.Error(ex, $"Market Manager Request: Unhandled Exception for request {requestName} {request}\n");
                 throw;
