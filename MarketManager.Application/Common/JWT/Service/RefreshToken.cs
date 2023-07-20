@@ -50,8 +50,8 @@ public class RefreshToken : IUserRefreshToken
             FullName = founUser.FullName,
             Phone = founUser.Phone,
             Username = founUser.Username,
-            Password = founUser.Password,
             Roles = founUser.Roles,
+       
         };
 
         return userResponse;

@@ -16,12 +16,12 @@ public class UserController : BaseApiController
 {
 
     [HttpGet("[action]")]
-    public async ValueTask<UserResponse> GetUserById(GetByIdUserQuery query)
-        => await _mediator.Send(query);
+    public async ValueTask<UserResponse> GetUserById(Guid UserId)
+        => await _mediator.Send(new GetByIdUserQuery(UserId));
    
     [HttpGet("[action]")]
-    public async ValueTask<List<UserResponse>> GetAllUser(GetAllUserQuery query)
-     => await _mediator.Send(query);
+    public async ValueTask<List<UserResponse>> GetAllUser()
+     => await _mediator.Send(new GetAllUserQuery());
 
     
     [HttpPost("[action]")]
@@ -38,7 +38,7 @@ public class UserController : BaseApiController
         => await _mediator.Send(command);
 
    
-    [HttpPut]
+    [HttpPut("[action]")]
     public async ValueTask<IActionResult> UpdateUser(UpdateUserCommand command)
     {
         await _mediator.Send(command); 
@@ -46,7 +46,7 @@ public class UserController : BaseApiController
     }
 
    
-    [HttpDelete] 
+    [HttpDelete("[action]")] 
     public async ValueTask<IActionResult> DeleteUser(DeleteUserCommand command)
     {
         await _mediator.Send(command);  

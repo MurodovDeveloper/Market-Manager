@@ -18,13 +18,15 @@ public class JwtToken : IJwtToken
         _configuration = configuration;
     }
 
-    public async ValueTask<TokenResponse> CreateTokenAsync(string userName,ICollection<Role> Roles, CancellationToken cancellationToken =default)
+    public async ValueTask<TokenResponse> CreateTokenAsync(string userName,string UserId,ICollection<Role> Roles, CancellationToken cancellationToken =default)
     {
         var claims = new List<Claim>()
         {
-            new Claim(ClaimTypes.Name, userName)
-        };
+            new Claim(ClaimTypes.Name, userName),
+            new Claim(ClaimTypes.NameIdentifier,UserId)
 
+        };
+        if(Roles.Count > 0 )
         foreach (var role in Roles)
         {
             foreach (var permission in role.Permissions)

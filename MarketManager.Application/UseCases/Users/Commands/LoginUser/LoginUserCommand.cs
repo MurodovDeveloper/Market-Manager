@@ -28,7 +28,7 @@ public class LoginUserCommandHandler : IRequestHandler<LoginUserCommand, TokenRe
         if (authenUser is null) 
             throw new UnauthorizedException(request.Username,request.Password);
 
-        var tokenResponse = await _jwtToken.CreateTokenAsync(authenUser.Username, authenUser.Roles,cancellationToken); 
+        var tokenResponse = await _jwtToken.CreateTokenAsync(authenUser.Username,authenUser.Id.ToString(), authenUser.Roles,cancellationToken); 
 
         return tokenResponse;
     }
