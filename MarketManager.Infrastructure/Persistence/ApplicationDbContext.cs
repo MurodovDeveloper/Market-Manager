@@ -30,6 +30,7 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
     public DbSet<Order> Orders { get; set; }
     public DbSet<Cart> Carts { get; set; }
     public DbSet<ProductType> ProductTypes { get; set; }
+    public DbSet<PaymentType> PaymentTypes { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
