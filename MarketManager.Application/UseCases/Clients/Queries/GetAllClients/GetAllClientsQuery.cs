@@ -23,6 +23,7 @@ public class GetAllClientsQueryHandler : IRequestHandler<GetAllClientsQuery, IEn
 }
 public class GetAllClientsQueryResponse
 {
+    public Guid Id { get; set; }
     public double TotalPrice { get; set; }
     public double Discount { get; set; }
 }
