@@ -4,12 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MarketManager.Application.Common.Interfaces;
+using MarketManager.Domain.Entities;
 using MediatR;
 
 namespace MarketManager.Application.UseCases.Products.Commands.DeleteProduct
 {
-    public record DeleteProductCommand(Guid ProductId) : IRequest;
-
+    public class DeleteProductCommand : IRequest
+    {
+        public Guid Id { get; set; }
+    }
     public class DeleteProductCommandHandler : IRequestHandler<DeleteProductCommand>
     {
         private readonly IApplicationDbContext _context;
@@ -21,13 +24,9 @@ namespace MarketManager.Application.UseCases.Products.Commands.DeleteProduct
 
         public async Task Handle(DeleteProductCommand request, CancellationToken cancellationToken)
         {
-            var entity = await _context.Products
-                .FindAsync(new object[] { request.ProductId }, cancellationToken);
-
-            _context.Products.Remove(entity);
-
-            await _context.SaveChangesAsync(cancellationToken);
+            Product? Product = await _context.Products.FindAsync(request.Id);
+            if (Product is null)
+                throw new NotFoundException(nameof(Product), request.Id);
         }
-
     }
 }

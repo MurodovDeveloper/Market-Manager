@@ -1,36 +1,42 @@
-﻿using MarketManager.Application.Common.Interfaces;
+﻿using AutoMapper;
+using MarketManager.Application.Common.Interfaces;
 using MarketManager.Domain.Entities;
 using MediatR;
 
 namespace MarketManager.Application.UseCases.Products.Commands.UpdateProduct
 {
-    public class UpdateProductCommand:IRequest
+    public class UpdateProductCommand : IRequest
     {
         public Guid Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public Guid ProductTypeId { get; set; }
     }
-
     public class UpdateProductCommandHandler : IRequestHandler<UpdateProductCommand>
     {
-        private readonly IApplicationDbContext _dbContext;
+        private readonly IMapper _mapper;
+        private readonly IApplicationDbContext _context;
 
-        public UpdateProductCommandHandler(IApplicationDbContext dbContext)
+        public UpdateProductCommandHandler(IMapper mapper, IApplicationDbContext context)
         {
-            _dbContext = dbContext;
+            _mapper = mapper;
+            _context = context;
         }
 
         public async Task Handle(UpdateProductCommand request, CancellationToken cancellationToken)
         {
-            var entity = await _dbContext.Products.FindAsync(request.Id);
-            ProductType maybeProductType = await _dbContext.ProductTypes.FindAsync(request.ProductTypeId);
+            Product? Product = await _context.Products.FindAsync(request.Id);
+            _mapper.Map(Product, request);
 
-            entity.Description=request.Description;
-            entity.Name=request.Name;
-            entity.ProductType = maybeProductType;
+            if (Product is null)
+                throw new NotFoundException(nameof(Product), request.Id);
 
-            await _dbContext.SaveChangesAsync(cancellationToken);
+            var productType = await _context.ProductTypes.FindAsync(request.ProductTypeId);
+
+            if (productType is null)
+                throw new NotFoundException(nameof(ProductType), request.ProductTypeId);
+
+            await _context.SaveChangesAsync(cancellationToken);
         }
     }
 }

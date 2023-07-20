@@ -29,6 +29,8 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
 
     public DbSet<Cart> Carts { get; set; }
 
+    public DbSet<UserRefreshToken> RefreshTokens { get; set; }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());

@@ -27,7 +27,11 @@ public class JwtToken : IJwtToken
 
         foreach (var role in Roles)
         {
-            claims.Add(new Claim(ClaimTypes.Role, role.Name));
+            foreach (var permission in role.Permissions)
+            {
+            claims.Add(new Claim("permission", permission.Name));
+
+            }
         }
 
         var jwt = new JwtSecurityToken(
