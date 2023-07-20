@@ -1,5 +1,4 @@
-﻿using MarketManager.Application.Common.Extensions;
-using MarketManager.Application.Common.JWT.Interfaces;
+﻿using MarketManager.Application.Common.JWT.Interfaces;
 using MarketManager.Application.Common.JWT.Models;
 using MarketManager.Domain.Entities.Identity;
 using Microsoft.Extensions.Configuration;
@@ -18,7 +17,7 @@ public class JwtToken : IJwtToken
         _configuration = configuration;
     }
 
-    public async ValueTask<TokenResponse> CreateTokenAsync(string userName,string UserId,ICollection<Role> Roles, CancellationToken cancellationToken =default)
+    public async ValueTask<TokenResponse> CreateTokenAsync(string userName, string UserId, ICollection<Role> Roles, CancellationToken cancellationToken = default)
     {
         var claims = new List<Claim>()
         {
@@ -26,13 +25,16 @@ public class JwtToken : IJwtToken
             new Claim(ClaimTypes.NameIdentifier,UserId)
 
         };
-        if(Roles.Count > 0 )
-        foreach (var role in Roles)
+        if (Roles.Count > 0 )
         {
-            foreach (var permission in role.Permissions)
-            {
-            claims.Add(new Claim("permission", permission.Name));
 
+            foreach (var role in Roles)
+            {
+                foreach (var permission in role.Permissions)
+                {
+                    claims.Add(new Claim("permission", permission.Name));
+
+                }
             }
         }
 
