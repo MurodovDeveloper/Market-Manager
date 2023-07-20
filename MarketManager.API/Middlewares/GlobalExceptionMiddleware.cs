@@ -2,6 +2,7 @@
 using MarketManager.Application.Common.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Serilog;
 using System.Net;
@@ -55,7 +56,7 @@ public class GlobalExceptionMiddleware
     }
 
 
-    public async ValueTask<ActionResult> HandleException<TException>(HttpContext httpContext, TException ex, HttpStatusCode httpStatusCode, string message)
+    public async ValueTask HandleException<TException>(HttpContext httpContext, TException ex, HttpStatusCode httpStatusCode, string message)
     {
 
         Log.Error("EXCEPTION:🔴 CLIENT_IP:{ClientIp}  CLIENT:{ERROR} " + $"\nDatetime:{DateTime.Now} | Message:{message} | Path:{httpContext.Request.Path}");
@@ -73,7 +74,7 @@ public class GlobalExceptionMiddleware
             Result = ex
         };
 
-        return await Task.FromResult(new BadRequestObjectResult(error));
+        await response.WriteAsJsonAsync(error);
 
     }
 }
