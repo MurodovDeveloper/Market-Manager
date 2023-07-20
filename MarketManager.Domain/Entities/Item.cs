@@ -2,7 +2,7 @@
 
 namespace MarketManager.Domain.Entities;
 
-public class Cart : BaseAuditableEntity
+public class Item : BaseAuditableEntity
 {
     public double Count { get; set; }
     public double SoldPrice { get; set; }

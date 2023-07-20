@@ -7,7 +7,7 @@ public class Order : BaseAuditableEntity
     public decimal CardPriceSum { get; set; }
     public decimal CashPurchaseSum { get; set; }
 
-    public virtual ICollection<Cart> Carts { get; set; }
+    public virtual ICollection<Item>? Items { get; set; }
 
     public virtual Client Client { get; set; }
 }

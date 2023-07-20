@@ -3,32 +3,32 @@ using MarketManager.Application.Common.Interfaces;
 using MarketManager.Domain.Entities;
 using MediatR;
 
-namespace MarketManager.Application.UseCases.Carts.Commands.CreateCart
+namespace MarketManager.Application.UseCases.Items.Commands.CreateItem
 {
-    public class CreateCartCommand : IRequest<Guid>
+    public class CreateItemCommand : IRequest<Guid>
     {
         public Guid PackageId { get; set; }
         public Guid OrderId { get; set; }
         public double Count { get; set; }
         public double SoldPrice { get; set; }
     }
-    public class CreateCartCommandHandler : IRequestHandler<CreateCartCommand, Guid>
+    public class CreateItemCommandHandler : IRequestHandler<CreateItemCommand, Guid>
     {
         private readonly IMapper _mapper;
         private readonly IApplicationDbContext _context;
 
-        public CreateCartCommandHandler(IMapper mapper, IApplicationDbContext context)
+        public CreateItemCommandHandler(IMapper mapper, IApplicationDbContext context)
         {
             _mapper = mapper;
             _context = context;
         }
 
-        public async Task<Guid> Handle(CreateCartCommand request, CancellationToken cancellationToken)
+        public async Task<Guid> Handle(CreateItemCommand request, CancellationToken cancellationToken)
         {
-            Cart cart = _mapper.Map<Cart>(request);
-            await _context.Carts.AddAsync(cart, cancellationToken);
+            Item item = _mapper.Map<Item>(request);
+            await _context.Items.AddAsync(item, cancellationToken);
             await _context.SaveChangesAsync();
-            return cart.Id;
+            return item.Id;
         }
     }
 }
