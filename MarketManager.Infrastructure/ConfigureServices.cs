@@ -9,12 +9,12 @@ public static class ConfigureServices
 {
     public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddDbContext<IApplicationDbContext, ApplicationDbContext>(options =>
-        {
-            options.UseNpgsql(configuration.GetConnectionString("DbConnect"));
-        });
+        //services.AddDbContext<IApplicationDbContext, ApplicationDbContext>(options =>
+        //{
+        //    options.UseNpgsql(configuration.GetConnectionString("DbConnect"));
+        //});
 
-        services.AddScoped<IApplicationDbContext, ApplicationDbContext>();
+        //services.AddScoped<IApplicationDbContext, ApplicationDbContext>();
         return services;
     }
 }
