@@ -1,4 +1,4 @@
-﻿using MarketManager.Application.Common.Interfaces;
+﻿    using MarketManager.Application.Common.Interfaces;
 using MarketManager.Domain.Entities;
 using MarketManager.Domain.Entities.Identity;
 using MediatR;
