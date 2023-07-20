@@ -15,7 +15,7 @@ namespace MarketManager.Application.Common.Mappings
             CreateMap<CreateSupplierCommand, Supplier>();
             CreateMap<UpdateSupplierCommand, Supplier>();
             CreateMap<GetSupplierByIdQuery, Supplier>().ReverseMap();
-            CreateMap<GetAllSuppliersQuery, Supplier>().ReverseMap();
+            CreateMap<GetAllSuppliersQueryResponse, Supplier>().ReverseMap();
         }
     }
 }
