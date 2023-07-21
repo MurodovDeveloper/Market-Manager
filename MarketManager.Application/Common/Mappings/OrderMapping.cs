@@ -25,7 +25,6 @@ public class OrderMapping : Profile
 
     private void OrderMappings()
     {
-        CreateMap< Order, GetOrderByIdResponse>();
-        CreateMap< Order, GetAllOrderQueryResponse>();
+        CreateMap< Order, OrderResponse>();
     }
 }

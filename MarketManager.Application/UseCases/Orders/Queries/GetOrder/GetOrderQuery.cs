@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using MarketManager.Application.Common.Interfaces;
+using MarketManager.Application.UseCases.Items.Queries.GetItemById;
 using MarketManager.Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -7,9 +8,9 @@ using static MarketManager.Application.UseCases.Orders.Queries.GetAllOrders.Geta
 
 namespace MarketManager.Application.UseCases.Orders.Queries.GetOrder;
 
-public record GetOrderQuery(Guid Id) : IRequest<GetOrderByIdResponse>;
+public record GetOrderQuery(Guid Id) : IRequest<OrderResponse>;
 
-public class GetOrderQueryHandler : IRequestHandler<GetOrderQuery, GetOrderByIdResponse>
+public class GetOrderQueryHandler : IRequestHandler<GetOrderQuery, OrderResponse>
 {
     IApplicationDbContext _dbContext;
     IMapper _mapper;
@@ -21,11 +22,11 @@ public class GetOrderQueryHandler : IRequestHandler<GetOrderQuery, GetOrderByIdR
     }
 
 
-    public async Task<GetOrderByIdResponse> Handle(GetOrderQuery request, CancellationToken cancellationToken)
+    public async Task<OrderResponse> Handle(GetOrderQuery request, CancellationToken cancellationToken)
     {
         Order order = FilterIfOrderExsists(request.Id);
 
-        return _mapper.Map<GetOrderByIdResponse>(order);
+        return _mapper.Map<OrderResponse>(order);
     }
 
     private Order FilterIfOrderExsists(Guid id)
@@ -38,7 +39,3 @@ public class GetOrderQueryHandler : IRequestHandler<GetOrderQuery, GetOrderByIdR
 
 }
 
-public class GetOrderByIdResponse : GetAllOrderQueryResponse
-{
-  //  public ICollection<CartDto> Cards { get; set; }
-}

@@ -31,5 +31,11 @@ namespace MarketManager.Application.UseCases.Items.Queries.GetItemById
     public class GetItemByIdQueryResponse
     {
         public Guid Id { get; set; }
+
+        public double Count { get; set; }
+        public double SoldPrice { get; set; }
+
+        public Guid PackageId { get; set; }
+        public Guid OrderId { get; set; }
     }
 }
