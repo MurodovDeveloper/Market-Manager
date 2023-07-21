@@ -1,4 +1,5 @@
 ﻿using MarketManager.Application.UseCases.Orders.Commands.CreateOrder;
+using MarketManager.Application.UseCases.Orders.Commands.DeleteOrder;
 using MarketManager.Application.UseCases.Orders.Commands.UpdateOrder;
 using MarketManager.Application.UseCases.Orders.Queries.GetAllOrders;
 using MarketManager.Application.UseCases.Orders.Queries.GetOrder;
@@ -13,7 +14,7 @@ namespace MarketManager.API.Controllers
         public async ValueTask<IEnumerable<OrderResponse>> GetAllOrders()
         {
             return await _mediator.Send(new GetAllOrderQuery());
-        }
+        } 
 
         [HttpGet("[action]")]
         public async ValueTask<OrderResponse> GetOrderById(Guid Id)
@@ -35,7 +36,7 @@ namespace MarketManager.API.Controllers
         }
 
         [HttpDelete("[action]")]
-        public async ValueTask<IActionResult> DeleteOrder(UpdateOrderCommand command)
+        public async ValueTask<IActionResult> DeleteOrder(DeleteOrderCommand command)
         {
             await _mediator.Send(command);
             return NoContent();
