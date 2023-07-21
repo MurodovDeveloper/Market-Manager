@@ -1,4 +1,5 @@
 ﻿using MarketManager.Application.UseCases.Clients.Commands.CreateClient;
+using MarketManager.Application.UseCases.Clients.Commands.DeleteClient;
 using MarketManager.Application.UseCases.Clients.Commands.UpdateClient;
 using MarketManager.Application.UseCases.Clients.Queries.GetAllClients;
 using MarketManager.Application.UseCases.Clients.Queries.GetClientById;
@@ -36,7 +37,7 @@ namespace MarketManager.API.Controllers
         }
 
         [HttpDelete("[action]")]
-        public async ValueTask<IActionResult> DeleteClient(UpdateClientCommand command)
+        public async ValueTask<IActionResult> DeleteClient(DeleteClientCommand command)
         {
             await _mediator.Send(command);
             return NoContent();
