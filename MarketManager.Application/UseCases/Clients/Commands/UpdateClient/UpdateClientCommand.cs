@@ -23,7 +23,7 @@ public class UpdateClientCommandHandler : IRequestHandler<UpdateClientCommand, b
     public async Task<bool> Handle(UpdateClientCommand request, CancellationToken cancellationToken)
     {
         var clientToUpdate = await _dbContext.Clients.FindAsync(request.Id, cancellationToken);
-        _mapper.Map(clientToUpdate, request);
+       // _mapper.Map(clientToUpdate, request);
         if(clientToUpdate is null)
         {
             throw new NotFoundException(nameof(Client), request.Id);
