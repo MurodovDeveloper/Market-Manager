@@ -5,7 +5,7 @@ using MarketManager.Domain.Entities.Identity;
 using MediatR;
 
 namespace MarketManager.Application.UseCases.Roles.Queries;
-public class GetByIdRoleQuery : IRequest<RoleResponse>
+public record GetByIdRoleQuery : IRequest<RoleResponse>
 {
     public Guid Id { get; set; }
 }

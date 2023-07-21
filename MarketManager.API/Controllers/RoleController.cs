@@ -11,12 +11,12 @@ namespace MarketManager.API.Controllers;
 public class RoleController : BaseApiController
 {
     [HttpGet("[action]")]
-    public async ValueTask<RoleResponse> GetRoleById(GetByIdRoleQuery query)
-        => await _mediator.Send(query);
+    public async ValueTask<RoleResponse> GetRoleById(Guid Id)
+        => await _mediator.Send(new GetByIdRoleQuery { Id = Id });
 
     [HttpGet("[action]")]
-    public async ValueTask<List<RoleResponse>> GetAllRoles(GetAllRoleQuery query)
-        => await _mediator.Send(query);
+    public async ValueTask<List<RoleResponse>> GetAllRoles()
+        => await _mediator.Send(new GetAllRoleQuery());
 
     [HttpPost("[action]")]
     public async ValueTask<Guid> CreateRole(CreateRoleCommand command)
