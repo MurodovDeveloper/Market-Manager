@@ -48,5 +48,5 @@ public class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand, Gui
                 yield return _dbContext.Items.FirstOrDefault(c => c.Id == Id)
                      ?? throw new NotFoundException($" There is no item with this {Id} id. ");
         }
-    }
-}
+ }
+

@@ -17,7 +17,7 @@ public class PermissionController : BaseApiController
         => await _mediator.Send(new GetByIdPermissionQuery(Id));
 
     [HttpGet("[action]")]
-    public async ValueTask<PaginatedList<PermissionResponse>> GetAllPermissions([FromQuery] GetAllPermissionQuery query)
+    public async ValueTask<List<PermissionResponse>> GetAllPermissions([FromQuery] GetAllPermissionQuery query)
         => await _mediator.Send(query);
 
     [HttpPost("[action]")]
