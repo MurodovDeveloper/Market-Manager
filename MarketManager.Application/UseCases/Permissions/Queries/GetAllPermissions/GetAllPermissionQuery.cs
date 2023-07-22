@@ -9,6 +9,7 @@ namespace MarketManager.Application.UseCases.Permissions.Queries.GetAllPermissio
 
 public record GetAllPermissionQuery : IRequest<PaginatedList<PermissionResponse>>
 {
+    public string? SearchingText { get; set; }
     public int PageNumber { get; set; } = 1;
     public int PageSize { get; set; } = 10;
 }
@@ -26,8 +27,15 @@ public class GetAllPermissionQueryHandler : IRequestHandler<GetAllPermissionQuer
     {
         var pageSize = request.PageSize;
         var pageNumber = request.PageNumber;
+        var searchingText = request.SearchingText?.Trim();
 
         var permissions = _dbContext.Permissions.AsQueryable();
+
+        if (!string.IsNullOrEmpty(searchingText))
+        {
+            permissions = permissions.Where(p => p.Name.ToLower().Contains(searchingText.ToLower()));
+        }
+
         var paginatedPermissions = await PaginatedList<Permission>.CreateAsync(permissions, pageNumber, pageSize);
 
         var permissionResponses = _mapper.Map<List<PermissionResponse>>(paginatedPermissions.Items);
