@@ -1,6 +1,7 @@
 ﻿using MarketManager.Application.UseCases.Orders.Commands.CreateOrder;
 using MarketManager.Application.UseCases.Orders.Commands.DeleteOrder;
 using MarketManager.Application.UseCases.Orders.Commands.UpdateOrder;
+using MarketManager.Application.UseCases.Orders.Import.Export;
 using MarketManager.Application.UseCases.Orders.Queries.GetAllOrders;
 using MarketManager.Application.UseCases.Orders.Queries.GetOrder;
 using Microsoft.AspNetCore.Mvc;
@@ -41,5 +42,37 @@ namespace MarketManager.API.Controllers
             await _mediator.Send(command);
             return NoContent();
         }
+
+
+        [HttpGet("[action]")]
+        public async ValueTask ExportDataThroughExcel()
+        {
+            ExcelImportExport.SendData();
+        }
+
+        
+        [HttpGet("[action]")]
+        public async ValueTask ImportDataThroughExcel()
+        {
+            ExcelImportExport.ReadingData();
+        }
+
+        
+
+        [HttpGet("[action]")]
+        public async ValueTask ExportDataThroughPDF()
+        {
+            ExcelImportExport.SendData();
+        }
+
+        
+        [HttpGet("[action]")]
+        public async ValueTask ImportDataThroughPDF()
+        {
+            ExcelImportExport.ReadingData();
+        }
+
+
+
     }
 }
