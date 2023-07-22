@@ -36,6 +36,7 @@ public class Program
         app.UseGlobalExceptionMiddleware();
 
         app.UseAuthentication();
+
         app.UseAuthorization();
 
 
