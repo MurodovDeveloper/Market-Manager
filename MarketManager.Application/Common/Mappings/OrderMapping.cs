@@ -18,7 +18,7 @@ public class OrderMapping : Profile
 
     private void OrderWithCart()
     {
-        CreateMap<CreateOrderCommand, Order>();
+        CreateMap<CreateOrderCommand, Order>().ReverseMap();
         CreateMap<UpdateOrderCommand, Order>();
         CreateMap<DeleteOrderCommand, Order>();
     }
