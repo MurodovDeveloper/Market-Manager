@@ -17,6 +17,11 @@ namespace MarketManager.API.Controllers
         {
             return await _mediator.Send(query);
         }
+        //[HttpGet("[action]")]
+        //public async ValueTask<IEnumerable<GetAllExpiredProductsResponce>> GelAllExpiredProduct()
+        //{
+        //    return await _mediator.Send(new GetAllExpiredProductsQuery());
+        //}
 
         [HttpGet("[action]")]
         public async ValueTask<GetByIdExpiredProductsResponce> GetByIdExpiredProduct(Guid Id)
