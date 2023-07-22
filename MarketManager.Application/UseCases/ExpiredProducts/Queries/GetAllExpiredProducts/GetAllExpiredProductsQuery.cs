@@ -3,7 +3,6 @@ using MarketManager.Application.Common.Abstraction;
 using MarketManager.Application.Common.Interfaces;
 using MarketManager.Domain.Entities;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 
 namespace MarketManager.Application.UseCases.ExpiredProducts.Queries.GetAllExpiredProducts
 {
@@ -13,10 +12,10 @@ namespace MarketManager.Application.UseCases.ExpiredProducts.Queries.GetAllExpir
 
     public class GetAllExpiredProductsResponce : ExpiredProductBaseResponce
     {
-       
+
     }
 
-    public class GetAllExpiredProductsQueryHandler 
+    public class GetAllExpiredProductsQueryHandler
         : IRequestHandler<GetAllExpiredProductsQuery, IEnumerable<GetAllExpiredProductsResponce>>
     {
         private readonly IApplicationDbContext _context;

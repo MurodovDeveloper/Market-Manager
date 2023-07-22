@@ -2,7 +2,7 @@
 
 namespace MarketManager.Application.UseCases.PaymentTypes.Commands.DeletePaymentType
 {
-    public class DeletePaymentTypeCommandValidator:AbstractValidator<DeletePaymentTypeCommand>
+    public class DeletePaymentTypeCommandValidator : AbstractValidator<DeletePaymentTypeCommand>
     {
         public DeletePaymentTypeCommandValidator()
         {

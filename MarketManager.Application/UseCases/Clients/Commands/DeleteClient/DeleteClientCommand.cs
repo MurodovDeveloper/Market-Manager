@@ -3,11 +3,11 @@ using MarketManager.Domain.Entities;
 using MediatR;
 namespace MarketManager.Application.UseCases.Clients.Commands.DeleteClient;
 
-public class DeleteClientCommand:IRequest
+public class DeleteClientCommand : IRequest
 {
     public Guid Id { get; set; }
 }
-public class DeleteClientCommandHandler:IRequestHandler<DeleteClientCommand>
+public class DeleteClientCommandHandler : IRequestHandler<DeleteClientCommand>
 {
     private readonly IApplicationDbContext _dbContext;
 

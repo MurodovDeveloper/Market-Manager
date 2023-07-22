@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using MarketManager.Application.Common.Interfaces;
+﻿using MarketManager.Application.Common.Interfaces;
 using MarketManager.Domain.Entities.Identity;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -17,12 +16,12 @@ public class UpdateUserCommand : IRequest
 public class UpdateUserCommandHandler : IRequestHandler<UpdateUserCommand>
 {
     private readonly IApplicationDbContext _context;
-   
+
     public UpdateUserCommandHandler(IApplicationDbContext context)
-            =>_context = context;
-    
-      
-    
+            => _context = context;
+
+
+
 
     public async Task Handle(UpdateUserCommand request, CancellationToken cancellationToken)
     {
@@ -46,7 +45,7 @@ public class UpdateUserCommandHandler : IRequestHandler<UpdateUserCommand>
         foundUser.Username = request.Username;
         if (!string.IsNullOrEmpty(request.Password))
             foundUser.Password = request.Password.GetHashedString();
-        
+
         foundUser.Phone = request.Phone;
         foundUser.FullName = request.FullName;
 

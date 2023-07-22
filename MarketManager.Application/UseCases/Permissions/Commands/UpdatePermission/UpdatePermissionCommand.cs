@@ -1,21 +1,10 @@
-﻿using AutoMapper;
-using MarketManager.Application.Common.Interfaces;
-using MarketManager.Application.Common.Models;
-using MarketManager.Application.UseCases.Permissions.ResponseModels;
+﻿using MarketManager.Application.Common.Interfaces;
 using MarketManager.Domain.Entities;
 using MediatR;
-using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MarketManager.Application.UseCases.Permissions.Commands.UpdatePermission
 {
-    public class UpdatePermissionCommand:IRequest
+    public class UpdatePermissionCommand : IRequest
     {
         public Guid Id { get; set; }
         public string Name { get; set; }
@@ -33,7 +22,7 @@ namespace MarketManager.Application.UseCases.Permissions.Commands.UpdatePermissi
         {
             var permission = await _dbContext.Permissions.FindAsync(request.Id, cancellationToken);
 
-            if(permission is null)
+            if (permission is null)
             {
                 throw new NotFoundException(nameof(Permission), request.Id);
             }

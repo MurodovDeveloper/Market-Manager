@@ -10,13 +10,13 @@ namespace MarketManager.Application.Common.Mappings.ExpiredProductMappings;
 
 public class ExpiredProductsMappingProfile : Profile
 {
-	public ExpiredProductsMappingProfile()
-	{
+    public ExpiredProductsMappingProfile()
+    {
         CreateMap<CreateExpiredProductCommand, ExpiredProduct>().ReverseMap();
         CreateMap<UpdateExpiredProductCommand, ExpiredProduct>().ReverseMap();
         CreateMap<DeleteExpiredProductCommand, ExpiredProduct>().ReverseMap();
-        CreateMap<GetAllExpiredProductsResponce, ExpiredProduct>().ReverseMap();  
-        CreateMap<GetByIdExpiredProductsResponce, ExpiredProduct>().ReverseMap();  
+        CreateMap<GetAllExpiredProductsResponce, ExpiredProduct>().ReverseMap();
+        CreateMap<GetByIdExpiredProductsResponce, ExpiredProduct>().ReverseMap();
 
     }
 }

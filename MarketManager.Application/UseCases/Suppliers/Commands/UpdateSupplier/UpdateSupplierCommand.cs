@@ -23,9 +23,9 @@ namespace MarketManager.Application.UseCases.Suppliers.Commands.UpdateSupplier
         }
         public async Task<bool> Handle(UpdateSupplierCommand request, CancellationToken cancellationToken)
         {
-            var foundSupplier = await _context.Suppliers.FindAsync(request.Id , cancellationToken);
+            var foundSupplier = await _context.Suppliers.FindAsync(request.Id, cancellationToken);
             _mapper.Map(foundSupplier, request);
-            
+
             if (foundSupplier is null)
                 throw new NotFoundException(nameof(Supplier), request.Id);
 

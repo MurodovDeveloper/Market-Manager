@@ -9,7 +9,7 @@ namespace MarketManager.Infrastructure.Persistence.Configurations
         public void Configure(EntityTypeBuilder<Order> builder)
         {
             builder.Property(x => x.ClientId).IsRequired();
-           // builder.Property(x => x.Items).IsRequired();
+            // builder.Property(x => x.Items).IsRequired();
 
         }
     }

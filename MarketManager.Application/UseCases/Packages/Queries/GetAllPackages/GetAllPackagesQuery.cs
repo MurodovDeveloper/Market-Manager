@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using FluentValidation;
 using MarketManager.Application.Common.Interfaces;
 using MarketManager.Domain.Entities;
 using MediatR;
@@ -23,12 +22,12 @@ public class GetAllPackagesQueryHandler : IRequestHandler<GetAllPackagesQuery, I
     {
         IEnumerable<Package> packages = _context.Packages;
 
-       return  Task.FromResult(_mapper.Map<IEnumerable<GetAllPackagesQueryResponse>>(packages));
+        return Task.FromResult(_mapper.Map<IEnumerable<GetAllPackagesQueryResponse>>(packages));
 
     }
 }
 public class GetAllPackagesQueryResponse
-{   
+{
     public Guid ProductId { get; set; }
     public double IncomingCount { get; set; }
     public double Count { get; set; }

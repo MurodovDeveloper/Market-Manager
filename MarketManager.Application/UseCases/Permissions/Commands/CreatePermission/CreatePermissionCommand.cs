@@ -6,7 +6,7 @@ using MediatR;
 
 namespace MarketManager.Application.UseCases.Permissions.Commands.CreatePermission
 {
-    public class CreatePermissionCommand: IRequest<List<PermissionResponse>>
+    public class CreatePermissionCommand : IRequest<List<PermissionResponse>>
     {
         public string[] Name { get; set; }
     }

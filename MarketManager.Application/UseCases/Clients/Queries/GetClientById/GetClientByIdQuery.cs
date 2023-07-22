@@ -17,7 +17,7 @@ public class GetClientByIdQueryHandler : IRequestHandler<GetClientByIdQuery, Get
     public async Task<GetClientByIdQueryResponse> Handle(GetClientByIdQuery request, CancellationToken cancellationToken)
     {
         Client? client = await _context.Clients.FindAsync(request.Id);
-        if(client is null)
+        if (client is null)
             throw new NotFoundException(nameof(Client), request.Id);
         return _mapper.Map<GetClientByIdQueryResponse>(client);
     }
