@@ -6,7 +6,7 @@ using MediatR;
 
 namespace MarketManager.Application.UseCases.Permissions.Queries.GetPermission
 {
-    public record GetByIdPermissionQuery(Guid PermissionId):IRequest<PermissionResponse>;
+    public record GetByIdPermissionQuery(Guid PermissionId) : IRequest<PermissionResponse>;
 
     public class GetByIdPermissionQueryHandler : IRequestHandler<GetByIdPermissionQuery, PermissionResponse>
     {
@@ -20,7 +20,7 @@ namespace MarketManager.Application.UseCases.Permissions.Queries.GetPermission
 
         public async Task<PermissionResponse> Handle(GetByIdPermissionQuery request, CancellationToken cancellationToken)
         {
-            var permission =await _dbContext.Permissions.FindAsync(new object[] {request.PermissionId},cancellationToken);
+            var permission = await _dbContext.Permissions.FindAsync(new object[] { request.PermissionId }, cancellationToken);
             if (permission == null)
             {
                 throw new NotFoundException(nameof(Permission), request.PermissionId);

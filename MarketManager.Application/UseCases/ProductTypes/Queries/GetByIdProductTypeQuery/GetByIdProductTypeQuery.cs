@@ -20,9 +20,9 @@ public class GetByIdProductTypeQueryHandler : IRequestHandler<GetByIdProductType
     public async Task<GetByIdProductTypeQueryResponce> Handle(GetByIdProductTypeQuery request, CancellationToken cancellationToken)
     {
         ProductType productType = await _context.ProductTypes.FindAsync(request.Id);
-        if(productType is null)
+        if (productType is null)
             throw new NotFoundException(nameof(ProductsType), request.Id);
-        
+
         return _mapper.Map<GetByIdProductTypeQueryResponce>(productType);
     }
 
@@ -30,4 +30,5 @@ public class GetByIdProductTypeQueryHandler : IRequestHandler<GetByIdProductType
 public class GetByIdProductTypeQueryResponce
 {
     public Guid Id { get; set; }
+    public string Name { get; set; }
 }

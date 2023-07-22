@@ -32,20 +32,21 @@ public class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand, Gui
     public async Task<Guid> Handle(CreateOrderCommand request, CancellationToken cancellationToken)
     {
 
-        IEnumerable<Item>? items = FilterIfAllItemsExsist(request.Items);
-        
-        Order order= _mapper.Map<Order>(request);
-        order.Items = items.ToList();
-        await _dbContext.Orders.AddAsync(order, cancellationToken);
-        await _dbContext.SaveChangesAsync(cancellationToken);
-         
-        return order.Id;
-    }
+            IEnumerable<Item>? items = FilterIfAllItemsExsist(request.Items);
 
-    private IEnumerable<Item> FilterIfAllItemsExsist(ICollection<Guid> items)
-    {
-        foreach (Guid Id in items)
-            yield return _dbContext.Items.Include("Items").FirstOrDefault(c => c.Id == Id)
-                ?? throw new NotFoundException($" There is no item with this {Id} id. ");
+            Order order = _mapper.Map<Order>(request);
+            order.Items = items.ToList();
+            await _dbContext.Orders.AddAsync(order, cancellationToken);
+            await _dbContext.SaveChangesAsync(cancellationToken);
+
+            return order.Id;
+        }
+
+        private IEnumerable<Item> FilterIfAllItemsExsist(ICollection<Guid> items)
+        {
+            foreach (Guid Id in items)
+                yield return _dbContext.Items.FirstOrDefault(c => c.Id == Id)
+                     ?? throw new NotFoundException($" There is no item with this {Id} id. ");
+        }
     }
 }

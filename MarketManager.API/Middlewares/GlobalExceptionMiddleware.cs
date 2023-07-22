@@ -1,14 +1,8 @@
-﻿using MarketManager.Application.Common.Exceptions;
+﻿using System.Net;
+using MarketManager.Application.Common.Exceptions;
 using MarketManager.Application.Common.Models;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Serilog;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 using Telegram.Bot;
 
 namespace MarketManager.API.Middlewares;
@@ -20,9 +14,9 @@ public class GlobalExceptionMiddleware
 
     public GlobalExceptionMiddleware(RequestDelegate next, ITelegramBotClient botClient)
             => (_next, _botClient) = (next, botClient);
-    
-        
-    
+
+
+
 
     public async Task Invoke(HttpContext httpContext)
     {
@@ -36,15 +30,15 @@ public class GlobalExceptionMiddleware
 
             await HandleException(httpContext, ex, HttpStatusCode.NotFound, ex.Message);
         }
-        catch(AlreadyExistsException ex)
+        catch (AlreadyExistsException ex)
         {
             await HandleException(httpContext, ex, HttpStatusCode.Conflict, ex.Message);
         }
-        catch(UnauthorizedException ex)
+        catch (UnauthorizedException ex)
         {
             await HandleException(httpContext, ex, HttpStatusCode.Unauthorized, ex.Message);
         }
-        catch(ValidationException ex)
+        catch (ValidationException ex)
         {
             await HandleException(httpContext, ex, HttpStatusCode.BadRequest, ex.Message);
         }
@@ -65,11 +59,11 @@ public class GlobalExceptionMiddleware
         //await _botClient.SendTextMessageAsync(chatId: "-1001856623462", text: text);
         HttpResponse response = httpContext.Response;
         response.ContentType = "application/json";
-        
+
 
         ResponseCore<TException> error = new()
         {
-            Errors = new string[] { message},
+            Errors = new string[] { message },
             StatusCode = httpStatusCode,
             IsSuccess = false,
             Result = ex

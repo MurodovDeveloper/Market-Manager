@@ -14,7 +14,7 @@ namespace MarketManager.API.Controllers
         public async ValueTask<IEnumerable<OrderResponse>> GetAllOrders()
         {
             return await _mediator.Send(new GetAllOrderQuery());
-        } 
+        }
 
         [HttpGet("[action]")]
         public async ValueTask<OrderResponse> GetOrderById(Guid Id)

@@ -30,8 +30,8 @@ namespace MarketManager.Application.UseCases.Items.Commands.UpdateItem
             if (item is null)
                 throw new NotFoundException(nameof(Item), request.Id);
             var package = await _context.Packages.FindAsync(request.PackageId);
-            if (package is null) 
-                throw new NotFoundException(nameof(Package),request.PackageId);
+            if (package is null)
+                throw new NotFoundException(nameof(Package), request.PackageId);
             await _context.SaveChangesAsync(cancellationToken);
         }
     }

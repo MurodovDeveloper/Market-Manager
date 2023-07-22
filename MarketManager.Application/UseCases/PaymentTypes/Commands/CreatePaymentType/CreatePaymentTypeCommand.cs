@@ -5,7 +5,7 @@ using MediatR;
 
 namespace MarketManager.Application.UseCases.PaymentTypes.Commands.CreatePaymentType
 {
-    public class CreatePaymentTypeCommand:IRequest<Guid>
+    public class CreatePaymentTypeCommand : IRequest<Guid>
     {
         public string Name { get; set; }
     }
