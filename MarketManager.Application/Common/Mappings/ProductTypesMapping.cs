@@ -8,9 +8,9 @@ using MarketManager.Domain.Entities;
 
 namespace MarketManager.Application.Common.Mappings;
 
-public class ProductTypesMappingProfile : Profile
+public class ProductTypesMapping : Profile
 {
-    public ProductTypesMappingProfile()
+    public ProductTypesMapping()
     {
         CreateMap<CreateProductTypeCommand, ProductType>().ReverseMap();
         CreateMap<UpdateProductCommand, ProductType>().ReverseMap();
