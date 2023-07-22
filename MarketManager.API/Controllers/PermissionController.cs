@@ -37,4 +37,6 @@ public class PermissionController : BaseApiController
         await _mediator.Send(command);
         return NoContent();
     }
+
+
 }
