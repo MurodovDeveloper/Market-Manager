@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography;
+﻿using System.Security.Cryptography;
 using System.Text;
-using System.Threading.Tasks;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace MarketManager.Application.Common.Extensions;
 public static class HashStringExtension
@@ -18,6 +13,6 @@ public static class HashStringExtension
             text = Convert.ToBase64String(hashbytes);
 
         }
-       return text;
+        return text;
     }
 }

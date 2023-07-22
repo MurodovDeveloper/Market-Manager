@@ -5,7 +5,7 @@ using MediatR;
 
 namespace MarketManager.Application.UseCases.PaymentTypes.Queries.GetAllPaymentType
 {
-    public class GetAllPaymentTypeQuery:IRequest<IEnumerable<GetAllPaymentTypeQueryResponse>>
+    public class GetAllPaymentTypeQuery : IRequest<IEnumerable<GetAllPaymentTypeQueryResponse>>
     {
 
     }

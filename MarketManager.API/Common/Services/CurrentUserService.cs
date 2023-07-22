@@ -1,5 +1,5 @@
-﻿using MarketManager.Application.Common.Interfaces;
-using System.Security.Claims;
+﻿using System.Security.Claims;
+using MarketManager.Application.Common.Interfaces;
 
 namespace MarketManager.API.Common.Services;
 

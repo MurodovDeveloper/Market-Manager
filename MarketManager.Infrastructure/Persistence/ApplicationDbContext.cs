@@ -1,9 +1,9 @@
-﻿using MarketManager.Application.Common.Interfaces;
+﻿using System.Reflection;
+using MarketManager.Application.Common.Interfaces;
 using MarketManager.Domain.Entities;
 using MarketManager.Domain.Entities.Identity;
 using MarketManager.Infrastructure.Persistence.Interceptors;
 using Microsoft.EntityFrameworkCore;
-using System.Reflection;
 
 namespace MarketManager.Infrastructure.Persistence;
 public class ApplicationDbContext : DbContext, IApplicationDbContext

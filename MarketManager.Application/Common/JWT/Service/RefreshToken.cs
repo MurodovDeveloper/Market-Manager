@@ -1,5 +1,4 @@
-﻿using MarketManager.Application.Common.Extensions;
-using MarketManager.Application.Common.Interfaces;
+﻿using MarketManager.Application.Common.Interfaces;
 using MarketManager.Application.Common.JWT.Interfaces;
 using MarketManager.Application.UseCases.Users.Commands.LoginUser;
 using MarketManager.Application.UseCases.Users.Response;
@@ -51,7 +50,7 @@ public class RefreshToken : IUserRefreshToken
             Phone = founUser.Phone,
             Username = founUser.Username,
             Roles = founUser.Roles,
-       
+
         };
 
         return userResponse;

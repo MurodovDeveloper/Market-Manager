@@ -1,4 +1,5 @@
-﻿using MarketManager.Application.UseCases.Permissions.Commands.CreatePermission;
+﻿using MarketManager.Application.Common.Models;
+using MarketManager.Application.UseCases.Permissions.Commands.CreatePermission;
 using MarketManager.Application.UseCases.Permissions.Commands.DeletePermission;
 using MarketManager.Application.UseCases.Permissions.Commands.UpdatePermission;
 using MarketManager.Application.UseCases.Permissions.Queries.GetAllPermissions;
@@ -16,8 +17,8 @@ public class PermissionController : BaseApiController
         => await _mediator.Send(new GetByIdPermissionQuery(Id));
 
     [HttpGet("[action]")]
-    public async ValueTask<List<PermissionResponse>> GetAllPermissions()
-        => await _mediator.Send(new GetAllPermissionQuery());
+    public async ValueTask<PaginatedList<PermissionResponse>> GetAllPermissions([FromQuery] GetAllPermissionQuery query)
+        => await _mediator.Send(query);
 
     [HttpPost("[action]")]
     public async ValueTask<List<PermissionResponse>> CreatePermission(CreatePermissionCommand command)
