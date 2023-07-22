@@ -6,5 +6,6 @@ public class User : BaseAuditableEntity
     public string Phone { get; set; }
     public string Username { get; set; }
     public string Password { get; set; }
+    public string? UserImage { get; set; }
     public virtual ICollection<Role>? Roles { get; set; }
 }

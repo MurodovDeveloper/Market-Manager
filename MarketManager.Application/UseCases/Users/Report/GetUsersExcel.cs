@@ -1,19 +1,10 @@
 ﻿using AutoMapper;
 using ClosedXML.Excel;
 using MarketManager.Application.Common.Interfaces;
-using MarketManager.Application.UseCases.Users.Queries.GetAllUser;
 using MarketManager.Application.UseCases.Users.Response;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using Telegram.Bot.Types;
 
 namespace MarketManager.Application.UseCases.Users.Report;
 public class GetUsersExcel:IRequest<ExcelReportResponse>
