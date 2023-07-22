@@ -5,7 +5,7 @@ using MediatR;
 
 namespace MarketManager.Application.UseCases.PaymentTypes.Queries.GetByIdPaymentType
 {
-    public class GetByIdPaymentTypeQuery:IRequest<GetByIdPaymentTypeQueryResponse>
+    public class GetByIdPaymentTypeQuery : IRequest<GetByIdPaymentTypeQueryResponse>
     {
         public Guid Id { get; set; }
     }

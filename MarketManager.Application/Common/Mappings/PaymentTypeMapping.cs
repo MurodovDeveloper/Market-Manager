@@ -8,7 +8,7 @@ using MarketManager.Domain.Entities;
 
 namespace MarketManager.Application.Common.Mappings
 {
-    public class PaymentTypeMapping:Profile
+    public class PaymentTypeMapping : Profile
     {
         public PaymentTypeMapping()
         {

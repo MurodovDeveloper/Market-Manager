@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
 
 namespace MarketManager.Application.UseCases.Users.Commands.RegisterUser;
-public class RegisterUserCommandValidator:AbstractValidator<RegisterUserCommand>    
+public class RegisterUserCommandValidator : AbstractValidator<RegisterUserCommand>
 {
     public RegisterUserCommandValidator()
     {

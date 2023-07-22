@@ -32,8 +32,8 @@ namespace MarketManager.Application.UseCases.Orders.Commands.CreateOrder
         {
 
             IEnumerable<Item>? items = FilterIfAllItemsExsist(request.Items);
-            
-            Order order= _mapper.Map<Order>(request);
+
+            Order order = _mapper.Map<Order>(request);
             order.Items = items.ToList();
             await _dbContext.Orders.AddAsync(order, cancellationToken);
             await _dbContext.SaveChangesAsync(cancellationToken);
@@ -44,8 +44,8 @@ namespace MarketManager.Application.UseCases.Orders.Commands.CreateOrder
         private IEnumerable<Item> FilterIfAllItemsExsist(ICollection<Guid> items)
         {
             foreach (Guid Id in items)
-               yield return _dbContext.Items.FirstOrDefault(c => c.Id == Id)
-                    ?? throw new NotFoundException($" There is no item with this {Id} id. ");
+                yield return _dbContext.Items.FirstOrDefault(c => c.Id == Id)
+                     ?? throw new NotFoundException($" There is no item with this {Id} id. ");
         }
     }
 }

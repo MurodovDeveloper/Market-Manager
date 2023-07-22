@@ -1,18 +1,18 @@
 ﻿using MarketManager.API.Common.Services;
 using MarketManager.Application.Common.Interfaces;
-using Serilog.Events;
-using Serilog;
-using TelegramSink;
-using Telegram.Bot;
-using Microsoft.OpenApi.Models;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using MarketManager.Application.Common.JWT;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.OpenApi.Models;
+using Serilog;
+using Serilog.Events;
+using Telegram.Bot;
+using TelegramSink;
 
 namespace MarketManager.API;
 
 public static class ConfigureServices
 {
-    public static IServiceCollection AddApi(this IServiceCollection services,IConfiguration configuration)
+    public static IServiceCollection AddApi(this IServiceCollection services, IConfiguration configuration)
     {
         SerilogSettings(configuration);
         //services.AddHostedService<BotBackgroundService>();

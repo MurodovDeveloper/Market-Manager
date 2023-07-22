@@ -5,7 +5,7 @@ using MediatR;
 
 namespace MarketManager.Application.UseCases.PaymentTypes.Commands.UpdatePaymentType
 {
-    public class UpdatePaymentTypeCommand:IRequest
+    public class UpdatePaymentTypeCommand : IRequest
     {
         public Guid Id { get; set; }
         public string Name { get; set; }

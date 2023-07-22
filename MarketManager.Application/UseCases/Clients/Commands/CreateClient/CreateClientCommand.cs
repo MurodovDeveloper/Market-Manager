@@ -4,12 +4,12 @@ using MarketManager.Domain.Entities;
 using MediatR;
 namespace MarketManager.Application.UseCases.Clients.Commands.CreateClient;
 
-public class CreateClientCommand:IRequest<Guid>
+public class CreateClientCommand : IRequest<Guid>
 {
     public double TotalPrice { get; set; }
     public double Discount { get; set; }
 }
-public class CreateClientCommandHandler:IRequestHandler<CreateClientCommand, Guid>
+public class CreateClientCommandHandler : IRequestHandler<CreateClientCommand, Guid>
 {
     private readonly IApplicationDbContext _dbContext;
     private readonly IMapper _mapper;
@@ -22,7 +22,7 @@ public class CreateClientCommandHandler:IRequestHandler<CreateClientCommand, Gui
 
     public async Task<Guid> Handle(CreateClientCommand request, CancellationToken cancellationToken)
     {
-       Client client = _mapper.Map<Client>(request);
+        Client client = _mapper.Map<Client>(request);
 
         await _dbContext.Clients.AddAsync(client, cancellationToken);
         await _dbContext.SaveChangesAsync(cancellationToken);

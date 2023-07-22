@@ -1,5 +1,4 @@
-﻿    using MarketManager.Application.Common.Interfaces;
-using MarketManager.Domain.Entities;
+﻿using MarketManager.Application.Common.Interfaces;
 using MarketManager.Domain.Entities.Identity;
 using MediatR;
 using Microsoft.EntityFrameworkCore;

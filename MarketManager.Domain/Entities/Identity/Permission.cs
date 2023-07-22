@@ -1,5 +1,4 @@
 ﻿using MarketManager.Domain.Entities.Identity;
-using System.Runtime.CompilerServices;
 
 namespace MarketManager.Domain.Entities;
 
