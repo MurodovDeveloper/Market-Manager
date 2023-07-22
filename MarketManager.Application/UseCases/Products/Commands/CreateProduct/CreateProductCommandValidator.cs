@@ -19,6 +19,7 @@ namespace MarketManager.Application.UseCases.Products.Commands.CreateProduct
                 .NotEmpty()
                 .MaximumLength(250)
                 .WithMessage("Description is required");
+
         }
     }
 }

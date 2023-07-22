@@ -1,12 +1,12 @@
 ﻿using AutoMapper;
 using MarketManager.Application.Common.Interfaces;
-using MarketManager.Domain.Entities;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 
 namespace MarketManager.Application.UseCases.Suppliers.Queries.GetAllSuppliers;
 
-public record GetAllSuppliersQuery : IRequest<IEnumerable<GetAllSuppliersQueryResponse>>;
-public class GetAllSuppliersQueryHandler : IRequestHandler<GetAllSuppliersQuery, IEnumerable<GetAllSuppliersQueryResponse>>
+public record GetAllSuppliersQuery : IRequest<List<GetAllSuppliersQueryResponse>>;
+public class GetAllSuppliersQueryHandler : IRequestHandler<GetAllSuppliersQuery, List<GetAllSuppliersQueryResponse>>
 {
     private readonly IMapper _mapper;
     private readonly IApplicationDbContext _context;
@@ -17,16 +17,16 @@ public class GetAllSuppliersQueryHandler : IRequestHandler<GetAllSuppliersQuery,
         _context = context;
     }
 
-    public Task<IEnumerable<GetAllSuppliersQueryResponse>> Handle(GetAllSuppliersQuery request, CancellationToken cancellationToken)
+    public async Task<List<GetAllSuppliersQueryResponse>> Handle(GetAllSuppliersQuery request, CancellationToken cancellationToken)
     {
-        IEnumerable<Supplier> suppliers = _context.Suppliers;
-
-        return Task.FromResult(_mapper.Map<IEnumerable<GetAllSuppliersQueryResponse>>(suppliers));
-
+        var suppliers = await _context.Suppliers.ToListAsync(cancellationToken);
+        var res = _mapper.Map<List<GetAllSuppliersQueryResponse>>(suppliers);
+        return res;
     }
 }
 public class GetAllSuppliersQueryResponse
 {
+    public Guid Id { get; set; }
     public string Name { get; set; }
     public string Phone { get; set; }
 }

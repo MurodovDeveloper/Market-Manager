@@ -16,42 +16,42 @@ public class UserController : BaseApiController
 {
 
     [HttpGet("[action]")]
-    public async ValueTask<UserResponse> GetUserById(GetByIdUserQuery query)
-        => await _mediator.Send(query);
-   
-    [HttpGet("[action]")]
-    public async ValueTask<List<UserResponse>> GetAllUser(GetAllUserQuery query)
-     => await _mediator.Send(query);
+    public async ValueTask<UserResponse> GetUserById(Guid UserId)
+        => await _mediator.Send(new GetByIdUserQuery(UserId));
 
-    
+    [HttpGet("[action]")]
+    public async ValueTask<List<UserResponse>> GetAllUser()
+     => await _mediator.Send(new GetAllUserQuery());
+
+
     [HttpPost("[action]")]
     public async ValueTask<TokenResponse> RegisterUser(RegisterUserCommand command)
         => await _mediator.Send(command);
 
-   
-    [HttpPost("[action]")] 
-    public async ValueTask<TokenResponse> LoginUser(LoginUserCommand command) 
+
+    [HttpPost("[action]")]
+    public async ValueTask<TokenResponse> LoginUser(LoginUserCommand command)
         => await _mediator.Send(command);
 
-    [HttpPost("[action]")] 
-    public async ValueTask<Guid> CreateUser(CreateUserCommand command) 
+    [HttpPost("[action]")]
+    public async ValueTask<Guid> CreateUser(CreateUserCommand command)
         => await _mediator.Send(command);
 
-   
-    [HttpPut]
+
+    [HttpPut("[action]")]
     public async ValueTask<IActionResult> UpdateUser(UpdateUserCommand command)
     {
-        await _mediator.Send(command); 
+        await _mediator.Send(command);
         return NoContent();
     }
 
-   
-    [HttpDelete] 
+
+    [HttpDelete("[action]")]
     public async ValueTask<IActionResult> DeleteUser(DeleteUserCommand command)
     {
-        await _mediator.Send(command);  
+        await _mediator.Send(command);
         return NoContent();
     }
 
-   
+
 }

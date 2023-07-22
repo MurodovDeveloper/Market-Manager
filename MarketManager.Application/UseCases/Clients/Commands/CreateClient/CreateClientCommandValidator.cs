@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 namespace MarketManager.Application.UseCases.Clients.Commands.CreateClient;
-public class CreateClientCommandValidator:AbstractValidator<CreateClientCommand>
+public class CreateClientCommandValidator : AbstractValidator<CreateClientCommand>
 {
     public CreateClientCommandValidator()
     {

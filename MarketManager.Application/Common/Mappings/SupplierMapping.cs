@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using MarketManager.Application.UseCases.Suppliers.Commands.CreateSupplier;
-using MarketManager.Application.UseCases.Suppliers.Commands.DeleteSupplier;
 using MarketManager.Application.UseCases.Suppliers.Commands.UpdateSupplier;
 using MarketManager.Application.UseCases.Suppliers.Queries.GetAllSuppliers;
 using MarketManager.Application.UseCases.Suppliers.Queries.GetSupplierById;
@@ -14,9 +13,8 @@ namespace MarketManager.Application.Common.Mappings
         {
             CreateMap<CreateSupplierCommand, Supplier>();
             CreateMap<UpdateSupplierCommand, Supplier>();
-            CreateMap<DeleteSupplierCommand, Supplier>();
-            CreateMap<GetSupplierByIdQuery, Supplier>();
-            CreateMap<GetAllSuppliersQuery, Supplier>();
+            CreateMap<GetSupplierByIdQuery, Supplier>().ReverseMap();
+            CreateMap<GetAllSuppliersQueryResponse, Supplier>().ReverseMap();
         }
     }
 }

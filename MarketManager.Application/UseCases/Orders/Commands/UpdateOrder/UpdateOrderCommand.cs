@@ -48,7 +48,7 @@ public class UpdateOrderCommandHandler : IRequestHandler<UpdateOrderCommand>
     }
 
     private async Task<Order> FilterIfOrderExists(Guid id)
-     =>     await _dbContext.Orders//.Include("Items")
+     => await _dbContext.Orders//.Include("Items")
                 .FirstOrDefaultAsync(x => x.Id == id)
                  ?? throw new NotFoundException(
                           " there is no order with this id. ");

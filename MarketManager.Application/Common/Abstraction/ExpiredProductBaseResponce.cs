@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace MarketManager.Application.Common.Abstraction
+﻿namespace MarketManager.Application.Common.Abstraction
 {
     public abstract class ExpiredProductBaseResponce
     {
+        public Guid Id { get; set; }
         public Guid PackageId { get; set; }
         public int Count { get; set; }
         public DateTime DeletedTime { get; set; }

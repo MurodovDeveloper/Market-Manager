@@ -23,20 +23,20 @@ namespace MarketManager.API.Controllers
             return await _mediator.Send(new GetByIdExpiredProductsQuery(Id));
         }
 
-        [HttpPost]
+        [HttpPost("[action]")]
         public async ValueTask<Guid> CreateExpiredProduct(CreateExpiredProductCommand command)
         {
             return await _mediator.Send(command);
         }
 
-        [HttpPut]
+        [HttpPut("[action]")]
         public async ValueTask<IActionResult> UpdateExpiredProduct(UpdateExpiredProductCommand command)
         {
-             await _mediator.Send(command);
+            await _mediator.Send(command);
             return NoContent();
         }
 
-        [HttpDelete]
+        [HttpDelete("[action]")]
         public async ValueTask<IActionResult> DeleteExpiredProduct(DeleteExpiredProductCommand command)
         {
             await _mediator.Send(command);

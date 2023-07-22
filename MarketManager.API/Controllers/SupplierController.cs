@@ -1,5 +1,4 @@
-﻿
-using MarketManager.Application.UseCases.Suppliers.Commands.CreateSupplier;
+﻿using MarketManager.Application.UseCases.Suppliers.Commands.CreateSupplier;
 using MarketManager.Application.UseCases.Suppliers.Commands.DeleteSupplier;
 using MarketManager.Application.UseCases.Suppliers.Commands.UpdateSupplier;
 using MarketManager.Application.UseCases.Suppliers.Queries.GetAllSuppliers;
@@ -13,31 +12,31 @@ namespace MarketManager.API.Controllers
     public class SupplierController : BaseApiController
     {
         [HttpGet("[action]")]
-        public async ValueTask<IEnumerable<GetAllSuppliersQueryResponse>> GetAllSuppliers()
+        public async ValueTask<List<GetAllSuppliersQueryResponse>> GetAllSuppliers()
         {
             return await _mediator.Send(new GetAllSuppliersQuery());
         }
 
         [HttpGet("[action]")]
-        public async ValueTask<GetSupplierByIdQueryRespnse> GetSupplierById(Guid Id)
+        public async ValueTask<GetSupplierByIdQueryRespоnse> GetSupplierById(Guid Id)
         {
             return await _mediator.Send(new GetSupplierByIdQuery(Id));
         }
 
-        [HttpPost]
+        [HttpPost("[action]")]
         public async ValueTask<Guid> CreateSupplier(CreateSupplierCommand command)
         {
             return await _mediator.Send(command);
         }
 
-        [HttpPut]
+        [HttpPut("[action]")]
         public async ValueTask<IActionResult> UpdateSupplier(UpdateSupplierCommand command)
         {
             await _mediator.Send(command);
             return NoContent();
         }
 
-        [HttpDelete]
+        [HttpDelete("[action]")]
         public async ValueTask<IActionResult> DeleteSupplier(DeleteSupplierCommand command)
         {
             await _mediator.Send(command);

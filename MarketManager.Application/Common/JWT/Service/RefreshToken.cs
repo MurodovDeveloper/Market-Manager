@@ -1,5 +1,4 @@
-﻿using MarketManager.Application.Common.Extensions;
-using MarketManager.Application.Common.Interfaces;
+﻿using MarketManager.Application.Common.Interfaces;
 using MarketManager.Application.Common.JWT.Interfaces;
 using MarketManager.Application.UseCases.Users.Commands.LoginUser;
 using MarketManager.Application.UseCases.Users.Response;
@@ -38,7 +37,7 @@ public class RefreshToken : IUserRefreshToken
     public async ValueTask<UserResponse> AuthenAsync(LoginUserCommand user)
     {
         string hashPassword = user.Password.GetHashedString();
-        User? founUser = await _context.Users.SingleOrDefaultAsync(x => x.Username == user.Username && x.Password == user.Password);
+        User? founUser = await _context.Users.SingleOrDefaultAsync(x => x.Username == user.Username && x.Password == hashPassword);
         if (founUser is null)
         {
             return null;
@@ -50,8 +49,8 @@ public class RefreshToken : IUserRefreshToken
             FullName = founUser.FullName,
             Phone = founUser.Phone,
             Username = founUser.Username,
-            Password = founUser.Password,
             Roles = founUser.Roles,
+
         };
 
         return userResponse;

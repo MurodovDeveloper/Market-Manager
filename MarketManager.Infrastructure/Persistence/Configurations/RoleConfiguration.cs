@@ -1,5 +1,4 @@
-﻿using MarketManager.Domain.Entities;
-using MarketManager.Domain.Entities.Identity;
+﻿using MarketManager.Domain.Entities.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

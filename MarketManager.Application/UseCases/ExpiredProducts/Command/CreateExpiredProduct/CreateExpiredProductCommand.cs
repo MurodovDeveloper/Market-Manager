@@ -15,7 +15,7 @@ namespace MarketManager.Application.UseCases.ExpiredProducts.Command.CreateExpir
     {
         private readonly IApplicationDbContext _context;
         private readonly IMapper _mapper;
-        
+
         public CreateExpiredProductCommandHandler(IMapper mapper, IApplicationDbContext context)
         {
             _mapper = mapper;
@@ -27,7 +27,7 @@ namespace MarketManager.Application.UseCases.ExpiredProducts.Command.CreateExpir
             ExpiredProduct expiredProduct = _mapper.Map<ExpiredProduct>(request);
             await _context.ExpiredProducts.AddAsync(expiredProduct, cancellationToken);
             await _context.SaveChangesAsync();
-           
+
             return expiredProduct.Id;
         }
     }

@@ -7,7 +7,7 @@ using MarketManager.Application.UseCases.Clients.Queries.GetClientById;
 using MarketManager.Domain.Entities;
 namespace MarketManager.Application.Common.Mappings;
 
-public class ClientMapping:Profile
+public class ClientMapping : Profile
 {
     public ClientMapping()
     {
@@ -19,7 +19,7 @@ public class ClientMapping:Profile
         CreateMap<CreateClientCommand, Client>();
         CreateMap<UpdateClientCommand, Client>();
         CreateMap<DeleteClientCommand, Client>();
-        CreateMap<GetAllClientsQuery, Client>();
-        CreateMap<GetClientByIdQuery, Client>();
+        CreateMap<Client, GetAllClientsQueryResponse>().ReverseMap();
+        CreateMap<Client, GetClientByIdQueryResponse>().ReverseMap();
     }
 }

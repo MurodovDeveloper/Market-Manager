@@ -2,6 +2,7 @@
 using MarketManager.API.Middlewares;
 using MarketManager.Application;
 using MarketManager.Infrastructure;
+using Serilog;
 
 namespace MarketManager.API;
 
@@ -14,8 +15,8 @@ public class Program
 
         builder.Services.AddApplication();
         builder.Services.AddInfrastructure(builder.Configuration);
-        builder.Services.AddApi();
-
+        builder.Services.AddApi(builder.Configuration);
+        builder.Host.UseSerilog();
         var app = builder.Build();
         AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
@@ -23,7 +24,9 @@ public class Program
         {
             app.UseSwagger();
             app.UseSwaggerUI();
+
         }
+
         app.UseStaticFiles();
 
         app.UseHttpsRedirection();
@@ -32,9 +35,10 @@ public class Program
 
         app.UseGlobalExceptionMiddleware();
 
+        app.UseAuthentication();
         app.UseAuthorization();
 
-        
+
         app.MapControllers();
 
         app.Run();

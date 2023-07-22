@@ -1,6 +1,12 @@
-﻿namespace MarketManager.Application.UseCases.PaymentTypes.Commands.UpdatePaymentType
+﻿using FluentValidation;
+
+namespace MarketManager.Application.UseCases.PaymentTypes.Commands.UpdatePaymentType
 {
-    public class UpdatePaymentTypeCommandValidator
+    public class UpdatePaymentTypeCommandValidator : AbstractValidator<UpdatePaymentTypeCommand>
     {
+        public UpdatePaymentTypeCommandValidator()
+        {
+            RuleFor(c => c.Name).NotEmpty();
+        }
     }
 }

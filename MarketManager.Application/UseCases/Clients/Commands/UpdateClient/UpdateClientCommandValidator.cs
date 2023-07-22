@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 namespace MarketManager.Application.UseCases.Clients.Commands.UpdateClient;
-public class UpdateClientCommandValidator:AbstractValidator<UpdateClientCommand>
+public class UpdateClientCommandValidator : AbstractValidator<UpdateClientCommand>
 {
     public UpdateClientCommandValidator()
     {

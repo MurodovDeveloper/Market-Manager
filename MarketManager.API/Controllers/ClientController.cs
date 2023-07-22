@@ -1,4 +1,5 @@
 ﻿using MarketManager.Application.UseCases.Clients.Commands.CreateClient;
+using MarketManager.Application.UseCases.Clients.Commands.DeleteClient;
 using MarketManager.Application.UseCases.Clients.Commands.UpdateClient;
 using MarketManager.Application.UseCases.Clients.Queries.GetAllClients;
 using MarketManager.Application.UseCases.Clients.Queries.GetClientById;
@@ -22,21 +23,21 @@ namespace MarketManager.API.Controllers
             return await _mediator.Send(new GetClientByIdQuery(Id));
         }
 
-        [HttpPost]
+        [HttpPost("[action]")]
         public async ValueTask<Guid> CreateClient(CreateClientCommand command)
         {
             return await _mediator.Send(command);
         }
 
-        [HttpPut]
+        [HttpPut("[action]")]
         public async ValueTask<IActionResult> UpdateClient(UpdateClientCommand command)
         {
             await _mediator.Send(command);
             return NoContent();
         }
 
-        [HttpDelete]
-        public async ValueTask<IActionResult> DeleteClient(UpdateClientCommand command)
+        [HttpDelete("[action]")]
+        public async ValueTask<IActionResult> DeleteClient(DeleteClientCommand command)
         {
             await _mediator.Send(command);
             return NoContent();
