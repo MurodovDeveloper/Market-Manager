@@ -1,13 +1,17 @@
 ﻿using AutoMapper;
 using MarketManager.Application.Common.Abstraction;
 using MarketManager.Application.Common.Interfaces;
+using MarketManager.Application.Common.Models;
 using MarketManager.Domain.Entities;
 using MediatR;
 
 namespace MarketManager.Application.UseCases.ExpiredProducts.Queries.GetAllExpiredProducts
 {
-    public class GetAllExpiredProductsQuery : IRequest<IEnumerable<GetAllExpiredProductsResponce>>
+    public class GetAllExpiredProductsQuery : IRequest<PaginatedList<GetAllExpiredProductsResponce>>
     {
+        public string? SearchingText { get; set; }
+        public int PageNumber { get; set; } = 1;
+        public int PageSize { get; set; } = 10;
     }
 
     public class GetAllExpiredProductsResponce : ExpiredProductBaseResponce
@@ -16,7 +20,7 @@ namespace MarketManager.Application.UseCases.ExpiredProducts.Queries.GetAllExpir
     }
 
     public class GetAllExpiredProductsQueryHandler
-        : IRequestHandler<GetAllExpiredProductsQuery, IEnumerable<GetAllExpiredProductsResponce>>
+                        : IRequestHandler<GetAllExpiredProductsQuery, PaginatedList<GetAllExpiredProductsResponce>>
     {
         private readonly IApplicationDbContext _context;
         private readonly IMapper _mapper;
@@ -27,12 +31,23 @@ namespace MarketManager.Application.UseCases.ExpiredProducts.Queries.GetAllExpir
             _context = context;
         }
 
-        public Task<IEnumerable<GetAllExpiredProductsResponce>> Handle
-            (GetAllExpiredProductsQuery request, CancellationToken cancellationToken)
+        public async Task<PaginatedList<GetAllExpiredProductsResponce>> Handle
+                            (GetAllExpiredProductsQuery request, CancellationToken cancellationToken)
         {
-            IEnumerable<ExpiredProduct> expiredProducts = _context.ExpiredProducts;
+            var pageSize = request.PageSize;
+            var pageNumber = request.PageNumber;
+            var searchingText = request.SearchingText;
 
-            return Task.FromResult(_mapper.Map<IEnumerable<GetAllExpiredProductsResponce>>(expiredProducts));
+            var expiredProducts = _context.ExpiredProducts.AsQueryable();
+          
+            var paginatedExpiredProduct = await PaginatedList<ExpiredProduct>.CreateAsync(expiredProducts, pageNumber, pageSize);
+            var expiredProductResponce = _mapper.Map<List<GetAllExpiredProductsResponce>>(paginatedExpiredProduct.Items);
+
+            var result = new PaginatedList<GetAllExpiredProductsResponce>
+                (expiredProductResponce, paginatedExpiredProduct.TotalCount, 
+                paginatedExpiredProduct.PageNumber, paginatedExpiredProduct.TotalPages);
+
+            return result;
         }
     }
 }

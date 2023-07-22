@@ -1,4 +1,5 @@
-﻿using MarketManager.Application.UseCases.ExpiredProducts.Command.CreateExpiredProduct;
+﻿using MarketManager.Application.Common.Models;
+using MarketManager.Application.UseCases.ExpiredProducts.Command.CreateExpiredProduct;
 using MarketManager.Application.UseCases.ExpiredProducts.Command.DeleteExpiredProduct;
 using MarketManager.Application.UseCases.ExpiredProducts.Command.UpdateExpiredProduct;
 using MarketManager.Application.UseCases.ExpiredProducts.Queries;
@@ -12,9 +13,9 @@ namespace MarketManager.API.Controllers
     public class ExpiredProductController : BaseApiController
     {
         [HttpGet("[action]")]
-        public async ValueTask<IEnumerable<GetAllExpiredProductsResponce>> GelAllExpiredProduct()
+        public async ValueTask<PaginatedList<GetAllExpiredProductsResponce>> GelAllExpiredProduct([FromQuery] GetAllExpiredProductsQuery query)
         {
-            return await _mediator.Send(new GetAllExpiredProductsQuery());
+            return await _mediator.Send(query);
         }
 
         [HttpGet("[action]")]
