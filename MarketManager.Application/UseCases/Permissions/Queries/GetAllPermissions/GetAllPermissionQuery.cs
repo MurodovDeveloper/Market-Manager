@@ -2,6 +2,7 @@
 using MarketManager.Application.Common.Interfaces;
 using MarketManager.Application.Common.Models;
 using MarketManager.Application.UseCases.Permissions.ResponseModels;
+using MarketManager.Domain.Entities;
 using MediatR;
 
 namespace MarketManager.Application.UseCases.Permissions.Queries.GetAllPermissions;
