@@ -1,6 +1,4 @@
-﻿using MarketManager.Domain.Entities.Identity;
-
-namespace MarketManager.Domain.Entities;
+﻿namespace MarketManager.Domain.Entities;
 
 public class BaseAuditableEntity : BaseEntity
 {

@@ -1,7 +1,4 @@
-﻿using MarketManager.Application.UseCases.Clients.Commands.CreateClient;
-using MarketManager.Application.UseCases.Clients.Commands.UpdateClient;
-using MarketManager.Application.UseCases.Clients.Queries.GetClientById;
-using MarketManager.Application.UseCases.PaymentTypes.Commands.CreatePaymentType;
+﻿using MarketManager.Application.UseCases.PaymentTypes.Commands.CreatePaymentType;
 using MarketManager.Application.UseCases.PaymentTypes.Commands.DeletePaymentType;
 using MarketManager.Application.UseCases.PaymentTypes.Commands.UpdatePaymentType;
 using MarketManager.Application.UseCases.PaymentTypes.Queries.GetAllPaymentType;
@@ -22,7 +19,7 @@ namespace MarketManager.API.Controllers
         [HttpGet("[action]")]
         public async ValueTask<GetByIdPaymentTypeQueryResponse> GetPaymentTypeById(Guid id)
         {
-            return await _mediator.Send(new GetByIdPaymentTypeQuery() { Id=id});
+            return await _mediator.Send(new GetByIdPaymentTypeQuery() { Id = id });
         }
 
         [HttpPost("[action]")]

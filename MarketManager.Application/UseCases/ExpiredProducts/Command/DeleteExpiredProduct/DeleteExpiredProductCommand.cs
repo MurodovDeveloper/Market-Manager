@@ -24,7 +24,7 @@ namespace MarketManager.Application.UseCases.ExpiredProducts.Command.DeleteExpir
             if (expiredProduct == null)
                 throw new NotFoundException(nameof(ExpiredProduct), request.Id);
 
-             _context.ExpiredProducts.Remove(expiredProduct);
+            _context.ExpiredProducts.Remove(expiredProduct);
             await _context.SaveChangesAsync(cancellationToken);
         }
     }

@@ -24,16 +24,16 @@ public class CreateRoleCommandHandler : IRequestHandler<CreateRoleCommand, Guid>
     public async Task<Guid> Handle(CreateRoleCommand request, CancellationToken cancellationToken)
     {
         var permissions = await _context.Permissions.ToListAsync(cancellationToken);
-        
+
         var Newpermissons = new List<Permission>();
-        if(request.PermissionsIds.Count> 0) 
+        if (request.PermissionsIds.Count > 0)
         {
             permissions.ForEach(p =>
             {
-                if(request.PermissionsIds.Any(id=> p.Id == id))
+                if (request.PermissionsIds.Any(id => p.Id == id))
                     Newpermissons.Add(p);
             });
-        
+
         }
         var roleEntity = new Role
         {

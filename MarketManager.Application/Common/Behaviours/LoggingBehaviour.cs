@@ -15,9 +15,9 @@ namespace MarketManager.Application.Common.Behaviours
         public async Task Process(TRequest request, CancellationToken cancellationToken)
         {
             var requestName = typeof(TRequest).Name;
-   
+
             _logger.LogInformation("Market Manager Request: {requestName} {request}",
-                requestName,request);
+                requestName, request);
         }
     }
 }

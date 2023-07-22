@@ -1,7 +1,4 @@
 ﻿using FluentValidation;
-using MarketManager.Application.Common.Interfaces;
-using MarketManager.Application.UseCases.Permissions.Commands.UpdatePermission;
-using Microsoft.AspNetCore.Builder;
 
 namespace MarketManager.Application.UseCases.Permissions.Commands.CreatePermission
 {
@@ -13,8 +10,8 @@ namespace MarketManager.Application.UseCases.Permissions.Commands.CreatePermissi
                 .Must(BeUniqueNames).WithMessage("Permission names must be unique.")
                 .ForEach(name =>
                 {
-                   name.NotEmpty().WithMessage("Permission name must not be empty!")
-                       .MaximumLength(255).WithMessage("Permission name cannot exceed 255 characters.");
+                    name.NotEmpty().WithMessage("Permission name must not be empty!")
+                        .MaximumLength(255).WithMessage("Permission name cannot exceed 255 characters.");
                 });
         }
         private bool BeUniqueNames(string[] names)
@@ -26,5 +23,5 @@ namespace MarketManager.Application.UseCases.Permissions.Commands.CreatePermissi
             return names.Distinct().Count() == names.Length;
         }
     }
-   
+
 }

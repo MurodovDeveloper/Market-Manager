@@ -1,11 +1,11 @@
-﻿using MarketManager.Application.Common.JWT.Interfaces;
+﻿using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
+using MarketManager.Application.Common.JWT.Interfaces;
 using MarketManager.Application.Common.JWT.Models;
 using MarketManager.Domain.Entities.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
 
 namespace MarketManager.Application.Common.JWT.Service;
 public class JwtToken : IJwtToken
@@ -25,7 +25,7 @@ public class JwtToken : IJwtToken
             new Claim(ClaimTypes.NameIdentifier,UserId)
 
         };
-        if (Roles.Count > 0 )
+        if (Roles.Count > 0)
         {
 
             foreach (var role in Roles)

@@ -2,7 +2,6 @@
 using MarketManager.Application.UseCases.Orders.Commands.CreateOrder;
 using MarketManager.Application.UseCases.Orders.Commands.DeleteOrder;
 using MarketManager.Application.UseCases.Orders.Commands.UpdateOrder;
-using MarketManager.Application.UseCases.Orders.Queries.GetOrder;
 using MarketManager.Domain.Entities;
 using static MarketManager.Application.UseCases.Orders.Queries.GetAllOrders.GetallOrderCommmandHandler;
 
@@ -25,7 +24,6 @@ public class OrderMapping : Profile
 
     private void OrderMappings()
     {
-        CreateMap< Order, GetOrderByIdResponse>();
-        CreateMap< Order, GetAllOrderQueryResponse>();
+        CreateMap<Order, OrderResponse>();
     }
 }

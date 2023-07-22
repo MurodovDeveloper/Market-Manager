@@ -1,11 +1,6 @@
 ﻿using MarketManager.Application.UseCases.Users.Commands.LoginUser;
 using MarketManager.Application.UseCases.Users.Response;
 using MarketManager.Domain.Entities.Identity;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MarketManager.Application.Common.JWT.Interfaces;
 public interface IUserRefreshToken

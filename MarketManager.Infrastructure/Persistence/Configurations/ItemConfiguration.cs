@@ -10,7 +10,8 @@ namespace MarketManager.Infrastructure.Persistence.Configurations
         {
             builder.Property(x => x.PackageId)
                 .IsRequired();
-           
+
         }
     }
 }
+

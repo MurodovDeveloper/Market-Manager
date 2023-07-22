@@ -32,7 +32,7 @@ namespace MarketManager.API.Controllers
         [HttpPut("[action]")]
         public async ValueTask<IActionResult> UpdateExpiredProduct(UpdateExpiredProductCommand command)
         {
-             await _mediator.Send(command);
+            await _mediator.Send(command);
             return NoContent();
         }
 

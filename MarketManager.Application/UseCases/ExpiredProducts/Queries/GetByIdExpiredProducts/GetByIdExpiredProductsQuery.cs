@@ -7,7 +7,7 @@ using MediatR;
 namespace MarketManager.Application.UseCases.ExpiredProducts.Queries
 {
     public record GetByIdExpiredProductsQuery(Guid Id) : IRequest<GetByIdExpiredProductsResponce>;
-    
+
 
     public class GetByIdExpiredProductsResponce : ExpiredProductBaseResponce
     {
@@ -28,10 +28,10 @@ namespace MarketManager.Application.UseCases.ExpiredProducts.Queries
         public async Task<GetByIdExpiredProductsResponce> Handle(GetByIdExpiredProductsQuery request, CancellationToken cancellationToken)
         {
             ExpiredProduct? getByIdExpiredProducts = await _context.ExpiredProducts.FindAsync(request.Id);
-            if(getByIdExpiredProducts == null) 
+            if (getByIdExpiredProducts == null)
                 throw new NotFoundException(nameof(ExpiredProduct), request.Id);
 
-            return _mapper.Map<GetByIdExpiredProductsResponce>(getByIdExpiredProducts); 
+            return _mapper.Map<GetByIdExpiredProductsResponce>(getByIdExpiredProducts);
         }
     }
 }

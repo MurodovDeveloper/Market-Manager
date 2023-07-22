@@ -1,13 +1,13 @@
 ﻿using FluentValidation;
 
 namespace MarketManager.Application.UseCases.Users.Commands.UpdateUser;
-public class UpdateUserCommandValidator:AbstractValidator<UpdateUserCommand>
+public class UpdateUserCommandValidator : AbstractValidator<UpdateUserCommand>
 {
 
     public UpdateUserCommandValidator()
     {
 
-        RuleFor(user=> user.Id).NotEmpty();
+        RuleFor(user => user.Id).NotEmpty();
         RuleFor(user => user.FullName)
          .NotEmpty().WithMessage("Full Name is required.")
          .MinimumLength(3)
@@ -29,6 +29,6 @@ public class UpdateUserCommandValidator:AbstractValidator<UpdateUserCommand>
                     .Matches(@"[A-Z]+").WithMessage("Your password must contain at least one uppercase letter.")
                     .Matches(@"[a-z]+").WithMessage("Your password must contain at least one lowercase letter.")
                     .Matches(@"[0-9]+").WithMessage("Your password must contain at least one number.");
-                   
+
     }
 }
