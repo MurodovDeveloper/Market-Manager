@@ -21,7 +21,9 @@ public class UserController : BaseApiController
 
     [HttpGet("[action]")]
     public async ValueTask<List<UserResponse>> GetAllUser()
-     => await _mediator.Send(new GetAllUserQuery());
+           => await _mediator.Send(new GetAllUserQuery());
+
+    
 
 
     [HttpPost("[action]")]

@@ -5,6 +5,7 @@ using MarketManager.Application.UseCases.Permissions.Commands.UpdatePermission;
 using MarketManager.Application.UseCases.Permissions.Queries.GetAllPermissions;
 using MarketManager.Application.UseCases.Permissions.Queries.GetPermission;
 using MarketManager.Application.UseCases.Permissions.ResponseModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MarketManager.API.Controllers;
@@ -12,6 +13,7 @@ namespace MarketManager.API.Controllers;
 [ApiController]
 public class PermissionController : BaseApiController
 {
+    
     [HttpGet("[action]")]
     public async ValueTask<PermissionResponse> GetPermissionById(Guid Id)
         => await _mediator.Send(new GetByIdPermissionQuery(Id));
