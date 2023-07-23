@@ -2,7 +2,9 @@
 using MarketManager.Application.Common.Interfaces;
 using MarketManager.Application.Common.Models;
 using MarketManager.Application.UseCases.Permissions.ResponseModels;
+using MarketManager.Application.UseCases.Roles.Response;
 using MarketManager.Domain.Entities;
+using MarketManager.Domain.Entities.Identity;
 using MediatR;
 
 namespace MarketManager.Application.UseCases.Permissions.Queries.GetAllPermissions;
@@ -34,6 +36,10 @@ public class GetAllPermissionQueryHandler : IRequestHandler<GetAllPermissionQuer
         if (!string.IsNullOrEmpty(searchingText))
         {
             permissions = permissions.Where(p => p.Name.ToLower().Contains(searchingText.ToLower()));
+        }
+        if (permissions is null || permissions.Count() <= 0)
+        {
+            throw new NotFoundException(nameof(Role), searchingText);
         }
 
         var paginatedPermissions = await PaginatedList<Permission>.CreateAsync(permissions, pageNumber, pageSize);
