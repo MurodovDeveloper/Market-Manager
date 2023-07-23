@@ -3,6 +3,7 @@ using iTextSharp.text;
 using iTextSharp.text.pdf;
 using MarketManager.Application.Common.Interfaces;
 using MediatR;
+using System.Text;
 
 namespace MarketManager.Application.UseCases.Orders.Import.Export;
 
@@ -42,6 +43,7 @@ public class GetOrderPDFHandler : IRequestHandler<GetOrderPDF, PDFExportResponse
             table.AddCell("Card Price Sum");
             table.AddCell("CashPurchaseSum");
             table.AddCell("Client ID");
+            table.CompleteRow();
 
             foreach (var order in _context.Orders)
             {
@@ -50,9 +52,11 @@ public class GetOrderPDFHandler : IRequestHandler<GetOrderPDF, PDFExportResponse
                 table.AddCell(order.CardPriceSum.ToString());
                 table.AddCell(order.CashPurchaseSum.ToString());
                 table.AddCell(order.ClientId.ToString());
+                table.CompleteRow();
             }
 
             document.Add(table);
+            document.Close();
 
             return new PDFExportResponse(ms.ToArray(), "application/pdf", request.FileName);
         }
