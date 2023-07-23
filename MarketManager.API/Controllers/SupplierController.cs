@@ -1,8 +1,11 @@
-﻿using MarketManager.Application.UseCases.Suppliers.Commands.CreateSupplier;
+﻿using MarketManager.Application.Common.Models;
+using MarketManager.Application.UseCases.Clients.Queries.GetAllClients;
+using MarketManager.Application.UseCases.Suppliers.Commands.CreateSupplier;
 using MarketManager.Application.UseCases.Suppliers.Commands.DeleteSupplier;
 using MarketManager.Application.UseCases.Suppliers.Commands.UpdateSupplier;
 using MarketManager.Application.UseCases.Suppliers.Queries.GetAllSuppliers;
 using MarketManager.Application.UseCases.Suppliers.Queries.GetSupplierById;
+using MarketManager.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 using System.Text;
 
@@ -12,10 +15,12 @@ namespace MarketManager.API.Controllers
     [ApiController]
     public class SupplierController : BaseApiController
     {
+
         [HttpGet("[action]")]
-        public async ValueTask<List<GetAllSuppliersQueryResponse>> GetAllSuppliers()
+        public async ValueTask<ActionResult<PaginatedList<GetAllSuppliersQueryResponse>>> GetAllSuppliers(int pageNumber = 1, int pageSize = 10)
         {
-            return await _mediator.Send(new GetAllSuppliersQuery());
+            var query = new GetAllSuppliersQuery { PageNumber = pageNumber, PageSize = pageSize };
+            return await _mediator.Send(query);
         }
             
         [HttpGet("[action]")]

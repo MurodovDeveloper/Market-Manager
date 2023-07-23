@@ -1,12 +1,20 @@
 ﻿using AutoMapper;
 using MarketManager.Application.Common.Interfaces;
+using MarketManager.Application.Common.Models;
+using MarketManager.Application.UseCases.Clients.Queries.GetAllClients;
+using MarketManager.Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 namespace MarketManager.Application.UseCases.Suppliers.Queries.GetAllSuppliers;
 
-public record GetAllSuppliersQuery : IRequest<List<GetAllSuppliersQueryResponse>>;
-public class GetAllSuppliersQueryHandler : IRequestHandler<GetAllSuppliersQuery, List<GetAllSuppliersQueryResponse>>
+public record GetAllSuppliersQuery : IRequest<PaginatedList<GetAllSuppliersQueryResponse>>
+{
+    public int ListId { get; init; }
+    public int PageNumber { get; init; } = 1;
+    public int PageSize { get; init; } = 10;
+}
+public class GetAllSuppliersQueryHandler : IRequestHandler<GetAllSuppliersQuery, PaginatedList<GetAllSuppliersQueryResponse>>
 {
     private readonly IMapper _mapper;
     private readonly IApplicationDbContext _context;
@@ -17,11 +25,12 @@ public class GetAllSuppliersQueryHandler : IRequestHandler<GetAllSuppliersQuery,
         _context = context;
     }
 
-    public async Task<List<GetAllSuppliersQueryResponse>> Handle(GetAllSuppliersQuery request, CancellationToken cancellationToken)
+    public async Task<PaginatedList<GetAllSuppliersQueryResponse>> Handle(GetAllSuppliersQuery request, CancellationToken cancellationToken)
     {
-        var suppliers = await _context.Suppliers.ToListAsync(cancellationToken);
-        var res = _mapper.Map<List<GetAllSuppliersQueryResponse>>(suppliers);
-        return res;
+        var query = _context.Suppliers
+            .Select(s => _mapper.Map<Supplier, GetAllSuppliersQueryResponse>(s)) ;
+        return await PaginatedList<GetAllSuppliersQueryResponse>.CreateAsync(query, request.PageNumber, request.PageSize);
+        
     }
 }
 public class GetAllSuppliersQueryResponse
