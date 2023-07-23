@@ -15,7 +15,6 @@ namespace MarketManager.Application.Common.Mappings
             CreateMap<CreatePackageCommand, Package>().ReverseMap(); 
             CreateMap<DeletePackageCommand, Package>().ReverseMap(); 
             CreateMap<UpdatePackageCommand, Package>().ReverseMap(); 
-
             CreateMap<Package, GetAllPackagesQueryResponse>().ReverseMap();
             CreateMap<Package, GetPackageByIdQuery>().ReverseMap();
         }
