@@ -1,11 +1,17 @@
 ﻿using AutoMapper;
 using MarketManager.Application.Common.Interfaces;
+using MarketManager.Application.Common.Models;
 using MarketManager.Domain.Entities;
 using MediatR;
 namespace MarketManager.Application.UseCases.Clients.Queries.GetAllClients;
 
-public record GetAllClientsQuery : IRequest<IEnumerable<GetAllClientsQueryResponse>>;
-public class GetAllClientsQueryHandler : IRequestHandler<GetAllClientsQuery, IEnumerable<GetAllClientsQueryResponse>>
+public record GetAllClientsQuery : IRequest<PaginatedList<GetAllClientsQueryResponse>>
+{
+    public int ListId { get; init; }
+    public int PageNumber { get; init; } = 1;
+    public int PageSize { get; init; } = 10;
+}
+public class GetAllClientsQueryHandler : IRequestHandler<GetAllClientsQuery, PaginatedList<GetAllClientsQueryResponse>>
 {
     private readonly IMapper _mapper;
     private readonly IApplicationDbContext _context;
@@ -15,10 +21,11 @@ public class GetAllClientsQueryHandler : IRequestHandler<GetAllClientsQuery, IEn
         _context = context;
         _mapper = mapper;
     }
-    public Task<IEnumerable<GetAllClientsQueryResponse>> Handle(GetAllClientsQuery request, CancellationToken cancellationToken)
+    public async Task<PaginatedList<GetAllClientsQueryResponse>> Handle(GetAllClientsQuery request, CancellationToken cancellationToken)
     {
-        IEnumerable<Client> clients = _context.Clients;
-        return Task.FromResult(_mapper.Map<IEnumerable<GetAllClientsQueryResponse>>(clients));
+        var query = _context.Clients
+            .Select(p => _mapper.Map<Client, GetAllClientsQueryResponse>(p));
+        return await PaginatedList<GetAllClientsQueryResponse>.CreateAsync(query, request.PageNumber, request.PageSize);
     }
 }
 public class GetAllClientsQueryResponse
