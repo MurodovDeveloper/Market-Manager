@@ -1,4 +1,5 @@
 ﻿using MarketManager.Application.UseCases.Orders.Import.Export;
+using MarketManager.Application.UseCases.Products;
 using MarketManager.Application.UseCases.Users.Report;
 using MarketManager.Application.UseCases.Users.Response;
 using Microsoft.AspNetCore.Mvc;
@@ -29,6 +30,16 @@ public class ReportsController : BaseApiController
     {
         await _mediator.Send(new GetUsersExcelByTelegram(userId, fileName));
         return Ok();
+    }
+
+
+
+    [HttpGet("[action]")] 
+    public async Task<FileResult> TestExcel(string filename)
+    {
+        var result = await _mediator.Send(new TestGetExcel() { FileName = filename });
+        return File(result.FileContents,result.Option, result.FileName);
+        
     }
 
 
