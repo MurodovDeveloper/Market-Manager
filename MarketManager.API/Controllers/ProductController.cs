@@ -14,9 +14,8 @@ public class ProductController : BaseApiController
 {
 
     [HttpGet("[action]")]
-    public async Task<ActionResult<PaginatedList<GetAllProductsQueryResponse>>> GetAllProductsPagination(int pageNumber = 1, int pageSize = 10)
+    public async Task<ActionResult<PaginatedList<GetAllProductsQueryResponse>>> GetAllProductsPagination([FromBody] GetAllProductsPaginationQuery query)
     {
-        var query = new GetAllProductsPaginationQuery { PageNumber = pageNumber, PageSize = pageSize };
         return await _mediator.Send(query);
 
         // return Ok(paginatedList);
