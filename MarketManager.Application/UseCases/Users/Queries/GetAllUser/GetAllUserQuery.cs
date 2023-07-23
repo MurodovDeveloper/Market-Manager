@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using MarketManager.Application.Common.Interfaces;
 using MarketManager.Application.UseCases.Users.Response;
+using MarketManager.Domain.Entities.Identity;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 

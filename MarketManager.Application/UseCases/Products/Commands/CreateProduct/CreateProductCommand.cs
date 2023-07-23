@@ -19,6 +19,7 @@ namespace MarketManager.Application.UseCases.Products.Commands.CreateProduct
         public CreateProductCommandHandler(IMapper mapper, IApplicationDbContext context)
         {
             _mapper = mapper;
+            
             _context = context;
         }
 
@@ -27,7 +28,8 @@ namespace MarketManager.Application.UseCases.Products.Commands.CreateProduct
             Product Product = _mapper.Map<Product>(request);
             await _context.Products.AddAsync(Product, cancellationToken);
             await _context.SaveChangesAsync();
+
             return Product.Id;
         }
-    }
+    } 
 }
