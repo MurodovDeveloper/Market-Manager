@@ -33,7 +33,7 @@ public class GetAllSuppliersQueryHandler : IRequestHandler<GetAllSuppliersQuery,
         var suppliers = _context.Suppliers.AsQueryable();
         if (!string.IsNullOrEmpty(search))
         {
-            suppliers = suppliers.Where(s=>s.Name.ToLower().Contains(search.ToLower()));
+            suppliers = suppliers.Where(s=>s.Name.ToLower().Contains(search.ToLower()) || s.Phone.Contains(search));
         }
         if (suppliers is null || suppliers.Count() <= 0)
         {
