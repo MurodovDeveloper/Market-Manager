@@ -2,6 +2,7 @@
 using MarketManager.Application.UseCases.Items.Commands.CreateItem;
 using MarketManager.Application.UseCases.Items.Commands.DeleteItem;
 using MarketManager.Application.UseCases.Items.Commands.UpdateItem;
+using MarketManager.Application.UseCases.Items.Queries.GetItemById;
 using MarketManager.Domain.Entities;
 
 namespace MarketManager.Application.Common.Mappings
@@ -18,6 +19,7 @@ namespace MarketManager.Application.Common.Mappings
             CreateMap<CreateItemCommand, Item>();
             CreateMap<UpdateItemCommand, Item>();
             CreateMap<DeleteItemCommand, Item>();
+            CreateMap<GetItemByIdQueryResponse, Item>().ReverseMap();
         }
     }
 }
