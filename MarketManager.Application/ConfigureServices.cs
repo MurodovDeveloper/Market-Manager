@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
 using FluentValidation;
+using MarketManager.Application.Common;
 using MarketManager.Application.Common.Behaviours;
 using MarketManager.Application.Common.JWT.Interfaces;
 using MarketManager.Application.Common.JWT.Service;
@@ -22,6 +23,7 @@ public static class ConfigureServices
         });
         services.AddScoped<IUserRefreshToken, RefreshToken>();
         services.AddScoped<IJwtToken, JwtToken>();
+        services.AddScoped<GenericExcelReport>();
 
         return services;
     }

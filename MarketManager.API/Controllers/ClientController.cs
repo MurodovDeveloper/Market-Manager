@@ -1,4 +1,5 @@
-﻿using MarketManager.Application.UseCases.Clients.Commands.CreateClient;
+﻿using MarketManager.Application.Common.Models;
+using MarketManager.Application.UseCases.Clients.Commands.CreateClient;
 using MarketManager.Application.UseCases.Clients.Commands.DeleteClient;
 using MarketManager.Application.UseCases.Clients.Commands.UpdateClient;
 using MarketManager.Application.UseCases.Clients.Queries.GetAllClients;
@@ -12,9 +13,10 @@ namespace MarketManager.API.Controllers
     public class ClientController : BaseApiController
     {
         [HttpGet("[action]")]
-        public async ValueTask<IEnumerable<GetAllClientsQueryResponse>> GetAllClients()
+        public async ValueTask<ActionResult<PaginatedList<GetAllClientsQueryResponse>>> GetAllClients(int pageNumber = 1, int pageSize = 10)
         {
-            return await _mediator.Send(new GetAllClientsQuery());
+            var query = new GetAllClientsQuery { PageNumber = pageNumber, PageSize = pageSize };
+            return await _mediator.Send(query);
         }
 
         [HttpGet("[action]")]
