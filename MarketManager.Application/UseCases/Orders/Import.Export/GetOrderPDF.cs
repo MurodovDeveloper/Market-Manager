@@ -3,7 +3,6 @@ using iTextSharp.text;
 using iTextSharp.text.pdf;
 using MarketManager.Application.Common.Interfaces;
 using MediatR;
-using System.Text;
 
 namespace MarketManager.Application.UseCases.Orders.Import.Export;
 
@@ -45,7 +44,6 @@ public class GetOrderPDFHandler : IRequestHandler<GetOrderPDF, PDFExportResponse
             table.SpacingBefore = 10;
             table.SpacingAfter = 10;
 
-            // Add table headers
             PdfPCell headerCell = new PdfPCell(new Phrase("Orders", new Font(Font.FontFamily.HELVETICA, 12, Font.BOLD)));
             headerCell.Colspan = 5;
             headerCell.HorizontalAlignment = Element.ALIGN_CENTER;
@@ -54,7 +52,6 @@ public class GetOrderPDFHandler : IRequestHandler<GetOrderPDF, PDFExportResponse
             table.CompleteRow();
 
 
-            // Add table headers
             table.AddCell("ID");
             table.AddCell("Total Price");
             table.AddCell("Card Price Sum");
@@ -83,14 +80,12 @@ public class HeaderFooterHelper : PdfPageEventHelper
 {
     public override void OnEndPage(PdfWriter writer, Document document)
     {
-        // Add footer with current date
         PdfPTable footerTable = new PdfPTable(1);
         footerTable.TotalWidth = document.PageSize.Width - document.LeftMargin - document.RightMargin;
         footerTable.DefaultCell.Border = Rectangle.NO_BORDER;
         footerTable.DefaultCell.HorizontalAlignment = Element.ALIGN_RIGHT;
         footerTable.AddCell(new Phrase($"Date: {DateTime.Now.ToString("yyyy-MM-dd")}", new Font(Font.FontFamily.HELVETICA, 8)));
 
-        // Set the position of the footer
         footerTable.WriteSelectedRows(0, -1, document.LeftMargin, document.BottomMargin, writer.DirectContent);
     }
 }
