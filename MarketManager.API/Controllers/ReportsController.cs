@@ -23,7 +23,7 @@ public class ReportsController : BaseApiController
     }
 
 
-    [HttpPost]
+    [HttpPost("[action]")]
     public async Task<List<UserResponse>> ImportExcelUsers(IFormFile excelfile)
     {
         var result = await _mediator.Send(new AddUsersFromExcel(excelfile));

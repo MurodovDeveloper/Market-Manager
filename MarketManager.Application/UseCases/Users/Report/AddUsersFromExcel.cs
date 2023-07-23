@@ -1,19 +1,13 @@
 ﻿using ClosedXML.Excel;
-using DocumentFormat.OpenXml.Office2013.Word;
-using DocumentFormat.OpenXml.Spreadsheet;
 using MarketManager.Application.UseCases.Users.Response;
 using MediatR;
 using Microsoft.AspNetCore.Http;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MarketManager.Application.UseCases.Users.Report;
 public record AddUsersFromExcel(IFormFile ExcelFile) :IRequest<List<UserResponse>>;
 public class AddUsersFromExcelHandler : IRequestHandler<AddUsersFromExcel, List<UserResponse>>
 {
+    
     public async Task<List<UserResponse>> Handle(AddUsersFromExcel request, CancellationToken cancellationToken)
     {
         
@@ -24,6 +18,7 @@ public class AddUsersFromExcelHandler : IRequestHandler<AddUsersFromExcel, List<
         List<UserResponse> result = new List<UserResponse>();
         using (var ms = new MemoryStream())
         {
+           
            await file.CopyToAsync(ms, cancellationToken);
             using (var wb = new XLWorkbook(ms))
             {
