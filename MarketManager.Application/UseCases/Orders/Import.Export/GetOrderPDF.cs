@@ -28,14 +28,31 @@ public class GetOrderPDFHandler : IRequestHandler<GetOrderPDF, PDFExportResponse
         using (MemoryStream ms = new MemoryStream())
         {
             Document document = new Document();
+            document.SetMargins(20, 20, 40, 40);
+            document.SetPageSize(PageSize.A4);
 
             PdfWriter writer = PdfWriter.GetInstance(document, ms);
+
+            HeaderFooterHelper headerFooter = new HeaderFooterHelper();
+            writer.PageEvent = headerFooter;
 
             document.Open();
 
             PdfPTable table = new PdfPTable(5);
 
-            table.SetWidths(new float[] { 2f, 0.5f, 0.5f, 0.5f, 2f });
+            table.SetWidths(new float[] { 2f, 0.5f, 0.5f, 0.5f, 1.5f });
+
+            table.SpacingBefore = 10;
+            table.SpacingAfter = 10;
+
+            // Add table headers
+            PdfPCell headerCell = new PdfPCell(new Phrase("Orders", new Font(Font.FontFamily.HELVETICA, 12, Font.BOLD)));
+            headerCell.Colspan = 5;
+            headerCell.HorizontalAlignment = Element.ALIGN_CENTER;
+            headerCell.BackgroundColor = BaseColor.LIGHT_GRAY;
+            table.AddCell(headerCell);
+            table.CompleteRow();
+
 
             // Add table headers
             table.AddCell("ID");
@@ -61,7 +78,21 @@ public class GetOrderPDFHandler : IRequestHandler<GetOrderPDF, PDFExportResponse
             return new PDFExportResponse(ms.ToArray(), "application/pdf", request.FileName);
         }
     }
+}
+public class HeaderFooterHelper : PdfPageEventHelper
+{
+    public override void OnEndPage(PdfWriter writer, Document document)
+    {
+        // Add footer with current date
+        PdfPTable footerTable = new PdfPTable(1);
+        footerTable.TotalWidth = document.PageSize.Width - document.LeftMargin - document.RightMargin;
+        footerTable.DefaultCell.Border = Rectangle.NO_BORDER;
+        footerTable.DefaultCell.HorizontalAlignment = Element.ALIGN_RIGHT;
+        footerTable.AddCell(new Phrase($"Date: {DateTime.Now.ToString("yyyy-MM-dd")}", new Font(Font.FontFamily.HELVETICA, 8)));
 
+        // Set the position of the footer
+        footerTable.WriteSelectedRows(0, -1, document.LeftMargin, document.BottomMargin, writer.DirectContent);
+    }
 }
 
 public record PDFExportResponse(byte[] FileContents , string Options, string FileName);
