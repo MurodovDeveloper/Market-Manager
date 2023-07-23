@@ -30,5 +30,14 @@ public class ReportsController : BaseApiController
         return result;
     }
 
+    [HttpGet("[action]")]
+    public async Task<IActionResult> ExportExcelUserByTelegram(string userId, string fileName = "users")
+    {
+        await _mediator.Send(new GetUsersExcelByTelegram(userId, fileName));
+        return Ok();
+    }
+    
+    
+
 
 }
