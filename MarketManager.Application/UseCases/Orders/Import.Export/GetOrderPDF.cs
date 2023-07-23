@@ -1,37 +1,63 @@
-﻿using iTextSharp.text;
+﻿using AutoMapper;
+using iTextSharp.text;
 using iTextSharp.text.pdf;
-using OfficeOpenXml;
+using MarketManager.Application.Common.Interfaces;
+using MediatR;
 
 namespace MarketManager.Application.UseCases.Orders.Import.Export;
 
-internal class GetOrderPDF
+public record GetOrderPDF(string FileName) : IRequest<PDFExportResponse>;
+
+public class GetOrderPDFHandler : IRequestHandler<GetOrderPDF, PDFExportResponse>
 {
-    public static void ImportData()
+
+    private readonly IApplicationDbContext _context;
+    private readonly IMapper _mapper;
+
+    public GetOrderPDFHandler(IApplicationDbContext context, IMapper mapper)
     {
-        using (var stream = new FileStream(@"C:\Users\jturs\Desktop\IeltsResult.pdf", FileMode.Create))
+
+        _context = context;
+        _mapper = mapper;
+    }
+
+    public async Task<PDFExportResponse> Handle(GetOrderPDF request, CancellationToken cancellationToken)
+    {
+
+        using (MemoryStream ms = new MemoryStream())
         {
             Document document = new Document();
-            PdfWriter.GetInstance(document, stream);
+
+            PdfWriter writer = PdfWriter.GetInstance(document, ms);
 
             document.Open();
 
-            document.Add(new Paragraph("Hello, World!"));
+            PdfPTable table = new PdfPTable(5);
 
-            document.Close();
+            table.SetWidths(new float[] { 2f, 0.5f, 0.5f, 0.5f, 2f });
+
+            // Add table headers
+            table.AddCell("ID");
+            table.AddCell("Total Price");
+            table.AddCell("Card Price Sum");
+            table.AddCell("CashPurchaseSum");
+            table.AddCell("Client ID");
+
+            foreach (var order in _context.Orders)
+            {
+                table.AddCell(order.Id.ToString());
+                table.AddCell($"{order.TotalPrice}");
+                table.AddCell(order.CardPriceSum.ToString());
+                table.AddCell(order.CashPurchaseSum.ToString());
+                table.AddCell(order.ClientId.ToString());
+            }
+
+            document.Add(table);
+
+            return new PDFExportResponse(ms.ToArray(), "application/pdf", request.FileName);
         }
     }
 
-
-    public static void ExportData() {
-
-        using (var package = new ExcelPackage())
-        {
-            var worksheet = package.Workbook.Worksheets.Add("Sheet1");
-
-            worksheet.Cells["A1"].Value = "Hello";
-            worksheet.Cells["B2"].Value = "World";
-            
-            package.SaveAs(new FileInfo("path/to/new/excel/file.xlsx"));
-        }
-    }
 }
+
+public record PDFExportResponse(byte[] FileContents , string Options, string FileName);

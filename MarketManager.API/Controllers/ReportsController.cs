@@ -49,5 +49,13 @@ public class ReportsController : BaseApiController
     }
 
 
+    [HttpGet("[action]")]
+    public async Task<FileResult> ExportPdfOrders(string fileName = "orders")
+    {
+        var result = await _mediator.Send(new GetOrderPDF(fileName));
+        return File(result.FileContents, result.Options, result.FileName);
+    }
+
+
 
 }
