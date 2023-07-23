@@ -15,8 +15,6 @@ public class UpdateOrderCommand : IRequest
     public decimal CardPriceSum { get; set; }
     public decimal CashPurchaseSum { get; set; }
 
-    public ICollection<Guid> Items { get; set; }
-
 }
 public class UpdateOrderCommandHandler : IRequestHandler<UpdateOrderCommand>
 {
@@ -32,19 +30,9 @@ public class UpdateOrderCommandHandler : IRequestHandler<UpdateOrderCommand>
     public async Task Handle(UpdateOrderCommand request, CancellationToken cancellationToken)
     {
         Order order = await FilterIfOrderExists(request.Id);
-        IEnumerable<Item> items = FilterifItemIdsAreAvialible(request.Items);
         _mapper.Map(request, order);
-        order.Items = items.ToArray();
         _dbContext.Orders.Update(order);
         await _dbContext.SaveChangesAsync(cancellationToken);
-    }
-
-    private IEnumerable<Item> FilterifItemIdsAreAvialible(ICollection<Guid> orderIds)
-    {
-        foreach (var Id in orderIds)
-            yield return _dbContext.Items.Find(Id)
-                ?? throw new NotFoundException(
-                    $" there is no item with this {Id} id. ");
     }
 
     private async Task<Order> FilterIfOrderExists(Guid id)
