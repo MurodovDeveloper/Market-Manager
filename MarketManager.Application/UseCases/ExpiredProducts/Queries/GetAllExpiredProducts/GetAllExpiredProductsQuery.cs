@@ -38,15 +38,19 @@ namespace MarketManager.Application.UseCases.ExpiredProducts.Queries.GetAllExpir
             var pageNumber = request.PageNumber;
             var searchingText = request.SearchingText;
 
+           
+
+
             var expiredProducts = _context.ExpiredProducts.AsQueryable();
             if (!string.IsNullOrEmpty(searchingText))
             {
                 expiredProducts = expiredProducts.Where(p => p.Packages.Product.Name.ToLower().Contains(searchingText.ToLower()));
+               
             }
-            //if(expiredProducts == null)
-            //{
-            //    return new GetAllExpiredProductsResponce();
-            //}
+            if (expiredProducts == null || expiredProducts.Count() < 0)
+            {
+                throw new NotFoundException(nameof(ExpiredProduct), searchingText);
+            }
             var paginatedExpiredProduct = await PaginatedList<ExpiredProduct>.CreateAsync(expiredProducts, pageNumber, pageSize);
             var expiredProductResponce = _mapper.Map<List<GetAllExpiredProductsResponce>>(paginatedExpiredProduct.Items);
 
