@@ -12,12 +12,12 @@ namespace MarketManager.Application.Common.Mappings
     {
         public PackageMapping()
         {
-            CreateMap<CreatePackageCommand, Package>();
-            CreateMap<DeletePackageCommand, Package>();
-            CreateMap<UpdatePackageCommand, Package>();
+            CreateMap<CreatePackageCommand, Package>().ReverseMap(); 
+            CreateMap<DeletePackageCommand, Package>().ReverseMap(); 
+            CreateMap<UpdatePackageCommand, Package>().ReverseMap(); 
 
-            CreateMap<Package, GetAllPackagesQueryResponse>();
-            CreateMap<Package, GetPackageByIdQuery>();
+            CreateMap<Package, GetAllPackagesQueryResponse>().ReverseMap();
+            CreateMap<Package, GetPackageByIdQuery>().ReverseMap();
         }
     }
 }
