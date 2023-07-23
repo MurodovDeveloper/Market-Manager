@@ -20,11 +20,18 @@ namespace MarketManager.Application.UseCases.Orders.Import.Export
         private readonly IApplicationDbContext _context;
         private readonly IMapper _mapper;
 
+        public GetOrderExcelHandler(IApplicationDbContext context, IMapper mapper)
+        {
+
+            _context = context;
+            _mapper = mapper;
+        }
+
         public async Task<ExcelReportResponse> Handle(GetOrderExcel request, CancellationToken cancellationToken)
         {
-            using (XLWorkbook wb = new XLWorkbook())
+            using (XLWorkbook wb = new())
             {
-                var orderData = await GetOrderAsync();
+                var orderData = await GetOrderAsync(cancellationToken);
                 var sheet1 = wb.AddWorksheet(orderData, "Orders");
 
 
@@ -47,6 +54,7 @@ namespace MarketManager.Application.UseCases.Orders.Import.Export
                 sheet1.Column(2).Width = 20;
                 sheet1.Column(3).Width = 20;
                 sheet1.Column(4).Width = 20;
+                sheet1.Column(5).Width = 38;
 
 
 
@@ -61,24 +69,25 @@ namespace MarketManager.Application.UseCases.Orders.Import.Export
 
         private async Task<DataTable> GetOrderAsync(CancellationToken cancellationToken = default)
         {
-            var allOrder = await _context.Orders.ToListAsync(cancellationToken);
+            var AllOrders = await _context.Orders.ToListAsync(cancellationToken);
 
             DataTable dt = new()
             {
                 TableName = "Empdata"
             };
+            dt.Columns.Add("Id", typeof(Guid));
             dt.Columns.Add("TotalPrice", typeof(decimal));
             dt.Columns.Add("CardPriceSum", typeof(decimal));
             dt.Columns.Add("CashPurchaseSum", typeof(decimal));
             dt.Columns.Add("ClientId", typeof(Guid));
 
 
-            var _list = _mapper.Map<List<OrderResponse>>(allOrder);
+            var _list = _mapper.Map<List<OrderResponse>>(AllOrders);
             if (_list.Count > 0)
             {
                 _list.ForEach(item =>
                 {
-                    dt.Rows.Add(item.TotalPrice, item.CardPriceSum, item.CashPurchaseSum, item.ClientId);
+                    dt.Rows.Add(item.Id, item.TotalPrice, item.CardPriceSum, item.CashPurchaseSum, item.ClientId);
 
                 });
             }
