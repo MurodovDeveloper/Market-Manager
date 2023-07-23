@@ -42,6 +42,6 @@ public class GetallOrderCommmandHandler : IRequestHandler<GetAllOrderQuery, List
 
         public decimal CashPurchaseSum { get; set; }
 
-        public ICollection<GetItemByIdQueryResponse> Items { get; set; }
+        public virtual ICollection<GetItemByIdQueryResponse> Items { get; set; }
     }
 }
