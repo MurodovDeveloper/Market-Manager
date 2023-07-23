@@ -4,7 +4,7 @@ using OfficeOpenXml;
 
 namespace MarketManager.Application.UseCases.Orders.Import.Export;
 
-internal class PDFImportExport
+internal class GetOrderPDF
 {
     public static void ImportData()
     {
