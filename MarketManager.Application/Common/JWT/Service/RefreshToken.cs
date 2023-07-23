@@ -1,4 +1,5 @@
-﻿using MarketManager.Application.Common.Interfaces;
+﻿using AutoMapper;
+using MarketManager.Application.Common.Interfaces;
 using MarketManager.Application.Common.JWT.Interfaces;
 using MarketManager.Application.UseCases.Users.Commands.LoginUser;
 using MarketManager.Application.UseCases.Users.Response;
@@ -9,10 +10,12 @@ namespace MarketManager.Application.Common.JWT.Service;
 public class RefreshToken : IUserRefreshToken
 {
     private readonly IApplicationDbContext _context;
+    private readonly IMapper _mapper;
 
-    public RefreshToken(IApplicationDbContext context)
+    public RefreshToken(IApplicationDbContext context, IMapper mapper)
     {
         _context = context;
+        _mapper = mapper;
     }
 
     public async ValueTask<UserRefreshToken> AddOrUpdateRefreshToken(UserRefreshToken refreshToken, CancellationToken cancellationToken = default)
@@ -43,15 +46,17 @@ public class RefreshToken : IUserRefreshToken
             return null;
         }
 
-        var userResponse = new UserResponse
-        {
-            Id = founUser.Id,
-            FullName = founUser.FullName,
-            Phone = founUser.Phone,
-            Username = founUser.Username,
-            Roles = founUser.Roles,
+        var userResponse= _mapper.Map<UserResponse>(founUser);
 
-        };
+        //var userResponse = new UserResponse
+        //{
+        //    Id = founUser.Id,
+        //    FullName = founUser.FullName,
+        //    Phone = founUser.Phone,
+        //    Username = founUser.Username,
+        //    Roles = founUser.Roles,
+
+        //};
 
         return userResponse;
     }

@@ -8,7 +8,7 @@ public class UserResponse
     public string Phone { get; set; }
     public string Username { get; set; }
 
-    public virtual ICollection<Role>? Roles { get; set; }
+    public  List<Role>? Roles { get; set; }
 
 
 }

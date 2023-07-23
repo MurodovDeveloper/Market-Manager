@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.OpenApi.Models;
 using Serilog;
 using Serilog.Events;
+using System.Text.Json.Serialization;
 using Telegram.Bot;
 using TelegramSink;
 
@@ -20,7 +21,8 @@ public static class ConfigureServices
             new TelegramBotClient(configuration?.GetConnectionString("TelegramToken")));
         //services.AddTransient<IUpdateHandler, UpdateHandler>();
         services.AddScoped<ICurrentUserService, CurrentUserService>();
-        services.AddControllers();
+        services.AddControllers().AddJsonOptions(x =>
+                x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
         services.AddEndpointsApiExplorer();
         services.AddAuthorization();
         services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtSettings(configuration);
