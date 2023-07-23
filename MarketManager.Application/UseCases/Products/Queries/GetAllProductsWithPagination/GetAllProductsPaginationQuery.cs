@@ -9,9 +9,9 @@ namespace MarketManager.Application.UseCases.Products.Queries.GetAllProductsWith
 {
     public record GetAllProductsPaginationQuery : IRequest<PaginatedList<GetAllProductsQueryResponse>>
     {
-        public int ListId { get; init; }
-        public int PageNumber { get; init; } = 1;
-        public int PageSize { get; init; } = 10;
+            public int ListId { get; init; }
+            public int PageNumber { get; init; } = 1;
+            public int PageSize { get; init; } = 10;
     }
     public class GetAllProductsPaginationQueryHandler : IRequestHandler<GetAllProductsPaginationQuery, PaginatedList<GetAllProductsQueryResponse>>
     {

@@ -3,6 +3,7 @@ using MarketManager.Application.UseCases.Products;
 using MarketManager.Application.UseCases.Users.Report;
 using MarketManager.Application.UseCases.Users.Response;
 using Microsoft.AspNetCore.Mvc;
+using static MarketManager.Application.UseCases.Orders.Queries.GetAllOrders.GetallOrderCommmandHandler;
 
 namespace MarketManager.API.Controllers;
 [Route("api/[controller]")]
@@ -50,6 +51,13 @@ public class ReportsController : BaseApiController
         return File(result.FileContents, result.Option, result.FileName);
     }
 
+
+    [HttpPost("[action]")]
+    public async Task<List<OrderResponse>> ImportExcelOrders(IFormFile excelfile)
+    {
+        var result = await _mediator.Send(new AddOrdersFromExcel(excelfile));
+        return result;
+    }
 
 
 
