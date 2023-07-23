@@ -33,12 +33,15 @@ public class GetallOrderCommmandHandler : IRequestHandler<GetAllOrderQuery, List
     public class OrderResponse
     {
         public Guid Id { get; set; }
+
         public decimal TotalPrice { get; set; }
 
         public Guid ClientId { get; set; }
+
         public decimal CardPriceSum { get; set; }
+
         public decimal CashPurchaseSum { get; set; }
 
-        public ICollection<GetItemByIdQueryResponse> Items { get; set; }
+        public virtual ICollection<GetItemByIdQueryResponse> Items { get; set; }
     }
 }

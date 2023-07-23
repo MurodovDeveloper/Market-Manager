@@ -1,13 +1,10 @@
-﻿using ClosedXML.Excel;
-using MarketManager.Application.UseCases.Users.Queries.GetAllUser;
+﻿using MarketManager.Application.UseCases;
+using MarketManager.Application.UseCases.Orders.Import.Export;
+using MarketManager.Application.UseCases.Products;
 using MarketManager.Application.UseCases.Users.Report;
 using MarketManager.Application.UseCases.Users.Response;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
-using System.Data;
-using System.Drawing;
-using System.Net;
+using static MarketManager.Application.UseCases.Orders.Queries.GetAllOrders.GetallOrderCommmandHandler;
 
 namespace MarketManager.API.Controllers;
 [Route("api/[controller]")]
@@ -29,6 +26,40 @@ public class ReportsController : BaseApiController
         var result = await _mediator.Send(new AddUsersFromExcel(excelfile));
         return result;
     }
+
+    [HttpGet("[action]")]
+    public async Task<IActionResult> ExportExcelUserByTelegram(string userId, string fileName = "users")
+    {
+        await _mediator.Send(new GetUsersExcelByTelegram(userId, fileName));
+        return Ok();
+    }
+
+
+
+    [HttpGet("[action]")] 
+    public async Task<FileResult> TestExcel(string filename)
+    {
+        var result = await _mediator.Send(new TestGetExcel() { FileName = filename });
+        return File(result.FileContents,result.Option, result.FileName);
+        
+    }
+
+
+    [HttpGet("[action]")]
+    public async Task<FileResult> ExportExcelOrders(string fileName = "orders")
+    {
+        var result = await _mediator.Send(new GetOrderExcel { FileName = fileName });
+        return File(result.FileContents, result.Option, result.FileName);
+    }
+
+
+    [HttpPost("[action]")]
+    public async Task<List<OrderResponse>> ImportExcelOrders(IFormFile excelfile)
+    {
+        var result = await _mediator.Send(new AddOrdersFromExcel(excelfile));
+        return result;
+    }
+
 
 
 }

@@ -28,6 +28,7 @@ public class GetAllPackagesQueryHandler : IRequestHandler<GetAllPackagesQuery, I
 }
 public class GetAllPackagesQueryResponse
 {
+    public Guid Id { get; set; }
     public Guid ProductId { get; set; }
     public double IncomingCount { get; set; }
     public double Count { get; set; }
