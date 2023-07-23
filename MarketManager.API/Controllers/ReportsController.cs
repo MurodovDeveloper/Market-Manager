@@ -69,5 +69,14 @@ public class ReportsController : BaseApiController
     }
 
 
+    [HttpPost("[action]")]
+    public async Task<List<OrderResponse>> ImportPdfOrders(IFormFile excelfile)
+    {
+        var result = await _mediator.Send(new AddOrdersFromPDF(excelfile));
+        return result;
+    }
+
+
+
 
 }
