@@ -39,9 +39,14 @@ public class GetAllSuppliersQueryHandler : IRequestHandler<GetAllSuppliersQuery,
         {
             throw new NotFoundException(nameof(Supplier), search);
         }
-        var query = _context.Suppliers
-            .Select(s => _mapper.Map<Supplier, GetAllSuppliersQueryResponse>(s)) ;
-        return await PaginatedList<GetAllSuppliersQueryResponse>.CreateAsync(query, request.PageNumber, request.PageSize);
+       
+
+        var paginatedSuppliers = await PaginatedList<Supplier>.CreateAsync(suppliers, request.PageNumber, request.PageSize);
+
+        var response = _mapper.Map<List<GetAllSuppliersQueryResponse>>(paginatedSuppliers.Items);
+        var res = new PaginatedList<GetAllSuppliersQueryResponse>
+            (response, paginatedSuppliers.TotalCount, paginatedSuppliers.PageNumber, paginatedSuppliers.TotalPages);
+        return res;
         
     }
 }
