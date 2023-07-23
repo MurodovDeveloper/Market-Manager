@@ -1,13 +1,7 @@
-﻿using ClosedXML.Excel;
-using MarketManager.Application.UseCases.Users.Queries.GetAllUser;
+﻿using MarketManager.Application.UseCases.Orders.Import.Export;
 using MarketManager.Application.UseCases.Users.Report;
 using MarketManager.Application.UseCases.Users.Response;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
-using System.Data;
-using System.Drawing;
-using System.Net;
 
 namespace MarketManager.API.Controllers;
 [Route("api/[controller]")]
@@ -36,8 +30,16 @@ public class ReportsController : BaseApiController
         await _mediator.Send(new GetUsersExcelByTelegram(userId, fileName));
         return Ok();
     }
-    
-    
+
+
+    [HttpGet("[action]")]
+    public async Task<FileResult> ExportExcelOrders(string fileName = "orders")
+    {
+        var result = await _mediator.Send(new GetOrderExcel { FileName = fileName });
+        return File(result.FileContents, result.Option, result.FileName);
+    }
+
+
 
 
 }

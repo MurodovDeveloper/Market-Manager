@@ -44,35 +44,5 @@ namespace MarketManager.API.Controllers
         }
 
 
-        [HttpGet("[action]")]
-        public async ValueTask ExportDataThroughExcel()
-        {
-            ExcelImportExport.SendData();
-        }
-
-        
-        [HttpGet("[action]")]
-        public async ValueTask ImportDataThroughExcel()
-        {
-            ExcelImportExport.ReadingData();
-        }
-
-        
-
-        [HttpGet("[action]")]
-        public async ValueTask ExportDataThroughPDF()
-        {
-            ExcelImportExport.SendData();
-        }
-
-        
-        [HttpGet("[action]")]
-        public async ValueTask ImportDataThroughPDF()
-        {
-            ExcelImportExport.ReadingData();
-        }
-
-
-
     }
 }
