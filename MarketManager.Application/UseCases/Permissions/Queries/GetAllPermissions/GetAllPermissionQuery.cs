@@ -35,6 +35,10 @@ public class GetAllPermissionQueryHandler : IRequestHandler<GetAllPermissionQuer
         {
             permissions = permissions.Where(p => p.Name.ToLower().Contains(searchingText.ToLower()));
         }
+        if (permissions is null || permissions.Count() <= 0)
+        {
+            throw new NotFoundException(nameof(Permission), searchingText);
+        }
 
         var paginatedPermissions = await PaginatedList<Permission>.CreateAsync(permissions, pageNumber, pageSize);
 
