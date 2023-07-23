@@ -1,4 +1,6 @@
-﻿namespace MarketManager.Application.Common.Models;
+﻿using Microsoft.EntityFrameworkCore;
+
+namespace MarketManager.Application.Common.Models;
 public class PaginatedList<T>
 {
     public int PageNumber { get; private set; }
