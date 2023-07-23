@@ -14,13 +14,21 @@ namespace MarketManager.API.Controllers;
 [ApiController]
 public class ReportsController : BaseApiController
 {
-  
-    [HttpPost]
-    public async Task<FileResult> ExportExcel(string fileName = "users")
+
+    [HttpGet("[action]")]
+    public async Task<FileResult> ExportExcelUsers(string fileName = "users")
     {
        var result = await _mediator.Send(new GetUsersExcel { FileName = fileName });
         return File(result.FileContents, result.Option, result.FileName);
     }
-    
-   
+
+
+    [HttpPost]
+    public async Task<List<UserResponse>> ImportExcelUsers(IFormFile excelfile)
+    {
+        var result = await _mediator.Send(new AddUsersFromExcel(excelfile));
+        return result;
+    }
+
+
 }
