@@ -8,12 +8,12 @@ using Microsoft.EntityFrameworkCore;
 using System.Data;
 
 namespace MarketManager.Application.UseCases.Permissions.Reports;
-public record GenericReportToExcel : IRequest<MemoryStream>
+public record GenericReportToExcel : IRequest<ExcelReportResponse>
 {
     public string EndpoinName { get; set; }
 }
 
-public class GenericReportToExcelHandler : IRequestHandler<GenericReportToExcel, MemoryStream>
+public class GenericReportToExcelHandler : IRequestHandler<GenericReportToExcel, ExcelReportResponse>
 {
     private readonly IApplicationDbContext _context;
     private readonly IMapper _mapper;
@@ -24,7 +24,7 @@ public class GenericReportToExcelHandler : IRequestHandler<GenericReportToExcel,
         _mapper = mapper;
     }
 
-    public async Task<MemoryStream> Handle(GenericReportToExcel request, CancellationToken cancellationToken)
+    public async Task<ExcelReportResponse> Handle(GenericReportToExcel request, CancellationToken cancellationToken)
     {
         var endpointName = request.EndpoinName;
         var dataTable = new DataTable();
@@ -96,7 +96,7 @@ public class GenericReportToExcelHandler : IRequestHandler<GenericReportToExcel,
             using (MemoryStream stream = new MemoryStream())
             {
                 wb.SaveAs(stream);
-                return stream;
+                return new ExcelReportResponse(stream.ToArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", $"{endpointName}.xlsx");
             }
         }
     }
@@ -123,6 +123,5 @@ public class GenericReportToExcelHandler : IRequestHandler<GenericReportToExcel,
         return Task.FromResult(dt);
     }
 }
-
 
 public record ExcelReportResponse(byte[] FileContents, string Option, string FileName);
