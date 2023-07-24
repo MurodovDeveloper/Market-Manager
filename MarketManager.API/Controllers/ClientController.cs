@@ -2,9 +2,14 @@
 using MarketManager.Application.UseCases.Clients.Commands.CreateClient;
 using MarketManager.Application.UseCases.Clients.Commands.DeleteClient;
 using MarketManager.Application.UseCases.Clients.Commands.UpdateClient;
+using MarketManager.Application.UseCases.Clients.Filters;
 using MarketManager.Application.UseCases.Clients.Queries.GetAllClients;
 using MarketManager.Application.UseCases.Clients.Queries.GetClientById;
+using MarketManager.Application.UseCases.Clients.Reports;
+using MarketManager.Application.UseCases.Users.Report;
+using MarketManager.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
+using static MarketManager.Application.UseCases.Clients.Filters.ClientsFilterQueryHandler;
 
 namespace MarketManager.API.Controllers
 {
@@ -17,6 +22,13 @@ namespace MarketManager.API.Controllers
         {
             var query = new GetAllClientsQuery { PageNumber = pageNumber, PageSize = pageSize };
             return await _mediator.Send(query);
+        }
+        [HttpGet("[action]")]
+        public async Task<ActionResult<PaginatedList<GetAllClientsQueryResponse>>> GetFilteredClients(
+        [FromQuery] ClientsFilterQuery filterCommand)
+        {
+            return await _mediator.Send(filterCommand);
+            
         }
 
         [HttpGet("[action]")]
@@ -43,6 +55,12 @@ namespace MarketManager.API.Controllers
         {
             await _mediator.Send(command);
             return NoContent();
+        }
+        [HttpGet("[action]")]
+        public async Task<FileResult> ExportExcelUsers(string fileName = "users")
+        {
+            var result = await _mediator.Send(new ClientExportExcel { FileName = fileName });
+            return File(result.FileContents, result.Option, result.FileName);
         }
     }
 }

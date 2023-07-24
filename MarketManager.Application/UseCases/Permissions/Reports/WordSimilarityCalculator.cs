@@ -9,7 +9,7 @@ public class WordSimilarityCalculator
         for (int i = 0; i < endPoints.Length; i++)
         {
             int maxLength = Math.Max(word.Length, endPoints[i].Length);
-            int distance = CalculateLevenshteinDistance(word, endPoints[i]);
+            int distance = CalculateDistance(word, endPoints[i]);
 
             double minSimilarity = (1 - (double)distance / maxLength) * 100;
             if (minSimilarity > maxSimilarity)
@@ -21,7 +21,7 @@ public class WordSimilarityCalculator
         return satr;
     }
 
-    private static int CalculateLevenshteinDistance(string word1, string word2)
+    private static int CalculateDistance(string word1, string word2)
     {
         int[,] dp = new int[word1.Length + 1, word2.Length + 1];
 
