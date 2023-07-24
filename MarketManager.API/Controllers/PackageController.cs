@@ -4,6 +4,7 @@ using MarketManager.Application.UseCases.Packages.Commands.UpdatePackage;
 using MarketManager.Application.UseCases.Packages.Queries.GetAllPackages;
 using MarketManager.Application.UseCases.Packages.Queries.GetPackageById;
 using MarketManager.Application.UseCases.Packages.Queries.GetPackagesPagination;
+using MarketManager.Application.UseCases.Packages.Reports;
 using MarketManager.Application.UseCases.Packages.Response;
 using Microsoft.AspNetCore.Mvc;
 
@@ -36,6 +37,14 @@ namespace MarketManager.API.Controllers
             [FromQuery] GetPackagesPaginationQuery query)
         {
             return await _mediator.Send(query);
+        }
+
+
+        [HttpGet("[action]")]
+        public async Task<FileResult> ExportExcelPackages(string fileName = "packages")
+        {
+            var result = await _mediator.Send(new GetPackagesExcel { FileName = fileName });
+            return File(result.FileContents, result.Option, result.FileName);
         }
 
         [HttpPut("[action]")]

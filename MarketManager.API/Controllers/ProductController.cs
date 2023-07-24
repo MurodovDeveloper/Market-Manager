@@ -4,6 +4,7 @@ using MarketManager.Application.UseCases.Products.Commands.UpdateProduct;
 using MarketManager.Application.UseCases.Products.Queries.GetAllProducts;
 using MarketManager.Application.UseCases.Products.Queries.GetAllProductsWithPagination;
 using MarketManager.Application.UseCases.Products.Queries.GetByIdProduct;
+using MarketManager.Application.UseCases.Products.Reports;
 using MarketManager.Application.UseCases.Products.Response;
 using Microsoft.AspNetCore.Mvc;
 
@@ -30,6 +31,7 @@ public class ProductController : BaseApiController
     {
         return await _mediator.Send(query);
     }
+
     [HttpGet("[action]")]
     public async ValueTask<IEnumerable<ProductResponse>> GetAllProducts()
     {
@@ -41,6 +43,14 @@ public class ProductController : BaseApiController
         [FromQuery] GetProductsPaginationQuery query)
     {
         return await _mediator.Send(query);
+    }
+
+
+    [HttpGet("[action]")]
+    public async Task<FileResult> ExportExcelProducts(string fileName = "products")
+    {
+        var result = await _mediator.Send(new GetProductsExcel { FileName = fileName });
+        return File(result.FileContents, result.Option, result.FileName);
     }
 
     [HttpPut("[action]")]

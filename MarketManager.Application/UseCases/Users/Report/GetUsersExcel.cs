@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using ClosedXML.Excel;
 using MarketManager.Application.Common.Interfaces;
+using MarketManager.Application.Common.Models;
 using MarketManager.Application.UseCases.Users.Response;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -89,5 +90,5 @@ public class GetUsersExcelHandler : IRequestHandler<GetUsersExcel, ExcelReportRe
 
 }
 
-public record ExcelReportResponse(byte[] FileContents, string Option,string FileName);
+
 

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using ClosedXML.Excel;
 using MarketManager.Application.Common.Interfaces;
+using MarketManager.Application.Common.Models;
 using MarketManager.Domain.Entities;
 using MarketManager.Domain.Entities.Identity;
 using MediatR;
@@ -87,4 +88,4 @@ public class GenericReportToExcelHandler : IRequestHandler<GenericReportToExcel,
     }
 }
 
-public record ExcelReportResponse(byte[] FileContents, string Option, string FileName);
+
