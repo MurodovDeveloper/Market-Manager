@@ -12,7 +12,6 @@ public class CreateOrderCommand : IRequest<Guid>
     public decimal TotalPrice { get; set; }
     public decimal ItemPriceSum { get; set; }
     public Guid ClientId { get; set; }
-    public decimal ItemPriceSum { get; set; }
     public decimal ItemPurchaseSum { get; set; }
 
 }
