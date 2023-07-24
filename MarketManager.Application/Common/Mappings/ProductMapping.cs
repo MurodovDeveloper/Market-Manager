@@ -3,6 +3,7 @@ using MarketManager.Application.UseCases.Products.Commands.CreateProduct;
 using MarketManager.Application.UseCases.Products.Commands.DeleteProduct;
 using MarketManager.Application.UseCases.Products.Commands.UpdateProduct;
 using MarketManager.Application.UseCases.Products.Queries.GetAllProducts;
+using MarketManager.Application.UseCases.Products.Queries.GetAllProductsWithPagination;
 using MarketManager.Application.UseCases.Products.Queries.GetByIdProduct;
 using MarketManager.Domain.Entities;
 
@@ -16,5 +17,6 @@ public class ProductMapping : Profile
         CreateMap<UpdateProductCommand, Product>().ReverseMap();
         CreateMap<Product, GetAllProductsQueryResponse>().ReverseMap();
         CreateMap<Product, GetProductByIdQueryResponse>().ReverseMap();
+        CreateMap<Product, GetProductsPaginationQueryResponse>().ReverseMap();
     }
 }
