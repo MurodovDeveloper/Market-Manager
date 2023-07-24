@@ -9,27 +9,43 @@ namespace MarketManager.Application.UseCases.Packages.Queries.GetPackageById
 
     public class GetPackageByIdQueryHandler : IRequestHandler<GetPackageByIdQuery, GetPackageByIdQueryResponse>
     {
-        private readonly IMapper _mapper;
-        private readonly IApplicationDbContext _context;
+        IApplicationDbContext _dbContext;
+        IMapper _mapper;
 
-        public GetPackageByIdQueryHandler(IMapper mapper, IApplicationDbContext context)
+        public GetPackageByIdQueryHandler(IApplicationDbContext dbContext, IMapper mapper)
         {
+            _dbContext = dbContext;
             _mapper = mapper;
-            _context = context;
         }
+
 
         public async Task<GetPackageByIdQueryResponse> Handle(GetPackageByIdQuery request, CancellationToken cancellationToken)
         {
-            Package? package = await _context.Packages.FindAsync(request.Id);
+            var Package = FilterIfPackageExsists(request.Id);
 
-            if (package is null)
-                throw new NotFoundException(nameof(Package), request.Id);
-
-            return _mapper.Map<GetPackageByIdQueryResponse>(package);
+            var result = _mapper.Map<GetPackageByIdQueryResponse>(Package);
+            return result;
         }
+
+        private Package FilterIfPackageExsists(Guid id)
+            => _dbContext.Packages
+                .Find(id)
+                     ?? throw new NotFoundException(
+                            " There is no Package with this Id. ");
+
+
     }
+
     public class GetPackageByIdQueryResponse
     {
         public Guid Id { get; set; }
+        public Guid ProductId { get; set; }
+        public double IncomingCount { get; set; }
+        public double Count { get; set; }
+        public Guid SupplierId { get; set; }
+        public double IncomingPrice { get; set; }
+        public double SalePrice { get; set; }
+
+        public DateTime IncomingDate { get; set; }
     }
 }

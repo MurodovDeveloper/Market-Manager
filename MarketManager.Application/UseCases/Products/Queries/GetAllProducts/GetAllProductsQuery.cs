@@ -28,6 +28,7 @@ namespace MarketManager.Application.UseCases.Products.Queries.GetAllProducts
     }
     public class GetAllProductsQueryResponse
     {
+        public Guid Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public Guid ProductTypeId { get; set; }

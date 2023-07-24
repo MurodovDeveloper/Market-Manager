@@ -9,27 +9,38 @@ namespace MarketManager.Application.UseCases.Products.Queries.GetByIdProduct
 
     public class GetProductByIdQueryHandler : IRequestHandler<GetProductByIdQuery, GetProductByIdQueryResponse>
     {
-        private readonly IMapper _mapper;
-        private readonly IApplicationDbContext _context;
+        IApplicationDbContext _dbContext;
+        IMapper _mapper;
 
-        public GetProductByIdQueryHandler(IMapper mapper, IApplicationDbContext context)
+        public GetProductByIdQueryHandler(IApplicationDbContext dbContext, IMapper mapper)
         {
+            _dbContext = dbContext;
             _mapper = mapper;
-            _context = context;
         }
+
 
         public async Task<GetProductByIdQueryResponse> Handle(GetProductByIdQuery request, CancellationToken cancellationToken)
         {
-            Product? Product = await _context.Products.FindAsync(request.Id);
+            var Product = FilterIfProductExsists(request.Id);
 
-            if (Product is null)
-                throw new NotFoundException(nameof(Product), request.Id);
-
-            return _mapper.Map<GetProductByIdQueryResponse>(Product);
+            var result = _mapper.Map<GetProductByIdQueryResponse>(Product);
+            return result;
         }
+
+        private Product FilterIfProductExsists(Guid id)
+            => _dbContext.Products
+                .Find(id)
+                     ?? throw new NotFoundException(
+                            " There is no Product with this Id. ");
+
+
     }
+
     public class GetProductByIdQueryResponse
     {
         public Guid Id { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public Guid ProductTypeId { get; set; }
     }
 }
