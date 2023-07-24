@@ -12,8 +12,8 @@ public class UpdateOrderCommand : IRequest
     public decimal TotalPrice { get; set; }
 
     public Guid ClientId { get; set; }
-    public decimal CardPriceSum { get; set; }
-    public decimal CashPurchaseSum { get; set; }
+    public decimal ItemPriceSum { get; set; }
+    public decimal ItemPurchaseSum { get; set; }
 
 }
 public class UpdateOrderCommandHandler : IRequestHandler<UpdateOrderCommand>

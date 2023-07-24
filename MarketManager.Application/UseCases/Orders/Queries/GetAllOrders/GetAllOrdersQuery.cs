@@ -38,9 +38,9 @@ public class GetallOrderCommmandHandler : IRequestHandler<GetAllOrderQuery, List
 
         public Guid ClientId { get; set; }
 
-        public decimal CardPriceSum { get; set; }
+        public decimal ItemPriceSum { get; set; }
 
-        public decimal CashPurchaseSum { get; set; }
+        public decimal ItemPurchaseSum { get; set; }
 
         public virtual ICollection<GetItemByIdQueryResponse> Items { get; set; }
     }
