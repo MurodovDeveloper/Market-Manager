@@ -2,12 +2,13 @@
 using MarketManager.Application.Common.Interfaces;
 using MarketManager.Application.Common.Models;
 using MarketManager.Application.UseCases.Products.Queries.GetAllProducts;
+using MarketManager.Application.UseCases.Products.Response;
 using MarketManager.Domain.Entities;
 using MediatR;
 
 namespace MarketManager.Application.UseCases.Products.Queries.GetAllProductsWithPagination
 {
-    public record GetAllProductsFilterQuery : IRequest<PaginatedList<GetAllProductsQueryResponse>>
+    public record GetAllProductsFilterQuery : IRequest<PaginatedList<ProductResponse>>
     {
         public string Category { get; set; } = string.Empty;
         public double? MinPrice { get; set; }
@@ -16,7 +17,7 @@ namespace MarketManager.Application.UseCases.Products.Queries.GetAllProductsWith
         public int PageNumber { get; init; } = 1;
         public int PageSize { get; init; } = 10;
     }
-    public class GetAllProductsFilterQueryHandler : IRequestHandler<GetAllProductsFilterQuery, PaginatedList<GetAllProductsQueryResponse>>
+    public class GetAllProductsFilterQueryHandler : IRequestHandler<GetAllProductsFilterQuery, PaginatedList<ProductResponse>>
     {
         private readonly IMapper _mapper;
         private readonly IApplicationDbContext _context;
@@ -27,7 +28,7 @@ namespace MarketManager.Application.UseCases.Products.Queries.GetAllProductsWith
             _context = context;
         }
 
-        public async Task<PaginatedList<GetAllProductsQueryResponse>> Handle(GetAllProductsFilterQuery request, CancellationToken cancellationToken)
+        public async Task<PaginatedList<ProductResponse>> Handle(GetAllProductsFilterQuery request, CancellationToken cancellationToken)
         {
             var allProducts = _context.Products.AsQueryable();
             if (!string.IsNullOrEmpty(request.SearchingText))
@@ -53,9 +54,8 @@ namespace MarketManager.Application.UseCases.Products.Queries.GetAllProductsWith
             }
 
             var paginatedProducts = await PaginatedList<Product>.CreateAsync(allProducts, request.PageNumber, request.PageSize);
-            var response = _mapper.Map<PaginatedList<Product>, PaginatedList<GetAllProductsQueryResponse>>(paginatedProducts);
+            var response = _mapper.Map<PaginatedList<Product>, PaginatedList<ProductResponse>>(paginatedProducts);
             return response;
         }
     }
-
 }

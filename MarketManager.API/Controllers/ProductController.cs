@@ -1,4 +1,13 @@
-﻿namespace MarketManager.API.Controllers;
+﻿using MarketManager.Application.Common.Models;
+using MarketManager.Application.UseCases.Products.Commands.CreateProduct;
+using MarketManager.Application.UseCases.Products.Commands.UpdateProduct;
+using MarketManager.Application.UseCases.Products.Queries.GetAllProducts;
+using MarketManager.Application.UseCases.Products.Queries.GetAllProductsWithPagination;
+using MarketManager.Application.UseCases.Products.Queries.GetByIdProduct;
+using MarketManager.Application.UseCases.Products.Response;
+using Microsoft.AspNetCore.Mvc;
+
+namespace MarketManager.API.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
@@ -17,14 +26,12 @@ public class ProductController : BaseApiController
     }
 
     [HttpGet("[action]")]
-    public async Task<ActionResult<PaginatedList<GetAllProductsQueryResponse>>> GetAllProductsFilter([FromBody] GetAllProductsFilterQuery query)
+    public async Task<ActionResult<PaginatedList<ProductResponse>>> GetAllProductsFilter([FromBody] GetAllProductsFilterQuery query)
     {
         return await _mediator.Send(query);
-
-        // return Ok(paginatedList);
     }
     [HttpGet("[action]")]
-    public async ValueTask<IEnumerable<GetAllProductsQueryResponse>> GetAllProducts()
+    public async ValueTask<IEnumerable<ProductResponse>> GetAllProducts()
     {
         return await _mediator.Send(new GetAllProductsQuery());
     }
