@@ -33,14 +33,14 @@ namespace MarketManager.Application.UseCases.Packages.Reports
                 var excelSheet = workbook.AddWorksheet(orderData, "Packages");
 
                 excelSheet.RowHeight = 20;
-                excelSheet.Column(1).Width = 38;
-                excelSheet.Column(2).Width = 38;
-                excelSheet.Column(3).Width = 38;
-                excelSheet.Column(4).Width = 38;
-                excelSheet.Column(5).Width = 38;
-                excelSheet.Column(6).Width = 38;
-                excelSheet.Column(7).Width = 38;
-                excelSheet.Column(8).Width = 38;
+                excelSheet.Column(1).Width = 35;
+                excelSheet.Column(2).Width = 35;
+                excelSheet.Column(3).Width = 15;
+                excelSheet.Column(4).Width = 15;
+                excelSheet.Column(5).Width = 35;
+                excelSheet.Column(6).Width = 15;
+                excelSheet.Column(7).Width = 15;
+                excelSheet.Column(8).Width = 15;
 
                 using (MemoryStream memoryStream = new MemoryStream())
                 {
