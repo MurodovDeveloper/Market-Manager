@@ -4,6 +4,7 @@ using MarketManager.Application.UseCases.Products.Commands.UpdateProduct;
 using MarketManager.Application.UseCases.Products.Queries.GetAllProducts;
 using MarketManager.Application.UseCases.Products.Queries.GetAllProductsWithPagination;
 using MarketManager.Application.UseCases.Products.Queries.GetByIdProduct;
+using MarketManager.Application.UseCases.Products.Response;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MarketManager.API.Controllers;
@@ -12,31 +13,34 @@ namespace MarketManager.API.Controllers;
 [ApiController]
 public class ProductController : BaseApiController
 {
+    [HttpPost("[action]")]
+    public async ValueTask<Guid> CreateProduct(CreateProductCommand command)
+    {
+        return await _mediator.Send(command);
+    }
 
     [HttpGet("[action]")]
-    public async Task<ActionResult<PaginatedList<GetAllProductsQueryResponse>>> GetAllProductsPagination(int pageNumber = 1, int pageSize = 10)
+    public async ValueTask<ProductResponse> GetProductById(Guid Id)
     {
-        var query = new GetAllProductsPaginationQuery { PageNumber = pageNumber, PageSize = pageSize };
-        return await _mediator.Send(query);
+        return await _mediator.Send(new GetProductByIdQuery(Id));
+    }
 
-        // return Ok(paginatedList);
+    [HttpGet("[action]")]
+    public async Task<ActionResult<PaginatedList<ProductResponse>>> GetAllProductsFilter([FromBody] GetAllProductsFilterQuery query)
+    {
+        return await _mediator.Send(query);
     }
     [HttpGet("[action]")]
-    public async ValueTask<IEnumerable<GetAllProductsQueryResponse>> GetAllProducts()
+    public async ValueTask<IEnumerable<ProductResponse>> GetAllProducts()
     {
         return await _mediator.Send(new GetAllProductsQuery());
     }
 
     [HttpGet("[action]")]
-    public async ValueTask<GetProductByIdQueryResponse> GetProductById(Guid Id)
+    public async ValueTask<ActionResult<PaginatedList<ProductResponse>>> GetAllProductsPagination(
+        [FromQuery] GetProductsPaginationQuery query)
     {
-        return await _mediator.Send(new GetProductByIdQuery(Id));
-    }
-
-    [HttpPost("[action]")]
-    public async ValueTask<Guid> CreateProduct(CreateProductCommand command)
-    {
-        return await _mediator.Send(command);
+        return await _mediator.Send(query);
     }
 
     [HttpPut("[action]")]

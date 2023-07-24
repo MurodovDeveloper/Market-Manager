@@ -1,35 +1,39 @@
 ﻿using AutoMapper;
 using MarketManager.Application.Common.Interfaces;
+using MarketManager.Application.UseCases.Packages.Response;
 using MarketManager.Domain.Entities;
 using MediatR;
 
 namespace MarketManager.Application.UseCases.Packages.Queries.GetPackageById
 {
-    public record GetPackageByIdQuery(Guid Id) : IRequest<GetPackageByIdQueryResponse>;
+    public record GetPackageByIdQuery(Guid Id) : IRequest<PackageResponse>;
 
-    public class GetPackageByIdQueryHandler : IRequestHandler<GetPackageByIdQuery, GetPackageByIdQueryResponse>
+    public class GetPackageByIdQueryHandler : IRequestHandler<GetPackageByIdQuery, PackageResponse>
     {
-        private readonly IMapper _mapper;
-        private readonly IApplicationDbContext _context;
+        IApplicationDbContext _dbContext;
+        IMapper _mapper;
 
-        public GetPackageByIdQueryHandler(IMapper mapper, IApplicationDbContext context)
+        public GetPackageByIdQueryHandler(IApplicationDbContext dbContext, IMapper mapper)
         {
+            _dbContext = dbContext;
             _mapper = mapper;
-            _context = context;
         }
 
-        public async Task<GetPackageByIdQueryResponse> Handle(GetPackageByIdQuery request, CancellationToken cancellationToken)
+
+        public async Task<PackageResponse> Handle(GetPackageByIdQuery request, CancellationToken cancellationToken)
         {
-            Package? package = await _context.Packages.FindAsync(request.Id);
+            var Package = FilterIfPackageExsists(request.Id);
 
-            if (package is null)
-                throw new NotFoundException(nameof(Package), request.Id);
-
-            return _mapper.Map<GetPackageByIdQueryResponse>(package);
+            var result = _mapper.Map<PackageResponse>(Package);
+            return result;
         }
-    }
-    public class GetPackageByIdQueryResponse
-    {
-        public Guid Id { get; set; }
+
+        private Package FilterIfPackageExsists(Guid id)
+            => _dbContext.Packages
+                .Find(id)
+                     ?? throw new NotFoundException(
+                            " There is no Package with this Id. ");
+
+
     }
 }

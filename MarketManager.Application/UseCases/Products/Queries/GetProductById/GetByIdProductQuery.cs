@@ -1,35 +1,39 @@
 ﻿using AutoMapper;
 using MarketManager.Application.Common.Interfaces;
+using MarketManager.Application.UseCases.Products.Response;
 using MarketManager.Domain.Entities;
 using MediatR;
 
 namespace MarketManager.Application.UseCases.Products.Queries.GetByIdProduct
 {
-    public record GetProductByIdQuery(Guid Id) : IRequest<GetProductByIdQueryResponse>;
+    public record GetProductByIdQuery(Guid Id) : IRequest<ProductResponse>;
 
-    public class GetProductByIdQueryHandler : IRequestHandler<GetProductByIdQuery, GetProductByIdQueryResponse>
+    public class GetProductByIdQueryHandler : IRequestHandler<GetProductByIdQuery, ProductResponse>
     {
-        private readonly IMapper _mapper;
-        private readonly IApplicationDbContext _context;
+        IApplicationDbContext _dbContext;
+        IMapper _mapper;
 
-        public GetProductByIdQueryHandler(IMapper mapper, IApplicationDbContext context)
+        public GetProductByIdQueryHandler(IApplicationDbContext dbContext, IMapper mapper)
         {
+            _dbContext = dbContext;
             _mapper = mapper;
-            _context = context;
         }
 
-        public async Task<GetProductByIdQueryResponse> Handle(GetProductByIdQuery request, CancellationToken cancellationToken)
+
+        public async Task<ProductResponse> Handle(GetProductByIdQuery request, CancellationToken cancellationToken)
         {
-            Product? Product = await _context.Products.FindAsync(request.Id);
+            var Product = FilterIfProductExsists(request.Id);
 
-            if (Product is null)
-                throw new NotFoundException(nameof(Product), request.Id);
-
-            return _mapper.Map<GetProductByIdQueryResponse>(Product);
+            var result = _mapper.Map<ProductResponse>(Product);
+            return result;
         }
-    }
-    public class GetProductByIdQueryResponse
-    {
-        public Guid Id { get; set; }
+
+        private Product FilterIfProductExsists(Guid id)
+            => _dbContext.Products
+                .Find(id)
+                     ?? throw new NotFoundException(
+                            " There is no Product with this Id. ");
+
+
     }
 }

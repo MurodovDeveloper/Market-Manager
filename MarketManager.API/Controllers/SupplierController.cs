@@ -1,5 +1,6 @@
 ﻿using MarketManager.Application.Common.Models;
 using MarketManager.Application.UseCases.Clients.Queries.GetAllClients;
+using MarketManager.Application.UseCases.Permissions.Queries.GetAllPermissions;
 using MarketManager.Application.UseCases.Suppliers.Commands.CreateSupplier;
 using MarketManager.Application.UseCases.Suppliers.Commands.DeleteSupplier;
 using MarketManager.Application.UseCases.Suppliers.Commands.UpdateSupplier;
@@ -17,9 +18,8 @@ namespace MarketManager.API.Controllers
     {
 
         [HttpGet("[action]")]
-        public async ValueTask<ActionResult<PaginatedList<GetAllSuppliersQueryResponse>>> GetAllSuppliers(int pageNumber = 1, int pageSize = 10)
-        {
-            var query = new GetAllSuppliersQuery { PageNumber = pageNumber, PageSize = pageSize };
+        public async ValueTask<ActionResult<PaginatedList<GetAllSuppliersQueryResponse>>> GetAllSuppliers([FromQuery] GetAllSuppliersQuery query)
+        {     
             return await _mediator.Send(query);
         }
             
