@@ -27,7 +27,7 @@ namespace MarketManager.Application.UseCases.Packages.Queries.GetPackagesPaginat
         public async Task<PaginatedList<GetPackagesPaginationQueryResponse>> Handle(
             GetPackagesPaginationQuery request, CancellationToken cancellationToken)
         {
-            var search = request.SearchTerm.Trim();
+            var search = request.SearchTerm?.Trim();
             var packages = _context.Packages.AsQueryable();
             
             if (!string.IsNullOrEmpty(search))
