@@ -46,6 +46,8 @@
     <PackageReference Include="Spire.PDF" Version="9.7.14" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.32.0" />
     <PackageReference Include="Telegram.Bot" Version="18.0.0" />
+    <PackageReference Include="X.PagedList" Version="8.4.7" />
+    <PackageReference Include="X.PagedList.Mvc" Version="8.0.7" />
   </ItemGroup>
 
   <ItemGroup>
