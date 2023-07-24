@@ -29,66 +29,21 @@ public class GenericReportToExcelHandler : IRequestHandler<GenericReportToExcel,
         var endpointName = request.EndpoinName;
         var dataTable = new DataTable();
 
-        if (endpointName == "Users")
+        dataTable = endpointName.ToLower() switch
         {
-            var entities = await _context.Users.ToListAsync(cancellationToken);
-            dataTable = await GetEntitiesAsync<User>(entities, cancellationToken);
-        }
-        else if (endpointName == "Products")
-        {
-            var entities = await _context.Products.ToListAsync(cancellationToken);
-            dataTable = await GetEntitiesAsync<Product>(entities, cancellationToken);
-        }
-        else if (endpointName == "Permissions")
-        {
-            var entities = await _context.Permissions.ToListAsync(cancellationToken);
-            dataTable = await GetEntitiesAsync<Permission>(entities, cancellationToken);
-        }
-        else if (endpointName == "Suppliers")
-        {
-            var entities = await _context.Suppliers.ToListAsync(cancellationToken);
-            dataTable = await GetEntitiesAsync<Supplier>(entities, cancellationToken);
-        }
-        else if (endpointName == "Clients")
-        {
-            var entities = await _context.Clients.ToListAsync(cancellationToken);
-            dataTable = await GetEntitiesAsync<Client>(entities, cancellationToken);
-        }
-        else if (endpointName == "ExpiredProducts")
-        {
-            var entities = await _context.ExpiredProducts.ToListAsync(cancellationToken);
-            dataTable = await GetEntitiesAsync<ExpiredProduct>(entities, cancellationToken);
-        }
-        else if (endpointName == "Roles")
-        {
-            var entities = await _context.Roles.ToListAsync(cancellationToken);
-            dataTable = await GetEntitiesAsync<Role>(entities, cancellationToken);
-        }
-        else if (endpointName == "Packages")
-        {
-            var entities = await _context.Packages.ToListAsync(cancellationToken);
-            dataTable = await GetEntitiesAsync<Package>(entities, cancellationToken);
-        }
-        else if (endpointName == "PaymentTypes")
-        {
-            var entities = await _context.PaymentTypes.ToListAsync(cancellationToken);
-            dataTable = await GetEntitiesAsync<PaymentType>(entities, cancellationToken);
-        }
-        else if (endpointName == "ProductTypes")
-        {
-            var entities = await _context.ProductTypes.ToListAsync(cancellationToken);
-            dataTable = await GetEntitiesAsync<ProductType>(entities, cancellationToken);
-        }
-        else if (endpointName == "Orders")
-        {
-            var entities = await _context.Orders.ToListAsync(cancellationToken);
-            dataTable = await GetEntitiesAsync<Order>(entities, cancellationToken);
-        }
-        else if (endpointName == "Items")
-        {
-            var entities = await _context.Items.ToListAsync(cancellationToken);
-            dataTable = await GetEntitiesAsync<Item>(entities, cancellationToken);
-        }
+            "user" => await GetEntitiesAsync<User>(await _context.Users.ToListAsync(cancellationToken), cancellationToken),
+            "product" => await GetEntitiesAsync<Product>(await _context.Products.ToListAsync(cancellationToken), cancellationToken),
+            "permission" => await GetEntitiesAsync<Permission>(await _context.Permissions.ToListAsync(cancellationToken), cancellationToken),
+            "supplier" => await GetEntitiesAsync<Supplier>(await _context.Suppliers.ToListAsync(cancellationToken), cancellationToken),
+            "client" => await GetEntitiesAsync<Client>(await _context.Clients.ToListAsync(cancellationToken), cancellationToken),
+            "expiredProduct" => await GetEntitiesAsync<ExpiredProduct>(await _context.ExpiredProducts.ToListAsync(cancellationToken), cancellationToken),
+            "role" => await GetEntitiesAsync<Role>(await _context.Roles.ToListAsync(cancellationToken), cancellationToken),
+            "package" => await GetEntitiesAsync<Package>(await _context.Packages.ToListAsync(cancellationToken), cancellationToken),
+            "paymentType" => await GetEntitiesAsync<PaymentType>(await _context.PaymentTypes.ToListAsync(cancellationToken), cancellationToken),
+            "productType" => await GetEntitiesAsync<ProductType>(await _context.ProductTypes.ToListAsync(cancellationToken), cancellationToken),
+            "order" => await GetEntitiesAsync<Order>(await _context.Orders.ToListAsync(cancellationToken), cancellationToken),
+            "item" => await GetEntitiesAsync(await _context.Items.ToListAsync(cancellationToken), cancellationToken),
+        };
 
         using (XLWorkbook wb = new XLWorkbook())
         {
