@@ -63,8 +63,8 @@ public class GetOrderPDFHandler : IRequestHandler<GetOrderPDF, PDFExportResponse
             {
                 table.AddCell(order.Id.ToString());
                 table.AddCell($"{order.TotalPrice}");
-                table.AddCell(order.CardPriceSum.ToString());
-                table.AddCell(order.CashPurchaseSum.ToString());
+                table.AddCell(order.ItemPriceSum.ToString());
+                table.AddCell(order.ItemPurchaseSum.ToString());
                 table.AddCell(order.ClientId.ToString());
                 table.CompleteRow();
             }

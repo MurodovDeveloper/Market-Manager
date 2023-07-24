@@ -42,8 +42,8 @@ namespace MarketManager.Application.UseCases.Orders.Import.Export
                             Order order = new()
                             {
                                 TotalPrice = decimal.Parse(table.GetText(i, 1)),
-                                CardPriceSum = decimal.Parse(table.GetText(i, 2)),
-                                CashPurchaseSum = decimal.Parse(table.GetText(i, 3)),
+                                ItemPriceSum = decimal.Parse(table.GetText(i, 2)),
+                                ItemPurchaseSum = decimal.Parse(table.GetText(i, 3)),
                                 ClientId = Guid.Parse(table.GetText(i, 4).Replace("\n",""))
                             };
 

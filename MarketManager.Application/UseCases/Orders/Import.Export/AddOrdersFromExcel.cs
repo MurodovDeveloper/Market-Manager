@@ -44,8 +44,8 @@ public class AddOrdersFromExcelHandler : IRequestHandler<AddOrdersFromExcel, Lis
                     {
                       //  Id = Guid.Parse(sheet1.Cell(row, 1).GetString()),
                         TotalPrice = decimal.Parse(sheet1.Cell(row, 1).GetString()),
-                        CardPriceSum = decimal.Parse(sheet1.Cell(row, 2).GetString()),
-                        CashPurchaseSum = decimal.Parse(sheet1.Cell(row, 3).GetString()),
+                        ItemPriceSum = decimal.Parse(sheet1.Cell(row, 2).GetString()),
+                        ItemPurchaseSum = decimal.Parse(sheet1.Cell(row, 3).GetString()),
                          ClientId = Guid.Parse(sheet1.Cell(row, 4).GetString()),
 
                     };
