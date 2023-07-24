@@ -27,7 +27,7 @@ public class GetOrderQueryHandler : IRequestHandler<GetOrderQuery, OrderResponse
         var order = FilterIfOrderExsists(request.Id);
 
         var result =  _mapper.Map<OrderResponse>(order);
-        return result;
+        return await Task.FromResult(result);
     }
 
     private  Order FilterIfOrderExsists(Guid id)

@@ -72,7 +72,7 @@ public class GetOrderPDFHandler : IRequestHandler<GetOrderPDF, PDFExportResponse
             document.Add(table);
             document.Close();
 
-            return new PDFExportResponse(ms.ToArray(), "application/pdf", request.FileName);
+            return await Task.FromResult(new PDFExportResponse(ms.ToArray(), "application/pdf", request.FileName));
         }
     }
 }

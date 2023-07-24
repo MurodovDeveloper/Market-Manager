@@ -25,7 +25,7 @@ namespace MarketManager.Application.UseCases.Products.Queries.GetByIdProduct
             var Product = FilterIfProductExsists(request.Id);
 
             var result = _mapper.Map<ProductResponse>(Product);
-            return result;
+            return await Task.FromResult(result);
         }
 
         private Product FilterIfProductExsists(Guid id)
