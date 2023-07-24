@@ -5,6 +5,4 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace MarketManager.Application.Common.Models;
-public class ExcelReportResponse
-{
-}
+public record ExcelReportResponse(byte[] FileContents, string Option, string FileName);
