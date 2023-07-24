@@ -1,11 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
 namespace MarketManager.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class init : Migration
+    public partial class inits : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -18,9 +19,9 @@ namespace MarketManager.Infrastructure.Migrations
                     TotalPrice = table.Column<double>(type: "double precision", nullable: false),
                     Discount = table.Column<double>(type: "double precision", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    ModifyDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    ModifyDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     CreatedBy = table.Column<string>(type: "text", nullable: true),
-                    ModifyBy = table.Column<string>(type: "text", nullable: false)
+                    ModifyBy = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -32,7 +33,11 @@ namespace MarketManager.Infrastructure.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    Name = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: false)
+                    Name = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    ModifyDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    CreatedBy = table.Column<string>(type: "text", nullable: true),
+                    ModifyBy = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -44,11 +49,11 @@ namespace MarketManager.Infrastructure.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    Name = table.Column<string>(type: "text", nullable: false),
+                    Name = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    ModifyDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    ModifyDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     CreatedBy = table.Column<string>(type: "text", nullable: true),
-                    ModifyBy = table.Column<string>(type: "text", nullable: false)
+                    ModifyBy = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -62,9 +67,9 @@ namespace MarketManager.Infrastructure.Migrations
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     Name = table.Column<string>(type: "character varying(70)", maxLength: 70, nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    ModifyDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    ModifyDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     CreatedBy = table.Column<string>(type: "text", nullable: true),
-                    ModifyBy = table.Column<string>(type: "text", nullable: false)
+                    ModifyBy = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -92,9 +97,9 @@ namespace MarketManager.Infrastructure.Migrations
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     Name = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    ModifyDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    ModifyDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     CreatedBy = table.Column<string>(type: "text", nullable: true),
-                    ModifyBy = table.Column<string>(type: "text", nullable: false)
+                    ModifyBy = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -109,9 +114,9 @@ namespace MarketManager.Infrastructure.Migrations
                     Name = table.Column<string>(type: "character varying(40)", maxLength: 40, nullable: false),
                     Phone = table.Column<string>(type: "character varying(20)", maxLength: 20, nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    ModifyDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    ModifyDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     CreatedBy = table.Column<string>(type: "text", nullable: true),
-                    ModifyBy = table.Column<string>(type: "text", nullable: false)
+                    ModifyBy = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -128,9 +133,9 @@ namespace MarketManager.Infrastructure.Migrations
                     Username = table.Column<string>(type: "character varying(20)", maxLength: 20, nullable: false),
                     Password = table.Column<string>(type: "text", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    ModifyDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    ModifyDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     CreatedBy = table.Column<string>(type: "text", nullable: true),
-                    ModifyBy = table.Column<string>(type: "text", nullable: false)
+                    ModifyBy = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -147,9 +152,9 @@ namespace MarketManager.Infrastructure.Migrations
                     CardPriceSum = table.Column<decimal>(type: "numeric", nullable: false),
                     CashPurchaseSum = table.Column<decimal>(type: "numeric", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    ModifyDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    ModifyDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     CreatedBy = table.Column<string>(type: "text", nullable: true),
-                    ModifyBy = table.Column<string>(type: "text", nullable: false)
+                    ModifyBy = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -171,9 +176,9 @@ namespace MarketManager.Infrastructure.Migrations
                     Description = table.Column<string>(type: "text", nullable: false),
                     ProductTypeId = table.Column<Guid>(type: "uuid", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    ModifyDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    ModifyDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     CreatedBy = table.Column<string>(type: "text", nullable: true),
-                    ModifyBy = table.Column<string>(type: "text", nullable: false)
+                    ModifyBy = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -247,9 +252,9 @@ namespace MarketManager.Infrastructure.Migrations
                     SalePrice = table.Column<double>(type: "double precision", nullable: false),
                     IncomingDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    ModifyDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    ModifyDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     CreatedBy = table.Column<string>(type: "text", nullable: true),
-                    ModifyBy = table.Column<string>(type: "text", nullable: false)
+                    ModifyBy = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -277,9 +282,9 @@ namespace MarketManager.Infrastructure.Migrations
                     Count = table.Column<int>(type: "integer", nullable: false),
                     DeletedTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    ModifyDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    ModifyDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     CreatedBy = table.Column<string>(type: "text", nullable: true),
-                    ModifyBy = table.Column<string>(type: "text", nullable: false)
+                    ModifyBy = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -302,9 +307,9 @@ namespace MarketManager.Infrastructure.Migrations
                     PackageId = table.Column<Guid>(type: "uuid", nullable: false),
                     OrderId = table.Column<Guid>(type: "uuid", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    ModifyDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    ModifyDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     CreatedBy = table.Column<string>(type: "text", nullable: true),
-                    ModifyBy = table.Column<string>(type: "text", nullable: false)
+                    ModifyBy = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -357,6 +362,12 @@ namespace MarketManager.Infrastructure.Migrations
                 name: "IX_PermissionRole_RolesId",
                 table: "PermissionRole",
                 column: "RolesId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Permissions_Name",
+                table: "Permissions",
+                column: "Name",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Products_ProductTypeId",
