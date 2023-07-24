@@ -29,21 +29,29 @@ public class GenericReportToExcelHandler : IRequestHandler<GenericReportToExcel,
         var endpointName = request.EndpoinName;
         var dataTable = new DataTable();
 
-        dataTable = endpointName.ToLower() switch
+        try
         {
-            "user" => await GetEntitiesAsync<User>(await _context.Users.ToListAsync(cancellationToken), cancellationToken),
-            "product" => await GetEntitiesAsync<Product>(await _context.Products.ToListAsync(cancellationToken), cancellationToken),
-            "permission" => await GetEntitiesAsync<Permission>(await _context.Permissions.ToListAsync(cancellationToken), cancellationToken),
-            "supplier" => await GetEntitiesAsync<Supplier>(await _context.Suppliers.ToListAsync(cancellationToken), cancellationToken),
-            "client" => await GetEntitiesAsync<Client>(await _context.Clients.ToListAsync(cancellationToken), cancellationToken),
-            "expiredProduct" => await GetEntitiesAsync<ExpiredProduct>(await _context.ExpiredProducts.ToListAsync(cancellationToken), cancellationToken),
-            "role" => await GetEntitiesAsync<Role>(await _context.Roles.ToListAsync(cancellationToken), cancellationToken),
-            "package" => await GetEntitiesAsync<Package>(await _context.Packages.ToListAsync(cancellationToken), cancellationToken),
-            "paymentType" => await GetEntitiesAsync<PaymentType>(await _context.PaymentTypes.ToListAsync(cancellationToken), cancellationToken),
-            "productType" => await GetEntitiesAsync<ProductType>(await _context.ProductTypes.ToListAsync(cancellationToken), cancellationToken),
-            "order" => await GetEntitiesAsync<Order>(await _context.Orders.ToListAsync(cancellationToken), cancellationToken),
-            "item" => await GetEntitiesAsync(await _context.Items.ToListAsync(cancellationToken), cancellationToken),
-        };
+            dataTable = endpointName.ToLower() switch
+            {
+                "user" => await GetEntitiesAsync<User>(await _context.Users.ToListAsync(cancellationToken), cancellationToken),
+                "product" => await GetEntitiesAsync<Product>(await _context.Products.ToListAsync(cancellationToken), cancellationToken),
+                "permission" => await GetEntitiesAsync<Permission>(await _context.Permissions.ToListAsync(cancellationToken), cancellationToken),
+                "supplier" => await GetEntitiesAsync<Supplier>(await _context.Suppliers.ToListAsync(cancellationToken), cancellationToken),
+                "client" => await GetEntitiesAsync<Client>(await _context.Clients.ToListAsync(cancellationToken), cancellationToken),
+                "expiredProduct" => await GetEntitiesAsync<ExpiredProduct>(await _context.ExpiredProducts.ToListAsync(cancellationToken), cancellationToken),
+                "role" => await GetEntitiesAsync<Role>(await _context.Roles.ToListAsync(cancellationToken), cancellationToken),
+                "package" => await GetEntitiesAsync<Package>(await _context.Packages.ToListAsync(cancellationToken), cancellationToken),
+                "paymentType" => await GetEntitiesAsync<PaymentType>(await _context.PaymentTypes.ToListAsync(cancellationToken), cancellationToken),
+                "productType" => await GetEntitiesAsync<ProductType>(await _context.ProductTypes.ToListAsync(cancellationToken), cancellationToken),
+                "order" => await GetEntitiesAsync<Order>(await _context.Orders.ToListAsync(cancellationToken), cancellationToken),
+                "item" => await GetEntitiesAsync(await _context.Items.ToListAsync(cancellationToken), cancellationToken),
+            };
+        }
+        catch (Exception ex)
+        {
+
+            throw new NotFoundException(nameof(endpointName), ex.Message);
+        }
 
         using (XLWorkbook wb = new XLWorkbook())
         {
