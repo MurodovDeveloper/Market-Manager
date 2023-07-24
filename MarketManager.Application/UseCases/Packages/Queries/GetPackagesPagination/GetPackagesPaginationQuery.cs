@@ -1,19 +1,20 @@
 ﻿using AutoMapper;
 using MarketManager.Application.Common.Interfaces;
 using MarketManager.Application.Common.Models;
+using MarketManager.Application.UseCases.Packages.Response;
 using MarketManager.Domain.Entities;
 using MediatR;
 
 namespace MarketManager.Application.UseCases.Packages.Queries.GetPackagesPagination
 {
-    public class GetPackagesPaginationQuery:IRequest<PaginatedList<GetPackagesPaginationQueryResponse>>
+    public class GetPackagesPaginationQuery:IRequest<PaginatedList<PackageResponse>>
     {
         public string? SearchTerm { get; init; }
         public int PageNumber { get; init; } = 1;
         public int PageSize { get; init; } = 10;
     }
 
-    public class GetPackagesPaginationQueryHandler : IRequestHandler<GetPackagesPaginationQuery, PaginatedList<GetPackagesPaginationQueryResponse>>
+    public class GetPackagesPaginationQueryHandler : IRequestHandler<GetPackagesPaginationQuery, PaginatedList<PackageResponse>>
     {
         private readonly IMapper _mapper;
         private readonly IApplicationDbContext _context;
@@ -24,7 +25,7 @@ namespace MarketManager.Application.UseCases.Packages.Queries.GetPackagesPaginat
             _context = context;
         }
 
-        public async Task<PaginatedList<GetPackagesPaginationQueryResponse>> Handle(
+        public async Task<PaginatedList<PackageResponse>> Handle(
             GetPackagesPaginationQuery request, CancellationToken cancellationToken)
         {
             var search = request.SearchTerm?.Trim();
@@ -47,24 +48,12 @@ namespace MarketManager.Application.UseCases.Packages.Queries.GetPackagesPaginat
             var paginatedPackages = await PaginatedList<Package>.CreateAsync(
                 packages, request.PageNumber, request.PageSize);
 
-            var response=_mapper.Map<List<GetPackagesPaginationQueryResponse>>(paginatedPackages.Items);
+            var response=_mapper.Map<List<PackageResponse>>(paginatedPackages.Items);
 
-            var result = new PaginatedList<GetPackagesPaginationQueryResponse>
+            var result = new PaginatedList<PackageResponse>
                (response, paginatedPackages.TotalCount, paginatedPackages.PageNumber, paginatedPackages.TotalPages);
 
             return result;
         }
-    }
-
-    public class GetPackagesPaginationQueryResponse
-    {
-        public Guid Id { get; set; }
-        public Guid ProductId { get; set; }
-        public double IncomingCount { get; set; }
-        public double Count { get; set; }
-        public Guid SupplierId { get; set; }
-        public double IncomingPrice { get; set; }
-        public double SalePrice { get; set; }
-        public DateTime IncomingDate { get; set; }
     }
 }

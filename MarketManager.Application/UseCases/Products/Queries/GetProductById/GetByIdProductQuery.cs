@@ -1,13 +1,14 @@
 ﻿using AutoMapper;
 using MarketManager.Application.Common.Interfaces;
+using MarketManager.Application.UseCases.Products.Response;
 using MarketManager.Domain.Entities;
 using MediatR;
 
 namespace MarketManager.Application.UseCases.Products.Queries.GetByIdProduct
 {
-    public record GetProductByIdQuery(Guid Id) : IRequest<GetProductByIdQueryResponse>;
+    public record GetProductByIdQuery(Guid Id) : IRequest<ProductResponse>;
 
-    public class GetProductByIdQueryHandler : IRequestHandler<GetProductByIdQuery, GetProductByIdQueryResponse>
+    public class GetProductByIdQueryHandler : IRequestHandler<GetProductByIdQuery, ProductResponse>
     {
         IApplicationDbContext _dbContext;
         IMapper _mapper;
@@ -19,11 +20,11 @@ namespace MarketManager.Application.UseCases.Products.Queries.GetByIdProduct
         }
 
 
-        public async Task<GetProductByIdQueryResponse> Handle(GetProductByIdQuery request, CancellationToken cancellationToken)
+        public async Task<ProductResponse> Handle(GetProductByIdQuery request, CancellationToken cancellationToken)
         {
             var Product = FilterIfProductExsists(request.Id);
 
-            var result = _mapper.Map<GetProductByIdQueryResponse>(Product);
+            var result = _mapper.Map<ProductResponse>(Product);
             return result;
         }
 
@@ -34,13 +35,5 @@ namespace MarketManager.Application.UseCases.Products.Queries.GetByIdProduct
                             " There is no Product with this Id. ");
 
 
-    }
-
-    public class GetProductByIdQueryResponse
-    {
-        public Guid Id { get; set; }
-        public string Name { get; set; }
-        public string Description { get; set; }
-        public Guid ProductTypeId { get; set; }
     }
 }

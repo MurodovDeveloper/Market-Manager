@@ -1,20 +1,20 @@
 ﻿using AutoMapper;
 using MarketManager.Application.Common.Interfaces;
 using MarketManager.Application.Common.Models;
+using MarketManager.Application.UseCases.Products.Response;
 using MarketManager.Domain.Entities;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 
 namespace MarketManager.Application.UseCases.Products.Queries.GetAllProductsWithPagination
 {
-    public record GetProductsPaginationQuery : IRequest<PaginatedList<GetProductsPaginationQueryResponse>>
+    public record GetProductsPaginationQuery : IRequest<PaginatedList<ProductResponse>>
     {
         public string? SearchTerm { get; init; }
         public int PageNumber { get; init; } = 1;
         public int PageSize { get; init; } = 10;
     }
     public class GetProductsPaginationQueryHandler : IRequestHandler<GetProductsPaginationQuery, 
-        PaginatedList<GetProductsPaginationQueryResponse>>
+        PaginatedList<ProductResponse>>
     {
         private readonly IMapper _mapper;
         private readonly IApplicationDbContext _context;
@@ -25,7 +25,7 @@ namespace MarketManager.Application.UseCases.Products.Queries.GetAllProductsWith
             _context = context;
         }
 
-        public async Task<PaginatedList<GetProductsPaginationQueryResponse>> Handle(
+        public async Task<PaginatedList<ProductResponse>> Handle(
             GetProductsPaginationQuery request, CancellationToken cancellationToken)
         {
             var search = request.SearchTerm?.Trim();
@@ -44,20 +44,12 @@ namespace MarketManager.Application.UseCases.Products.Queries.GetAllProductsWith
             var paginatedProducts = await PaginatedList<Product>.CreateAsync(
                 products, request.PageNumber, request.PageSize);
 
-            var response = _mapper.Map<List<GetProductsPaginationQueryResponse>>(paginatedProducts.Items);
+            var response = _mapper.Map<List<ProductResponse>>(paginatedProducts.Items);
 
-            var result = new PaginatedList<GetProductsPaginationQueryResponse>
+            var result = new PaginatedList<ProductResponse>
                 (response, paginatedProducts.TotalCount, paginatedProducts.PageNumber, paginatedProducts.TotalPages);
 
             return result;
         }
-    }
-
-    public class GetProductsPaginationQueryResponse
-    {
-        public Guid Id { get; set; }
-        public string Name { get; set; }
-        public string Description { get; set; }
-        public Guid ProductTypeId { get; set; }
     }
 }

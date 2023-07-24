@@ -4,8 +4,7 @@ using MarketManager.Application.UseCases.Products.Commands.UpdateProduct;
 using MarketManager.Application.UseCases.Products.Queries.GetAllProducts;
 using MarketManager.Application.UseCases.Products.Queries.GetAllProductsWithPagination;
 using MarketManager.Application.UseCases.Products.Queries.GetByIdProduct;
-using MarketManager.Application.UseCases.Suppliers.Queries.GetAllSuppliers;
-using MediatR;
+using MarketManager.Application.UseCases.Products.Response;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MarketManager.API.Controllers;
@@ -21,19 +20,19 @@ public class ProductController : BaseApiController
     }
 
     [HttpGet("[action]")]
-    public async ValueTask<GetProductByIdQueryResponse> GetProductById(Guid Id)
+    public async ValueTask<ProductResponse> GetProductById(Guid Id)
     {
         return await _mediator.Send(new GetProductByIdQuery(Id));
     }
 
     [HttpGet("[action]")]
-    public async ValueTask<IEnumerable<GetAllProductsQueryResponse>> GetAllProducts()
+    public async ValueTask<IEnumerable<ProductResponse>> GetAllProducts()
     {
         return await _mediator.Send(new GetAllProductsQuery());
     }
 
     [HttpGet("[action]")]
-    public async ValueTask<ActionResult<PaginatedList<GetProductsPaginationQueryResponse>>> GetAllProductsPagination(
+    public async ValueTask<ActionResult<PaginatedList<ProductResponse>>> GetAllProductsPagination(
         [FromQuery] GetProductsPaginationQuery query)
     {
         return await _mediator.Send(query);

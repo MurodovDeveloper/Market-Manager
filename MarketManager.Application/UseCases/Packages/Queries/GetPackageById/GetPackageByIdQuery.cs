@@ -1,13 +1,14 @@
 ﻿using AutoMapper;
 using MarketManager.Application.Common.Interfaces;
+using MarketManager.Application.UseCases.Packages.Response;
 using MarketManager.Domain.Entities;
 using MediatR;
 
 namespace MarketManager.Application.UseCases.Packages.Queries.GetPackageById
 {
-    public record GetPackageByIdQuery(Guid Id) : IRequest<GetPackageByIdQueryResponse>;
+    public record GetPackageByIdQuery(Guid Id) : IRequest<PackageResponse>;
 
-    public class GetPackageByIdQueryHandler : IRequestHandler<GetPackageByIdQuery, GetPackageByIdQueryResponse>
+    public class GetPackageByIdQueryHandler : IRequestHandler<GetPackageByIdQuery, PackageResponse>
     {
         IApplicationDbContext _dbContext;
         IMapper _mapper;
@@ -19,11 +20,11 @@ namespace MarketManager.Application.UseCases.Packages.Queries.GetPackageById
         }
 
 
-        public async Task<GetPackageByIdQueryResponse> Handle(GetPackageByIdQuery request, CancellationToken cancellationToken)
+        public async Task<PackageResponse> Handle(GetPackageByIdQuery request, CancellationToken cancellationToken)
         {
             var Package = FilterIfPackageExsists(request.Id);
 
-            var result = _mapper.Map<GetPackageByIdQueryResponse>(Package);
+            var result = _mapper.Map<PackageResponse>(Package);
             return result;
         }
 
@@ -34,18 +35,5 @@ namespace MarketManager.Application.UseCases.Packages.Queries.GetPackageById
                             " There is no Package with this Id. ");
 
 
-    }
-
-    public class GetPackageByIdQueryResponse
-    {
-        public Guid Id { get; set; }
-        public Guid ProductId { get; set; }
-        public double IncomingCount { get; set; }
-        public double Count { get; set; }
-        public Guid SupplierId { get; set; }
-        public double IncomingPrice { get; set; }
-        public double SalePrice { get; set; }
-
-        public DateTime IncomingDate { get; set; }
     }
 }

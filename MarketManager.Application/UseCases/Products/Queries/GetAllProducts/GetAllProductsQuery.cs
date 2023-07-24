@@ -1,13 +1,14 @@
 ﻿using AutoMapper;
 using MarketManager.Application.Common.Interfaces;
+using MarketManager.Application.UseCases.Products.Response;
 using MarketManager.Domain.Entities;
 using MediatR;
 
 namespace MarketManager.Application.UseCases.Products.Queries.GetAllProducts
 {
-    public record GetAllProductsQuery : IRequest<IEnumerable<GetAllProductsQueryResponse>>;
+    public record GetAllProductsQuery : IRequest<IEnumerable<ProductResponse>>;
 
-    public class GetAllProductsQueryHandler : IRequestHandler<GetAllProductsQuery, IEnumerable<GetAllProductsQueryResponse>>
+    public class GetAllProductsQueryHandler : IRequestHandler<GetAllProductsQuery, IEnumerable<ProductResponse>>
     {
         private readonly IMapper _mapper;
         private readonly IApplicationDbContext _context;
@@ -18,19 +19,12 @@ namespace MarketManager.Application.UseCases.Products.Queries.GetAllProducts
             _context = context;
         }
 
-        public Task<IEnumerable<GetAllProductsQueryResponse>> Handle(GetAllProductsQuery request, CancellationToken cancellationToken)
+        public Task<IEnumerable<ProductResponse>> Handle(GetAllProductsQuery request, CancellationToken cancellationToken)
         {
             IEnumerable<Product> Products = _context.Products;
 
-            return Task.FromResult(_mapper.Map<IEnumerable<GetAllProductsQueryResponse>>(Products));
+            return Task.FromResult(_mapper.Map<IEnumerable<ProductResponse>>(Products));
 
         }
-    }
-    public class GetAllProductsQueryResponse
-    {
-        public Guid Id { get; set; }
-        public string Name { get; set; }
-        public string Description { get; set; }
-        public Guid ProductTypeId { get; set; }
     }
 }

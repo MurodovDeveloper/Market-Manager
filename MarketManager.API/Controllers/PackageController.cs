@@ -4,6 +4,7 @@ using MarketManager.Application.UseCases.Packages.Commands.UpdatePackage;
 using MarketManager.Application.UseCases.Packages.Queries.GetAllPackages;
 using MarketManager.Application.UseCases.Packages.Queries.GetPackageById;
 using MarketManager.Application.UseCases.Packages.Queries.GetPackagesPagination;
+using MarketManager.Application.UseCases.Packages.Response;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MarketManager.API.Controllers
@@ -19,19 +20,19 @@ namespace MarketManager.API.Controllers
         }
 
         [HttpGet("[action]")]
-        public async ValueTask<GetPackageByIdQueryResponse> GetPackageById(Guid Id)
+        public async ValueTask<PackageResponse> GetPackageById(Guid Id)
         {
             return await _mediator.Send(new GetPackageByIdQuery(Id));
         }
 
         [HttpGet("[action]")]
-        public async ValueTask<IEnumerable<GetAllPackagesQueryResponse>> GetAllPackages()
+        public async ValueTask<IEnumerable<PackageResponse>> GetAllPackages()
         {
             return await _mediator.Send(new GetAllPackagesQuery());
         }
 
         [HttpGet("[action]")]
-        public async ValueTask<ActionResult<PaginatedList<GetPackagesPaginationQueryResponse>>> GetAllPackagesPagination(
+        public async ValueTask<ActionResult<PaginatedList<PackageResponse>>> GetAllPackagesPagination(
             [FromQuery] GetPackagesPaginationQuery query)
         {
             return await _mediator.Send(query);
