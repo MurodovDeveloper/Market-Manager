@@ -39,7 +39,7 @@ public class ReportsController : BaseApiController
     [HttpGet("[action]")] 
     public async Task<FileResult> TestExcel(string filename)
     {
-        var result = await _mediator.Send(new TestGetExcel() { FileName = filename });
+        var result = await _mediator.Send(new TestUserGetExcel() { FileName = filename });
         return File(result.FileContents,result.Option, result.FileName);
         
     }
