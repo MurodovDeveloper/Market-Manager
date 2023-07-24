@@ -14,7 +14,17 @@ namespace MarketManager.API.Controllers;
 [ApiController]
 public class ProductController : BaseApiController
 {
+    [HttpPost("[action]")]
+    public async ValueTask<Guid> CreateProduct(CreateProductCommand command)
+    {
+        return await _mediator.Send(command);
+    }
 
+    [HttpGet("[action]")]
+    public async ValueTask<GetProductByIdQueryResponse> GetProductById(Guid Id)
+    {
+        return await _mediator.Send(new GetProductByIdQuery(Id));
+    }
 
     [HttpGet("[action]")]
     public async ValueTask<IEnumerable<GetAllProductsQueryResponse>> GetAllProducts()
@@ -27,18 +37,6 @@ public class ProductController : BaseApiController
         [FromQuery] GetProductsPaginationQuery query)
     {
         return await _mediator.Send(query);
-    }
-
-    [HttpGet("[action]")]
-    public async ValueTask<GetProductByIdQueryResponse> GetProductById(Guid Id)
-    {
-        return await _mediator.Send(new GetProductByIdQuery(Id));
-    }
-
-    [HttpPost("[action]")]
-    public async ValueTask<Guid> CreateProduct(CreateProductCommand command)
-    {
-        return await _mediator.Send(command);
     }
 
     [HttpPut("[action]")]

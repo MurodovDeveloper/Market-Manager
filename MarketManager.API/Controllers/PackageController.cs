@@ -1,7 +1,9 @@
-﻿using MarketManager.Application.UseCases.Packages.Commands.CreatePackage;
+﻿using MarketManager.Application.Common.Models;
+using MarketManager.Application.UseCases.Packages.Commands.CreatePackage;
 using MarketManager.Application.UseCases.Packages.Commands.UpdatePackage;
 using MarketManager.Application.UseCases.Packages.Queries.GetAllPackages;
 using MarketManager.Application.UseCases.Packages.Queries.GetPackageById;
+using MarketManager.Application.UseCases.Packages.Queries.GetPackagesPagination;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MarketManager.API.Controllers
@@ -10,10 +12,10 @@ namespace MarketManager.API.Controllers
     [ApiController]
     public class PackageController : BaseApiController
     {
-        [HttpGet("[action]")]
-        public async ValueTask<IEnumerable<GetAllPackagesQueryResponse>> GetAllPackages()
+        [HttpPost("[action]")]
+        public async ValueTask<Guid> CreatePackage(CreatePackageCommand command)
         {
-            return await _mediator.Send(new GetAllPackagesQuery());
+            return await _mediator.Send(command);
         }
 
         [HttpGet("[action]")]
@@ -22,10 +24,17 @@ namespace MarketManager.API.Controllers
             return await _mediator.Send(new GetPackageByIdQuery(Id));
         }
 
-        [HttpPost("[action]")]
-        public async ValueTask<Guid> CreatePackage(CreatePackageCommand command)
+        [HttpGet("[action]")]
+        public async ValueTask<IEnumerable<GetAllPackagesQueryResponse>> GetAllPackages()
         {
-            return await _mediator.Send(command);
+            return await _mediator.Send(new GetAllPackagesQuery());
+        }
+
+        [HttpGet("[action]")]
+        public async ValueTask<ActionResult<PaginatedList<GetPackagesPaginationQueryResponse>>> GetAllPackagesPagination(
+            [FromQuery] GetPackagesPaginationQuery query)
+        {
+            return await _mediator.Send(query);
         }
 
         [HttpPut("[action]")]
