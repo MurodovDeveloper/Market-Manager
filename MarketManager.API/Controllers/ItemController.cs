@@ -12,9 +12,9 @@ namespace MarketManager.API.Controllers
     public class ItemController : BaseApiController
     {
         [HttpGet("[action]")]
-        public async ValueTask<IEnumerable<GetAllItemsQueryResponse>> GetAllItems(int page = 1)
+        public async ValueTask<IEnumerable<ItemResponse>> GetAllItems(int page = 1)
         {
-            IPagedList<GetAllItemsQueryResponse> query = (await _mediator
+            IPagedList<ItemResponse> query = (await _mediator
                .Send(new GetAllItemsQuery()))
                .ToPagedList(page, 10);
             return query;
