@@ -14,21 +14,6 @@ namespace MarketManager.API.Controllers;
 [ApiController]
 public class ReportsController : BaseApiController
 {
-
-    [HttpGet("[action]")]
-    public async Task<FileResult> ExportExcelProducts(string fileName = "products")
-    {
-        var result = await _mediator.Send(new GetProductsExcel { FileName = fileName });
-        return File(result.FileContents, result.Option, result.FileName);
-    }
-
-    [HttpGet("[action]")]
-    public async Task<FileResult> ExportExcelPackages(string fileName = "packages")
-    {
-        var result = await _mediator.Send(new GetPackagesExcel { FileName = fileName });
-        return File(result.FileContents, result.Option, result.FileName);
-    }
-
     [HttpGet("[action]")]
     public async Task<FileResult> ExportExcelUsers(string fileName = "users")
     {
