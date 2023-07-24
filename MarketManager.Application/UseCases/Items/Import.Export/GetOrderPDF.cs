@@ -53,10 +53,10 @@ public class GetItemPDFHandler : IRequestHandler<GetItemPDF, PDFExportResponse>
 
 
             table.AddCell("ID");
-            table.AddCell("Total Price");
-            table.AddCell("Card Price Sum");
-            table.AddCell("CashPurchaseSum");
-            table.AddCell("Client ID");
+            table.AddCell("PackageId");
+            table.AddCell("OrderId");
+            table.AddCell("Count");
+            table.AddCell("Sold Price");
             table.CompleteRow();
 
             foreach (var item in _context.Items)
