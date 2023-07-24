@@ -12,15 +12,15 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace MarketManager.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230720065405_init")]
-    partial class init
+    [Migration("20230723051809_inits")]
+    partial class inits
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.9")
+                .HasAnnotation("ProductVersion", "8.0.0-preview.1.23111.4")
                 .HasAnnotation("Proxies:ChangeTracking", false)
                 .HasAnnotation("Proxies:CheckEquality", false)
                 .HasAnnotation("Proxies:LazyLoading", true)
@@ -44,10 +44,9 @@ namespace MarketManager.Infrastructure.Migrations
                         .HasColumnType("double precision");
 
                     b.Property<string>("ModifyBy")
-                        .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<DateTime?>("ModifyDate")
+                    b.Property<DateTime>("ModifyDate")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<double>("TotalPrice")
@@ -77,10 +76,9 @@ namespace MarketManager.Infrastructure.Migrations
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("ModifyBy")
-                        .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<DateTime?>("ModifyDate")
+                    b.Property<DateTime>("ModifyDate")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<Guid>("PackageId")
@@ -106,10 +104,9 @@ namespace MarketManager.Infrastructure.Migrations
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("ModifyBy")
-                        .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<DateTime?>("ModifyDate")
+                    b.Property<DateTime>("ModifyDate")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Name")
@@ -140,10 +137,9 @@ namespace MarketManager.Infrastructure.Migrations
                         .HasColumnType("character varying(40)");
 
                     b.Property<string>("ModifyBy")
-                        .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<DateTime?>("ModifyDate")
+                    b.Property<DateTime>("ModifyDate")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Password")
@@ -206,10 +202,9 @@ namespace MarketManager.Infrastructure.Migrations
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("ModifyBy")
-                        .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<DateTime?>("ModifyDate")
+                    b.Property<DateTime>("ModifyDate")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<Guid>("OrderId")
@@ -252,10 +247,9 @@ namespace MarketManager.Infrastructure.Migrations
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("ModifyBy")
-                        .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<DateTime?>("ModifyDate")
+                    b.Property<DateTime>("ModifyDate")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<decimal>("TotalPrice")
@@ -293,10 +287,9 @@ namespace MarketManager.Infrastructure.Migrations
                         .HasColumnType("double precision");
 
                     b.Property<string>("ModifyBy")
-                        .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<DateTime?>("ModifyDate")
+                    b.Property<DateTime>("ModifyDate")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<Guid>("ProductId")
@@ -323,6 +316,18 @@ namespace MarketManager.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("ModifyBy")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("ModifyDate")
+                        .HasColumnType("timestamp with time zone");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(200)
@@ -346,17 +351,20 @@ namespace MarketManager.Infrastructure.Migrations
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("ModifyBy")
-                        .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<DateTime?>("ModifyDate")
+                    b.Property<DateTime>("ModifyDate")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
 
                     b.ToTable("Permissions");
                 });
@@ -378,10 +386,9 @@ namespace MarketManager.Infrastructure.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("ModifyBy")
-                        .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<DateTime?>("ModifyDate")
+                    b.Property<DateTime>("ModifyDate")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Name")
@@ -412,10 +419,9 @@ namespace MarketManager.Infrastructure.Migrations
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("ModifyBy")
-                        .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<DateTime?>("ModifyDate")
+                    b.Property<DateTime>("ModifyDate")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Name")
@@ -441,10 +447,9 @@ namespace MarketManager.Infrastructure.Migrations
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("ModifyBy")
-                        .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<DateTime?>("ModifyDate")
+                    b.Property<DateTime>("ModifyDate")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Name")
