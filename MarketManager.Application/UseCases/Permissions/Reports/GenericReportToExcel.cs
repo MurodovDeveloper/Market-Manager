@@ -59,7 +59,7 @@ public class GenericReportToExcelHandler : IRequestHandler<GenericReportToExcel,
         using (XLWorkbook wb = new XLWorkbook())
         {
             var worksheet = wb.Worksheets.Add(dataTable);
-            worksheet.Columns().AdjustToContents();
+            worksheet.Columns().AdjustToContents(20.0, 80.0);
             using (MemoryStream stream = new MemoryStream())
             {
                 wb.SaveAs(stream);

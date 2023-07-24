@@ -1,30 +1,35 @@
-﻿using MarketManager.Application.Common;
+﻿using AutoMapper;
+using MarketManager.Application.Common;
 using MarketManager.Application.Common.Interfaces;
 using MarketManager.Application.Common.Models;
 using MarketManager.Application.UseCases.Permissions.ResponseModels;
+using MarketManager.Application.UseCases.Users.Response;
 using MarketManager.Domain.Entities;
+using MarketManager.Domain.Entities.Identity;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 namespace MarketManager.Application.UseCases;
-public class TestGetExcel : IRequest<ExcelReportResponse>
+public class TestUserGetExcel : IRequest<ExcelReportResponse>
 {
     public string FileName { get; set; }
 }
-public class TestGetExcelProductHandler : IRequestHandler<TestGetExcel, ExcelReportResponse>
+public class TestGetExcelProductHandler : IRequestHandler<TestUserGetExcel, ExcelReportResponse>
 {
     private readonly IApplicationDbContext _context;
     private readonly GenericExcelReport _generic;
+ 
     public TestGetExcelProductHandler(IApplicationDbContext context, GenericExcelReport generic)
     {
         _context = context;
         _generic = generic;
+        
     }
 
-    public async Task<ExcelReportResponse> Handle(TestGetExcel request, CancellationToken cancellationToken)
+    public async Task<ExcelReportResponse> Handle(TestUserGetExcel request, CancellationToken cancellationToken)
     {
 
-        var result = await _generic.GetReportExcel<Permission, PermissionResponse>(request.FileName, await _context.Permissions.ToListAsync(cancellationToken), cancellationToken);
+        var result = await _generic.GetReportExcel<User, UsersResponseExcelReport>(request.FileName, await _context.Users.ToListAsync(cancellationToken), cancellationToken);
         return result;
     }
 }
