@@ -1,13 +1,11 @@
-﻿using System.Data;
-using AutoMapper;
+﻿using AutoMapper;
 using ClosedXML.Excel;
 using MarketManager.Application.Common.Interfaces;
 using MarketManager.Application.Common.Models;
-using MarketManager.Application.UseCases.ExpiredProducts.Report;
 using MarketManager.Application.UseCases.Packages.Response;
-using MarketManager.Application.UseCases.Permissions.Reports;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using System.Data;
 
 namespace MarketManager.Application.UseCases.Packages.Reports
 {
