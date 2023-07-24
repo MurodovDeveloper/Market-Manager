@@ -21,6 +21,13 @@ public class ProductController : BaseApiController
         // return Ok(paginatedList);
     }
     [HttpGet("[action]")]
+    public async Task<ActionResult<PaginatedList<GetAllProductsQueryResponse>>> GetAllProductsFilter([FromBody] GetAllProductsFilterQuery query)
+    {
+        return await _mediator.Send(query);
+
+        // return Ok(paginatedList);
+    }
+    [HttpGet("[action]")]
     public async ValueTask<IEnumerable<GetAllProductsQueryResponse>> GetAllProducts()
     {
         return await _mediator.Send(new GetAllProductsQuery());
