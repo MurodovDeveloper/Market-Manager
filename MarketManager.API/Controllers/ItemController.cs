@@ -2,7 +2,10 @@
 using MarketManager.Application.UseCases.Items.Commands.UpdateItem;
 using MarketManager.Application.UseCases.Items.Queries.GetAllItems;
 using MarketManager.Application.UseCases.Items.Queries.GetItemById;
+using MarketManager.Application.UseCases.Orders.Queries.GetAllOrders;
 using Microsoft.AspNetCore.Mvc;
+using static MarketManager.Application.UseCases.Orders.Queries.GetAllOrders.GetallOrderCommmandHandler;
+using X.PagedList;
 
 namespace MarketManager.API.Controllers
 {
@@ -11,9 +14,12 @@ namespace MarketManager.API.Controllers
     public class ItemController : BaseApiController
     {
         [HttpGet("[action]")]
-        public async ValueTask<IEnumerable<GetAllItemsQueryResponse>> GetAllItems()
+        public async ValueTask<IEnumerable<GetAllItemsQueryResponse>> GetAllItems(int page =1)
         {
-            return await _mediator.Send(new GetAllItemsQuery());
+            IPagedList<GetAllItemsQueryResponse> query = (await _mediator
+              .Send(new GetAllItemsQuery()))
+              .ToPagedList(page, 10);
+            return query;
         }
 
         [HttpGet("[action]")]
