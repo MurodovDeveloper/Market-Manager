@@ -1,17 +1,10 @@
 ﻿using MarketManager.Application.Common;
 using MarketManager.Application.Common.Interfaces;
+using MarketManager.Application.Common.Models;
 using MarketManager.Application.UseCases.Permissions.ResponseModels;
-using MarketManager.Application.UseCases.Users.Report;
-using MarketManager.Application.UseCases.Users.Response;
 using MarketManager.Domain.Entities;
-using MarketManager.Domain.Entities.Identity;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MarketManager.Application.UseCases;
 public class TestGetExcel : IRequest<ExcelReportResponse>
