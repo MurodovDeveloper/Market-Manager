@@ -79,19 +79,21 @@ public class GenericExcelReport
                     string a = prop.PropertyType.AssemblyQualifiedName;
                     if (a.Contains("System.Collections.Generic"))
                     {
-                        if (((IList)prop.GetValue(item)).Count > 0)
-                        {
-                            foreach (var prop2 in (IList)prop.GetValue(item))
-                            {
-                                foreach (var prop3 in prop2.GetType().GetProperties())
-                                {
 
-                                    if (prop3.Name != "Id")
-                                        row.SetField(prop3.Name, prop3.GetValue(prop2));
+                        continue;
+                        //if (((IList)prop.GetValue(item)).Count > 0)
+                        //{
+                        //    foreach (var prop2 in (IList)prop.GetValue(item))
+                        //    {
+                        //        foreach (var prop3 in prop2.GetType().GetProperties())
+                        //        {
 
-                                }
-                            }
-                        }
+                        //            if (prop3.Name != "Id")
+                        //                row.SetField(prop3.Name, prop3.GetValue(prop2));
+
+                        //        }
+                        //    }
+                        //}
                     }
                     else
                     {
