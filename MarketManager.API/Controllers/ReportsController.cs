@@ -2,7 +2,6 @@
 using MarketManager.Application.UseCases.ExpiredProducts.Report;
 using MarketManager.Application.UseCases.Orders.Import.Export;
 using MarketManager.Application.UseCases.Packages.Reports;
-using MarketManager.Application.UseCases.Products;
 using MarketManager.Application.UseCases.Products.Reports;
 using MarketManager.Application.UseCases.Users.Report;
 using MarketManager.Application.UseCases.Users.Response;

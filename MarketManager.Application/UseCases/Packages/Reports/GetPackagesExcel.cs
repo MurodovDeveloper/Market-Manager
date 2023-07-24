@@ -2,6 +2,7 @@
 using AutoMapper;
 using ClosedXML.Excel;
 using MarketManager.Application.Common.Interfaces;
+using MarketManager.Application.UseCases.ExpiredProducts.Report;
 using MarketManager.Application.UseCases.Packages.Response;
 using MarketManager.Application.UseCases.Permissions.Reports;
 using MediatR;
