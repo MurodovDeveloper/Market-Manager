@@ -4,24 +4,24 @@ using iTextSharp.text.pdf;
 using MarketManager.Application.Common.Interfaces;
 using MediatR;
 
-namespace MarketManager.Application.UseCases.Orders.Import.Export;
+namespace MarketManager.Application.UseCases.Items.Import.Export;
 
-public record GetOrderPDF(string FileName) : IRequest<PDFExportResponse>;
+public record GetItemPDF(string FileName) : IRequest<PDFExportResponse>;
 
-public class GetOrderPDFHandler : IRequestHandler<GetOrderPDF, PDFExportResponse>
+public class GetItemPDFHandler : IRequestHandler<GetItemPDF, PDFExportResponse>
 {
 
     private readonly IApplicationDbContext _context;
     private readonly IMapper _mapper;
 
-    public GetOrderPDFHandler(IApplicationDbContext context, IMapper mapper)
+    public GetItemPDFHandler(IApplicationDbContext context, IMapper mapper)
     {
 
         _context = context;
         _mapper = mapper;
     }
 
-    public async Task<PDFExportResponse> Handle(GetOrderPDF request, CancellationToken cancellationToken)
+    public async Task<PDFExportResponse> Handle(GetItemPDF request, CancellationToken cancellationToken)
     {
 
         using (MemoryStream ms = new MemoryStream())
@@ -44,7 +44,7 @@ public class GetOrderPDFHandler : IRequestHandler<GetOrderPDF, PDFExportResponse
             table.SpacingBefore = 10;
             table.SpacingAfter = 10;
 
-            PdfPCell headerCell = new PdfPCell(new Phrase("Orders", new Font(Font.FontFamily.HELVETICA, 12, Font.BOLD)));
+            PdfPCell headerCell = new PdfPCell(new Phrase("Items", new Font(Font.FontFamily.HELVETICA, 12, Font.BOLD)));
             headerCell.Colspan = 5;
             headerCell.HorizontalAlignment = Element.ALIGN_CENTER;
             headerCell.BackgroundColor = BaseColor.LIGHT_GRAY;
@@ -53,26 +53,26 @@ public class GetOrderPDFHandler : IRequestHandler<GetOrderPDF, PDFExportResponse
 
 
             table.AddCell("ID");
-            table.AddCell("Total Price");
-            table.AddCell("Card Price Sum");
-            table.AddCell("CashPurchaseSum");
-            table.AddCell("Client ID");
+            table.AddCell("PackageId");
+            table.AddCell("OrderId");
+            table.AddCell("Count");
+            table.AddCell("Sold Price");
             table.CompleteRow();
 
-            foreach (var order in _context.Orders)
+            foreach (var item in _context.Items)
             {
-                table.AddCell(order.Id.ToString());
-                table.AddCell($"{order.TotalPrice}");
-                table.AddCell(order.ItemPriceSum.ToString());
-                table.AddCell(order.ItemPurchaseSum.ToString());
-                table.AddCell(order.ClientId.ToString());
+                table.AddCell(item.Id.ToString());
+                table.AddCell($"{item.PackageId}");
+                table.AddCell(item.OrderId.ToString());
+                table.AddCell(item.Count.ToString());
+                table.AddCell(item.SoldPrice.ToString());
                 table.CompleteRow();
             }
 
             document.Add(table);
             document.Close();
 
-            return await Task.FromResult(new PDFExportResponse(ms.ToArray(), "application/pdf", request.FileName));
+            return new PDFExportResponse(ms.ToArray(), "application/pdf", request.FileName);
         }
     }
 }

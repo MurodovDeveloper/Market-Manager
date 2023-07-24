@@ -5,9 +5,9 @@ using MediatR;
 
 namespace MarketManager.Application.UseCases.Items.Queries.GetAllItems
 {
-    public record GetAllItemsQuery : IRequest<IEnumerable<GetAllItemsQueryResponse>>;
+    public record GetAllItemsQuery(int PageNumber = 1, int PageSize = 10) : IRequest<List<ItemResponse>>;
 
-    public class GetAllItemsQueryHandler : IRequestHandler<GetAllItemsQuery, IEnumerable<GetAllItemsQueryResponse>>
+    public class GetAllItemsQueryHandler : IRequestHandler<GetAllItemsQuery, List<ItemResponse>>
     {
         private readonly IMapper _mapper;
         private readonly IApplicationDbContext _context;
@@ -18,16 +18,17 @@ namespace MarketManager.Application.UseCases.Items.Queries.GetAllItems
             _context = context;
         }
 
-        public Task<IEnumerable<GetAllItemsQueryResponse>> Handle(GetAllItemsQuery request, CancellationToken cancellationToken)
+        public Task<List<ItemResponse>> Handle(GetAllItemsQuery request, CancellationToken cancellationToken)
         {
             IEnumerable<Item> items = _context.Items;
 
-            return Task.FromResult(_mapper.Map<IEnumerable<GetAllItemsQueryResponse>>(items));
+            return Task.FromResult(_mapper.Map<List<ItemResponse>>(items));
 
         }
     }
-    public class GetAllItemsQueryResponse
+    public class ItemResponse
     {
+        public Guid Id { get; set; }
         public Guid PackageId { get; set; }
         public Guid OrderId { get; set; }
         public double Count { get; set; }

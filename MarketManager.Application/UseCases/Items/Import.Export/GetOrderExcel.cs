@@ -1,39 +1,39 @@
-﻿using AutoMapper;
+﻿using System.Data;
+using AutoMapper;
 using ClosedXML.Excel;
 using MarketManager.Application.Common.Interfaces;
 using MarketManager.Application.Common.Models;
+using MarketManager.Application.UseCases.Items.Queries.GetAllItems;
 using MarketManager.Application.UseCases.Users.Report;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using System.Data;
-using static MarketManager.Application.UseCases.Orders.Queries.GetAllOrders.GetallOrderCommmandHandler;
 
-namespace MarketManager.Application.UseCases.Orders.Import.Export
+namespace MarketManager.Application.UseCases.Items.Import.Export
 {
-    public  class GetOrderExcel : IRequest<ExcelReportResponse>
+    public  class GetItemExcel : IRequest<ExcelReportResponse>
     {
         public string FileName { get; set; }
     }
 
-    public class GetOrderExcelHandler : IRequestHandler<GetOrderExcel, ExcelReportResponse>
+    public class GetItemExcelHandler : IRequestHandler<GetItemExcel, ExcelReportResponse>
     {
 
         private readonly IApplicationDbContext _context;
         private readonly IMapper _mapper;
 
-        public GetOrderExcelHandler(IApplicationDbContext context, IMapper mapper)
+        public GetItemExcelHandler(IApplicationDbContext context, IMapper mapper)
         {
 
             _context = context;
             _mapper = mapper;
         }
 
-        public async Task<ExcelReportResponse> Handle(GetOrderExcel request, CancellationToken cancellationToken)
+        public async Task<ExcelReportResponse> Handle(GetItemExcel request, CancellationToken cancellationToken)
         {
             using (XLWorkbook wb = new())
             {
-                var orderData = await GetOrderAsync(cancellationToken);
-                var sheet1 = wb.AddWorksheet(orderData, "Orders");
+                var itemData = await GetItemAsync(cancellationToken);
+                var sheet1 = wb.AddWorksheet(itemData, "Items");
 
 
                 sheet1.Column(1).Style.Font.FontColor = XLColor.Red;
@@ -68,27 +68,27 @@ namespace MarketManager.Application.UseCases.Orders.Import.Export
             }
         }
 
-        private async Task<DataTable> GetOrderAsync(CancellationToken cancellationToken = default)
+        private async Task<DataTable> GetItemAsync(CancellationToken cancellationToken = default)
         {
-            var AllOrders = await _context.Orders.ToListAsync(cancellationToken);
+            var AllItems = await _context.Items.ToListAsync(cancellationToken);
 
             DataTable dt = new()
             {
                 TableName = "Empdata"
             };
             dt.Columns.Add("Id", typeof(Guid));
-            dt.Columns.Add("TotalPrice", typeof(decimal));
-            dt.Columns.Add("CardPriceSum", typeof(decimal));
-            dt.Columns.Add("CashPurchaseSum", typeof(decimal));
-            dt.Columns.Add("ClientId", typeof(Guid));
+            dt.Columns.Add("PackageId", typeof(Guid));
+            dt.Columns.Add("OrderId", typeof(Guid));
+            dt.Columns.Add("Count", typeof(double));
+            dt.Columns.Add("SoldPrice", typeof(double));
 
 
-            var _list = _mapper.Map<List<OrderResponse>>(AllOrders);
+            var _list = _mapper.Map<List<ItemResponse>>(AllItems);
             if (_list.Count > 0)
             {
                 _list.ForEach(item =>
                 {
-                    dt.Rows.Add(item.Id, item.TotalPrice, item.ItemPriceSum, item.ItemPurchaseSum, item.ClientId);
+                    dt.Rows.Add(item.Id, item.PackageId, item.OrderId, item.Count, item.SoldPrice);
 
                 });
             }

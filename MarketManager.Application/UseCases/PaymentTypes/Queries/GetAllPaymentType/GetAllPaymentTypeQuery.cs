@@ -25,7 +25,7 @@ namespace MarketManager.Application.UseCases.PaymentTypes.Queries.GetAllPaymentT
         {
             IEnumerable<PaymentType> paymentTypes = _context.PaymentTypes;
             IEnumerable<GetAllPaymentTypeQueryResponse> response = _mapper.Map<IEnumerable<GetAllPaymentTypeQueryResponse>>(paymentTypes);
-            return response;
+            return await Task.FromResult(response);
         }
     }
 

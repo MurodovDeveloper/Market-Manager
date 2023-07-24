@@ -25,7 +25,7 @@ namespace MarketManager.Application.UseCases.Packages.Queries.GetPackageById
             var Package = FilterIfPackageExsists(request.Id);
 
             var result = _mapper.Map<PackageResponse>(Package);
-            return result;
+            return await Task.FromResult(result);
         }
 
         private Package FilterIfPackageExsists(Guid id)
