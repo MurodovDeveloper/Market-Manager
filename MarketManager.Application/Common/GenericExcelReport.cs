@@ -1,14 +1,7 @@
 ﻿using AutoMapper;
 using ClosedXML.Excel;
-using DocumentFormat.OpenXml.Spreadsheet;
 using MarketManager.Application.UseCases.Users.Report;
-using MarketManager.Application.UseCases.Users.Response;
-using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MarketManager.Application.Common;
 public class GenericExcelReport

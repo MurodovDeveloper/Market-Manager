@@ -8,12 +8,12 @@ using Microsoft.EntityFrameworkCore;
 using System.Data;
 
 namespace MarketManager.Application.UseCases.Permissions.Reports;
-public record GenericReportToExcel : IRequest<ExcelReportResponse>
+public record GenericReportToExcel : IRequest<ExcelResponse>
 {
     public string EndpoinName { get; set; }
 }
 
-public class GenericReportToExcelHandler : IRequestHandler<GenericReportToExcel, ExcelReportResponse>
+public class GenericReportToExcelHandler : IRequestHandler<GenericReportToExcel, ExcelResponse>
 {
     private readonly IApplicationDbContext _context;
     private readonly IMapper _mapper;
@@ -24,79 +24,43 @@ public class GenericReportToExcelHandler : IRequestHandler<GenericReportToExcel,
         _mapper = mapper;
     }
 
-    public async Task<ExcelReportResponse> Handle(GenericReportToExcel request, CancellationToken cancellationToken)
+    public async Task<ExcelResponse> Handle(GenericReportToExcel request, CancellationToken cancellationToken)
     {
         var endpointName = request.EndpoinName;
         var dataTable = new DataTable();
 
-        if (endpointName == "Users")
+        try
         {
-            var entities = await _context.Users.ToListAsync(cancellationToken);
-            dataTable = await GetEntitiesAsync<User>(entities, cancellationToken);
+            dataTable = endpointName.ToLower() switch
+            {
+                "user" => await GetEntitiesAsync<User>(await _context.Users.ToListAsync(cancellationToken), cancellationToken),
+                "product" => await GetEntitiesAsync<Product>(await _context.Products.ToListAsync(cancellationToken), cancellationToken),
+                "permission" => await GetEntitiesAsync<Permission>(await _context.Permissions.ToListAsync(cancellationToken), cancellationToken),
+                "supplier" => await GetEntitiesAsync<Supplier>(await _context.Suppliers.ToListAsync(cancellationToken), cancellationToken),
+                "client" => await GetEntitiesAsync<Client>(await _context.Clients.ToListAsync(cancellationToken), cancellationToken),
+                "expiredProduct" => await GetEntitiesAsync<ExpiredProduct>(await _context.ExpiredProducts.ToListAsync(cancellationToken), cancellationToken),
+                "role" => await GetEntitiesAsync<Role>(await _context.Roles.ToListAsync(cancellationToken), cancellationToken),
+                "package" => await GetEntitiesAsync<Package>(await _context.Packages.ToListAsync(cancellationToken), cancellationToken),
+                "paymentType" => await GetEntitiesAsync<PaymentType>(await _context.PaymentTypes.ToListAsync(cancellationToken), cancellationToken),
+                "productType" => await GetEntitiesAsync<ProductType>(await _context.ProductTypes.ToListAsync(cancellationToken), cancellationToken),
+                "order" => await GetEntitiesAsync<Order>(await _context.Orders.ToListAsync(cancellationToken), cancellationToken),
+                "item" => await GetEntitiesAsync(await _context.Items.ToListAsync(cancellationToken), cancellationToken),
+            };
         }
-        else if (endpointName == "Products")
+        catch (Exception ex)
         {
-            var entities = await _context.Products.ToListAsync(cancellationToken);
-            dataTable = await GetEntitiesAsync<Product>(entities, cancellationToken);
-        }
-        else if (endpointName == "Permissions")
-        {
-            var entities = await _context.Permissions.ToListAsync(cancellationToken);
-            dataTable = await GetEntitiesAsync<Permission>(entities, cancellationToken);
-        }
-        else if (endpointName == "Suppliers")
-        {
-            var entities = await _context.Suppliers.ToListAsync(cancellationToken);
-            dataTable = await GetEntitiesAsync<Supplier>(entities, cancellationToken);
-        }
-        else if (endpointName == "Clients")
-        {
-            var entities = await _context.Clients.ToListAsync(cancellationToken);
-            dataTable = await GetEntitiesAsync<Client>(entities, cancellationToken);
-        }
-        else if (endpointName == "ExpiredProducts")
-        {
-            var entities = await _context.ExpiredProducts.ToListAsync(cancellationToken);
-            dataTable = await GetEntitiesAsync<ExpiredProduct>(entities, cancellationToken);
-        }
-        else if (endpointName == "Roles")
-        {
-            var entities = await _context.Roles.ToListAsync(cancellationToken);
-            dataTable = await GetEntitiesAsync<Role>(entities, cancellationToken);
-        }
-        else if (endpointName == "Packages")
-        {
-            var entities = await _context.Packages.ToListAsync(cancellationToken);
-            dataTable = await GetEntitiesAsync<Package>(entities, cancellationToken);
-        }
-        else if (endpointName == "PaymentTypes")
-        {
-            var entities = await _context.PaymentTypes.ToListAsync(cancellationToken);
-            dataTable = await GetEntitiesAsync<PaymentType>(entities, cancellationToken);
-        }
-        else if (endpointName == "ProductTypes")
-        {
-            var entities = await _context.ProductTypes.ToListAsync(cancellationToken);
-            dataTable = await GetEntitiesAsync<ProductType>(entities, cancellationToken);
-        }
-        else if (endpointName == "Orders")
-        {
-            var entities = await _context.Orders.ToListAsync(cancellationToken);
-            dataTable = await GetEntitiesAsync<Order>(entities, cancellationToken);
-        }
-        else if (endpointName == "Items")
-        {
-            var entities = await _context.Items.ToListAsync(cancellationToken);
-            dataTable = await GetEntitiesAsync<Item>(entities, cancellationToken);
+
+            throw new NotFoundException(nameof(endpointName), ex.Message);
         }
 
         using (XLWorkbook wb = new XLWorkbook())
         {
-            wb.Worksheets.Add(dataTable);
+            var worksheet = wb.Worksheets.Add(dataTable);
+            worksheet.Columns().AdjustToContents();
             using (MemoryStream stream = new MemoryStream())
             {
                 wb.SaveAs(stream);
-                return new ExcelReportResponse(stream.ToArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", $"{endpointName}.xlsx");
+                return new ExcelResponse(stream.ToArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", $"{endpointName}.xlsx");
             }
         }
     }
@@ -124,4 +88,4 @@ public class GenericReportToExcelHandler : IRequestHandler<GenericReportToExcel,
     }
 }
 
-public record ExcelReportResponse(byte[] FileContents, string Option, string FileName);
+public record ExcelResponse(byte[] FileContents, string Option, string FileName);

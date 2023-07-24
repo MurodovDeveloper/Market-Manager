@@ -1,10 +1,11 @@
 ﻿using MarketManager.Application.UseCases;
+using MarketManager.Application.UseCases.ExpiredProducts.Report;
 using MarketManager.Application.UseCases.Orders.Import.Export;
 using MarketManager.Application.UseCases.Packages.Reports;
-using MarketManager.Application.UseCases.Products;
 using MarketManager.Application.UseCases.Products.Reports;
 using MarketManager.Application.UseCases.Users.Report;
 using MarketManager.Application.UseCases.Users.Response;
+using MarketManager.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 using static MarketManager.Application.UseCases.Orders.Queries.GetAllOrders.GetallOrderCommmandHandler;
 
@@ -50,8 +51,6 @@ public class ReportsController : BaseApiController
         return Ok();
     }
 
-
-
     [HttpGet("[action]")] 
     public async Task<FileResult> TestExcel(string filename)
     {
@@ -60,39 +59,20 @@ public class ReportsController : BaseApiController
         
     }
 
-
     [HttpGet("[action]")]
-    public async Task<FileResult> ExportExcelOrders(string fileName = "orders")
+    public async Task<FileResult> ExportExcelExpiredProduct(string fileName = "expiredProduct")
     {
-        var result = await _mediator.Send(new GetOrderExcel { FileName = fileName });
+        var result = await _mediator.Send(new GetExpiredProductFromExcel { FileName = fileName });
         return File(result.FileContents, result.Option, result.FileName);
     }
 
 
     [HttpPost("[action]")]
-    public async Task<List<OrderResponse>> ImportExcelOrders(IFormFile excelfile)
+    public async Task<List<ExpiredProduct>> ImportExcelExpiredProduct(IFormFile excelfile)
     {
-        var result = await _mediator.Send(new AddOrdersFromExcel(excelfile));
+        List<ExpiredProduct> result = await _mediator.Send(new AddExpiredProductFromExcel(excelfile));
         return result;
     }
-
-
-    [HttpGet("[action]")]
-    public async Task<FileResult> ExportPdfOrders(string fileName = "orders")
-    {
-        var result = await _mediator.Send(new GetOrderPDF(fileName));
-        return File(result.FileContents, result.Options, result.FileName);
-    }
-
-
-    [HttpPost("[action]")]
-    public async Task<List<OrderResponse>> ImportPdfOrders(IFormFile excelfile)
-    {
-        var result = await _mediator.Send(new AddOrdersFromPDF(excelfile));
-        return result;
-    }
-
-
 
 
 }
