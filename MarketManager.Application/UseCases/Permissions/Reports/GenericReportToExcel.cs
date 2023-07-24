@@ -6,7 +6,9 @@ using MarketManager.Domain.Entities;
 using MarketManager.Domain.Entities.Identity;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using System.Collections;
 using System.Data;
+using System.Text.Json.Serialization;
 
 namespace MarketManager.Application.UseCases.Permissions.Reports;
 public record GenericReportToExcel : IRequest<ExcelReportResponse>
@@ -32,7 +34,7 @@ public class GenericReportToExcelHandler : IRequestHandler<GenericReportToExcel,
 
         try
         {
-            dataTable = endpointName.ToLower() switch
+            dataTable = WordSimilarityCalculator.CalculateSimilarity(endpointName.ToLower()) switch
             {
                 "user" => await GetEntitiesAsync<User>(await _context.Users.ToListAsync(cancellationToken), cancellationToken),
                 "product" => await GetEntitiesAsync<Product>(await _context.Products.ToListAsync(cancellationToken), cancellationToken),
@@ -72,7 +74,15 @@ public class GenericReportToExcelHandler : IRequestHandler<GenericReportToExcel,
         dt.TableName = typeof(T).Name + "Data";
         foreach (var property in typeof(T).GetProperties())
         {
-            dt.Columns.Add(property.Name, property.PropertyType);
+            if (typeof(ICollection).IsAssignableFrom(property.PropertyType))
+            {
+                continue;
+            }
+            else
+            {
+                dt.Columns.Add(property.Name, property.PropertyType);
+            }
+            
         }
 
         foreach (var entity in entities)
@@ -80,7 +90,15 @@ public class GenericReportToExcelHandler : IRequestHandler<GenericReportToExcel,
             DataRow row = dt.NewRow();
             foreach (var property in typeof(T).GetProperties())
             {
-                row[property.Name] = property.GetValue(entity);
+                if (typeof(ICollection).IsAssignableFrom(property.PropertyType))
+                {
+                    continue;
+                }
+                else
+                {
+                    row[property.Name] = property.GetValue(entity);
+                }
+                
             }
             dt.Rows.Add(row);
         }

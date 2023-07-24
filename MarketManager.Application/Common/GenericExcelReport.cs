@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using ClosedXML.Excel;
 using MarketManager.Application.Common.Models;
-using System.Collections;
 using System.Data;
 
 namespace MarketManager.Application.Common;
@@ -63,6 +62,11 @@ public class GenericExcelReport
 
         foreach (var property in properties)
         {
+            string a = property.PropertyType.AssemblyQualifiedName;
+            if (a.Contains("System.Collections.Generic"))
+            {
+                continue;
+            }
             dt.Columns.Add(property.Name, property.PropertyType);
         }
 
@@ -102,8 +106,8 @@ public class GenericExcelReport
                     }
                 }
 
-
                 dt.Rows.Add(row);
+
             }
         }
 
