@@ -36,8 +36,6 @@ public class ReportsController : BaseApiController
         return Ok();
     }
 
-
-
     [HttpGet("[action]")] 
     public async Task<FileResult> TestExcel(string filename)
     {
@@ -45,39 +43,6 @@ public class ReportsController : BaseApiController
         return File(result.FileContents,result.Option, result.FileName);
         
     }
-
-
-    [HttpGet("[action]")]
-    public async Task<FileResult> ExportExcelOrders(string fileName = "orders")
-    {
-        var result = await _mediator.Send(new GetOrderExcel { FileName = fileName });
-        return File(result.FileContents, result.Option, result.FileName);
-    }
-
-
-    [HttpPost("[action]")]
-    public async Task<List<OrderResponse>> ImportExcelOrders(IFormFile excelfile)
-    {
-        var result = await _mediator.Send(new AddOrdersFromExcel(excelfile));
-        return result;
-    }
-
-
-    [HttpGet("[action]")]
-    public async Task<FileResult> ExportPdfOrders(string fileName = "orders")
-    {
-        var result = await _mediator.Send(new GetOrderPDF(fileName));
-        return File(result.FileContents, result.Options, result.FileName);
-    }
-
-
-    [HttpPost("[action]")]
-    public async Task<List<OrderResponse>> ImportPdfOrders(IFormFile excelfile)
-    {
-        var result = await _mediator.Send(new AddOrdersFromPDF(excelfile));
-        return result;
-    }
-
 
     [HttpGet("[action]")]
     public async Task<FileResult> ExportExcelExpiredProduct(string fileName = "expiredProduct")

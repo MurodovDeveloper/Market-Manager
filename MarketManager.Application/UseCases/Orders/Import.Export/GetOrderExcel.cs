@@ -95,8 +95,6 @@ namespace MarketManager.Application.UseCases.Orders.Import.Export
             return dt;
         }
 
-
-
     }
 }
 
