@@ -26,7 +26,7 @@ public class GenericExcelReport
         {
             var data2 = await GetDataAync<T,TMAP>(data);
             var sheet1 = wb.AddWorksheet(data2, nameof(T));
-
+            
 
             sheet1.Column(1).Style.Font.FontColor = XLColor.Red;
 
