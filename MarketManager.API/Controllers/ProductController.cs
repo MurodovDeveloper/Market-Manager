@@ -1,4 +1,6 @@
 ﻿using MarketManager.Application.Common.Models;
+using MarketManager.Application.UseCases.Packages.Reports;
+using MarketManager.Application.UseCases.Packages.Response;
 using MarketManager.Application.UseCases.Products.Commands.CreateProduct;
 using MarketManager.Application.UseCases.Products.Commands.UpdateProduct;
 using MarketManager.Application.UseCases.Products.Queries.GetAllProducts;
@@ -18,6 +20,13 @@ public class ProductController : BaseApiController
     public async ValueTask<Guid> CreateProduct(CreateProductCommand command)
     {
         return await _mediator.Send(command);
+    }
+
+    [HttpPost("[action]")]
+    public async Task<List<ProductResponse>> ImportExcelProducts(IFormFile excelfile)
+    {
+        var result = await _mediator.Send(new AddProductsFromExcel(excelfile));
+        return result;
     }
 
     [HttpGet("[action]")]
