@@ -51,7 +51,7 @@ namespace MarketManager.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Clients");
+                    b.ToTable("Clients", (string)null);
                 });
 
             modelBuilder.Entity("MarketManager.Domain.Entities.ExpiredProduct", b =>
@@ -85,7 +85,7 @@ namespace MarketManager.Infrastructure.Migrations
 
                     b.HasIndex("PackageId");
 
-                    b.ToTable("ExpiredProducts");
+                    b.ToTable("ExpiredProducts", (string)null);
                 });
 
             modelBuilder.Entity("MarketManager.Domain.Entities.Identity.Role", b =>
@@ -113,7 +113,7 @@ namespace MarketManager.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Roles");
+                    b.ToTable("Roles", (string)null);
                 });
 
             modelBuilder.Entity("MarketManager.Domain.Entities.Identity.User", b =>
@@ -158,7 +158,7 @@ namespace MarketManager.Infrastructure.Migrations
                     b.HasIndex("Username")
                         .IsUnique();
 
-                    b.ToTable("Users");
+                    b.ToTable("Users", (string)null);
                 });
 
             modelBuilder.Entity("MarketManager.Domain.Entities.Identity.UserRefreshToken", b =>
@@ -180,7 +180,7 @@ namespace MarketManager.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("RefreshTokens");
+                    b.ToTable("RefreshTokens", (string)null);
                 });
 
             modelBuilder.Entity("MarketManager.Domain.Entities.Item", b =>
@@ -219,7 +219,7 @@ namespace MarketManager.Infrastructure.Migrations
 
                     b.HasIndex("PackageId");
 
-                    b.ToTable("Items");
+                    b.ToTable("Items", (string)null);
                 });
 
             modelBuilder.Entity("MarketManager.Domain.Entities.Order", b =>
@@ -256,7 +256,7 @@ namespace MarketManager.Infrastructure.Migrations
 
                     b.HasIndex("ClientId");
 
-                    b.ToTable("Orders");
+                    b.ToTable("Orders", (string)null);
                 });
 
             modelBuilder.Entity("MarketManager.Domain.Entities.Package", b =>
@@ -304,7 +304,7 @@ namespace MarketManager.Infrastructure.Migrations
 
                     b.HasIndex("SupplierId");
 
-                    b.ToTable("Packages");
+                    b.ToTable("Packages", (string)null);
                 });
 
             modelBuilder.Entity("MarketManager.Domain.Entities.PaymentType", b =>
@@ -332,7 +332,7 @@ namespace MarketManager.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("PaymentTypes");
+                    b.ToTable("PaymentTypes", (string)null);
                 });
 
             modelBuilder.Entity("MarketManager.Domain.Entities.Permission", b =>
@@ -363,7 +363,7 @@ namespace MarketManager.Infrastructure.Migrations
                     b.HasIndex("Name")
                         .IsUnique();
 
-                    b.ToTable("Permissions");
+                    b.ToTable("Permissions", (string)null);
                 });
 
             modelBuilder.Entity("MarketManager.Domain.Entities.Product", b =>
@@ -400,7 +400,7 @@ namespace MarketManager.Infrastructure.Migrations
 
                     b.HasIndex("ProductTypeId");
 
-                    b.ToTable("Products");
+                    b.ToTable("Products", (string)null);
                 });
 
             modelBuilder.Entity("MarketManager.Domain.Entities.ProductType", b =>
@@ -428,7 +428,7 @@ namespace MarketManager.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ProductTypes");
+                    b.ToTable("ProductTypes", (string)null);
                 });
 
             modelBuilder.Entity("MarketManager.Domain.Entities.Supplier", b =>
@@ -461,7 +461,7 @@ namespace MarketManager.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Suppliers");
+                    b.ToTable("Suppliers", (string)null);
                 });
 
             modelBuilder.Entity("PermissionRole", b =>
@@ -476,7 +476,7 @@ namespace MarketManager.Infrastructure.Migrations
 
                     b.HasIndex("RolesId");
 
-                    b.ToTable("PermissionRole");
+                    b.ToTable("PermissionRole", (string)null);
                 });
 
             modelBuilder.Entity("RoleUser", b =>
@@ -491,7 +491,7 @@ namespace MarketManager.Infrastructure.Migrations
 
                     b.HasIndex("UsersId");
 
-                    b.ToTable("RoleUser");
+                    b.ToTable("RoleUser", (string)null);
                 });
 
             modelBuilder.Entity("MarketManager.Domain.Entities.ExpiredProduct", b =>
