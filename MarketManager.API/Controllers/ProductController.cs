@@ -36,7 +36,8 @@ public class ProductController : BaseApiController
     }
 
     [HttpGet("[action]")]
-    public async Task<ActionResult<PaginatedList<ProductResponse>>> GetAllProductsFilter([FromBody] GetAllProductsFilterQuery query)
+    public async Task<ActionResult<PaginatedList<ProductResponse>>> GetAllProductsFilter(
+        [FromBody] GetAllProductsFilterQuery query)
     {
         return await _mediator.Send(query);
     }
