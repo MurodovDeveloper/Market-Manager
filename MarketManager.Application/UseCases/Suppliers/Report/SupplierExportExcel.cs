@@ -7,7 +7,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System.Data;
 
-namespace MarketManager.Application.UseCases.Suppliers.Report.GetExelSuplier;
+namespace MarketManager.Application.UseCases.Suppliers.Report;
 
 public class SupplierExportExcel : IRequest<ExcelReportResponse>
 {
