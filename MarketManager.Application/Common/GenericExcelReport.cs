@@ -70,6 +70,11 @@ public class GenericExcelReport
 
         foreach (var property in properties)
         {
+            string a = property.PropertyType.AssemblyQualifiedName;
+            if (a.Contains("System.Collections.Generic"))
+            {
+                continue;
+            }
             dt.Columns.Add(property.Name, property.PropertyType);
         }
 
