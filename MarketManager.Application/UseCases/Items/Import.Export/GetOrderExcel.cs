@@ -3,6 +3,7 @@ using AutoMapper;
 using ClosedXML.Excel;
 using MarketManager.Application.Common.Interfaces;
 using MarketManager.Application.Common.Models;
+using MarketManager.Application.UseCases.Items.Queries.GetAllItems;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
