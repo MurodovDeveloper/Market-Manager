@@ -4,7 +4,7 @@ using MarketManager.Application.UseCases.Suppliers.Commands.DeleteSupplier;
 using MarketManager.Application.UseCases.Suppliers.Commands.UpdateSupplier;
 using MarketManager.Application.UseCases.Suppliers.Queries.GetAllSuppliers;
 using MarketManager.Application.UseCases.Suppliers.Queries.GetSupplierById;
-using MarketManager.Application.UseCases.Suppliers.Report.GetExelSuplier;
+using MarketManager.Application.UseCases.Suppliers.Report;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MarketManager.API.Controllers;

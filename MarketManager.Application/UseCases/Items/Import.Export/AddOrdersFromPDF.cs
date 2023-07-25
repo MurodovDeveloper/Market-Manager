@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using MarketManager.Application.Common.Interfaces;
+using MarketManager.Application.UseCases.Items.Queries.GetAllItems;
 using MarketManager.Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Http;

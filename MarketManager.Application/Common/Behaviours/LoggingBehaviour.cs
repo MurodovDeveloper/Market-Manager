@@ -18,6 +18,7 @@ namespace MarketManager.Application.Common.Behaviours
 
             _logger.LogInformation("Market Manager Request: {requestName} {request}",
                 requestName, request);
+             await Task.CompletedTask;
         }
     }
 }

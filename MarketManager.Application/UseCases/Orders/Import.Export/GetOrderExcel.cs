@@ -87,7 +87,7 @@ namespace MarketManager.Application.UseCases.Orders.Import.Export
             {
                 _list.ForEach(item =>
                 {
-                    dt.Rows.Add(item.Id, item.TotalPrice, item.CardPriceSum, item.CashPurchaseSum, item.ClientId);
+                    dt.Rows.Add(item.Id, item.TotalPrice, item.ItemPriceSum, item.ItemPurchaseSum, item.ClientId);
 
                 });
             }
