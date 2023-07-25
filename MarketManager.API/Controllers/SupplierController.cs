@@ -1,5 +1,4 @@
 ﻿using MarketManager.Application.Common.Models;
-using MarketManager.Application.UseCases.Clients.Reports;
 using MarketManager.Application.UseCases.Suppliers.Commands.CreateSupplier;
 using MarketManager.Application.UseCases.Suppliers.Commands.DeleteSupplier;
 using MarketManager.Application.UseCases.Suppliers.Commands.UpdateSupplier;
