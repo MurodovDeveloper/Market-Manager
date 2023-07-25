@@ -20,33 +20,34 @@ public class GenericExcelReport
             var data2 = await GetDataAync<T, TMAP>(data);
             var sheet1 = wb.AddWorksheet(data2, nameof(T));
 
+            sheet1.Columns().AdjustToContents(20.0,80.0);
 
-            sheet1.Column(1).Style.Font.FontColor = XLColor.Red;
+            //sheet1.Column(1).Style.Font.FontColor = XLColor.Red;
 
-            sheet1.Columns(2, 4).Style.Font.FontColor = XLColor.Blue;
+            //sheet1.Columns(2, 4).Style.Font.FontColor = XLColor.Blue;
 
-            sheet1.Row(1).CellsUsed().Style.Fill.BackgroundColor = XLColor.Black;
+            //sheet1.Row(1).CellsUsed().Style.Fill.BackgroundColor = XLColor.Black;
 
-            sheet1.Row(1).Style.Font.FontColor = XLColor.White;
+            //sheet1.Row(1).Style.Font.FontColor = XLColor.White;
 
-            sheet1.Row(1).Style.Font.Bold = true;
-            sheet1.Row(1).Style.Font.Shadow = true;
-            sheet1.Row(1).Style.Font.Underline = XLFontUnderlineValues.Single;
-            sheet1.Row(1).Style.Font.VerticalAlignment = XLFontVerticalTextAlignmentValues.Superscript;
-            sheet1.Row(1).Style.Font.Italic = true;
+            //sheet1.Row(1).Style.Font.Bold = true;
+            //sheet1.Row(1).Style.Font.Shadow = true;
+            //sheet1.Row(1).Style.Font.Underline = XLFontUnderlineValues.Single;
+            //sheet1.Row(1).Style.Font.VerticalAlignment = XLFontVerticalTextAlignmentValues.Superscript;
+            //sheet1.Row(1).Style.Font.Italic = true;
 
             sheet1.RowHeight = 20;
 
 
-            sheet1.Column(1).Width = 38;
-            sheet1.Column(2).Width = 20;
-            sheet1.Column(3).Width = 20;
-            sheet1.Column(4).Width = 20;
-            sheet1.Column(5).Width = 20;
-            sheet1.Column(6).Width = 20;
-            sheet1.Column(7).Width = 20;
-            sheet1.Column(8).Width = 20;
-            sheet1.Column(9).Width = 20;
+            //sheet1.Column(1).Width = 38;
+            //sheet1.Column(2).Width = 20;
+            //sheet1.Column(3).Width = 20;
+            //sheet1.Column(4).Width = 20;
+            //sheet1.Column(5).Width = 20;
+            //sheet1.Column(6).Width = 20;
+            //sheet1.Column(7).Width = 20;
+            //sheet1.Column(8).Width = 20;
+            //sheet1.Column(9).Width = 20;
 
 
 
