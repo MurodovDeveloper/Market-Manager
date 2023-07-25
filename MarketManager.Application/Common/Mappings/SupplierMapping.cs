@@ -3,6 +3,7 @@ using MarketManager.Application.UseCases.Suppliers.Commands.CreateSupplier;
 using MarketManager.Application.UseCases.Suppliers.Commands.UpdateSupplier;
 using MarketManager.Application.UseCases.Suppliers.Queries.GetAllSuppliers;
 using MarketManager.Application.UseCases.Suppliers.Queries.GetSupplierById;
+using MarketManager.Application.UseCases.Suppliers.Report;
 using MarketManager.Domain.Entities;
 
 namespace MarketManager.Application.Common.Mappings
@@ -15,6 +16,7 @@ namespace MarketManager.Application.Common.Mappings
             CreateMap<UpdateSupplierCommand, Supplier>();
             CreateMap<GetSupplierByIdQuery, Supplier>().ReverseMap();
             CreateMap<GetAllSuppliersQueryResponse, Supplier>().ReverseMap();
+            CreateMap<Supplier, SuppliersResponseExcelReport>().ReverseMap();
         }
     }
 }

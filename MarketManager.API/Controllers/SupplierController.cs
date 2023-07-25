@@ -27,10 +27,10 @@ public class SupplierController : BaseApiController
     }
 
     [HttpGet("[action]")]
-    public async ValueTask<FileContentResult> GetExelFile(string fileName)
+    public async Task<FileResult> ExportExcelSuppliers(string fileName = "suppliers")
     {
-        ExcelReportResponse exelExport = await _mediator.Send(new GetExelExport(fileName));
-        return new FileContentResult(exelExport.FileContents, exelExport.Option);
+        var result = await _mediator.Send(new SupplierExportExcel { FileName = fileName });
+        return File(result.FileContents, result.Option, result.FileName);
     }
     [HttpPost("[action]")]
     public async ValueTask<Guid> CreateSupplier(CreateSupplierCommand command)

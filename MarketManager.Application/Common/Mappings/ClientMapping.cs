@@ -22,6 +22,6 @@ public class ClientMapping : Profile
         CreateMap<DeleteClientCommand, Client>();
         CreateMap<Client, GetAllClientsQueryResponse>().ReverseMap();
         CreateMap<Client, GetClientByIdQueryResponse>().ReverseMap();
-        CreateMap<Client, ClientExportExcel>().ReverseMap();
+        CreateMap<Client, ClientsResponseExcelReport>().ReverseMap();
     }
 }
