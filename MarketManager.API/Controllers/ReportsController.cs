@@ -1,13 +1,9 @@
 ﻿using MarketManager.Application.UseCases;
 using MarketManager.Application.UseCases.ExpiredProducts.Report;
-using MarketManager.Application.UseCases.Orders.Import.Export;
-using MarketManager.Application.UseCases.Packages.Reports;
-using MarketManager.Application.UseCases.Products.Reports;
 using MarketManager.Application.UseCases.Users.Report;
 using MarketManager.Application.UseCases.Users.Response;
 using MarketManager.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
-using static MarketManager.Application.UseCases.Orders.Queries.GetAllOrders.GetallOrderCommmandHandler;
 
 namespace MarketManager.API.Controllers;
 [Route("api/[controller]")]
@@ -17,7 +13,7 @@ public class ReportsController : BaseApiController
     [HttpGet("[action]")]
     public async Task<FileResult> ExportExcelUsers(string fileName = "users")
     {
-       var result = await _mediator.Send(new GetUsersExcel { FileName = fileName });
+        var result = await _mediator.Send(new GetUsersExcel { FileName = fileName });
         return File(result.FileContents, result.Option, result.FileName);
     }
 
@@ -36,12 +32,12 @@ public class ReportsController : BaseApiController
         return Ok();
     }
 
-    [HttpGet("[action]")] 
+    [HttpGet("[action]")]
     public async Task<FileResult> TestUserGetExcelGeneric(string filename)
     {
         var result = await _mediator.Send(new TestUserGetExcel() { FileName = filename });
-        return File(result.FileContents,result.Option, result.FileName);
-        
+        return File(result.FileContents, result.Option, result.FileName);
+
     }
 
     [HttpGet("[action]")]

@@ -1,10 +1,6 @@
-﻿using AutoMapper;
-using MarketManager.Application.Common;
+﻿using MarketManager.Application.Common;
 using MarketManager.Application.Common.Interfaces;
 using MarketManager.Application.Common.Models;
-using MarketManager.Application.UseCases.Permissions.ResponseModels;
-using MarketManager.Application.UseCases.Users.Response;
-using MarketManager.Domain.Entities;
 using MarketManager.Domain.Entities.Identity;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -18,12 +14,12 @@ public class TestGetExcelProductHandler : IRequestHandler<TestUserGetExcel, Exce
 {
     private readonly IApplicationDbContext _context;
     private readonly GenericExcelReport _generic;
- 
+
     public TestGetExcelProductHandler(IApplicationDbContext context, GenericExcelReport generic)
     {
         _context = context;
         _generic = generic;
-        
+
     }
 
     public async Task<ExcelReportResponse> Handle(TestUserGetExcel request, CancellationToken cancellationToken)

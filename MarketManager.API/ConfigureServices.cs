@@ -1,11 +1,11 @@
-﻿using MarketManager.API.Common.Services;
+﻿using System.Text.Json.Serialization;
+using MarketManager.API.Common.Services;
 using MarketManager.Application.Common.Interfaces;
 using MarketManager.Application.Common.JWT;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.OpenApi.Models;
 using Serilog;
 using Serilog.Events;
-using System.Text.Json.Serialization;
 using Telegram.Bot;
 using TelegramSink;
 

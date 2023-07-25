@@ -6,4 +6,4 @@ public class ExpiredProduct : BaseAuditableEntity
     public virtual Package Packages { get; set; }
     public int Count { get; set; }
     public DateTime DeletedTime { get; set; }
-} 
+}

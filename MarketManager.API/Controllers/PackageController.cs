@@ -20,6 +20,13 @@ namespace MarketManager.API.Controllers
             return await _mediator.Send(command);
         }
 
+        [HttpPost("[action]")]
+        public async Task<List<PackageResponse>> ImportExcelPackages(IFormFile excelfile)
+        {
+            var result = await _mediator.Send(new AddPackagesFromExcel(excelfile));
+            return result;
+        }
+
         [HttpGet("[action]")]
         public async ValueTask<PackageResponse> GetPackageById(Guid Id)
         {

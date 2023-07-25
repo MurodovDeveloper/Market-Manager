@@ -1,10 +1,10 @@
-﻿using MarketManager.Application.Common.Interfaces;
-using MarketManager.Application.Common;
+﻿using MarketManager.Application.Common;
+using MarketManager.Application.Common.Abstraction;
+using MarketManager.Application.Common.Interfaces;
+using MarketManager.Application.Common.Models;
 using MarketManager.Domain.Entities;
 using MediatR;
-using MarketManager.Application.Common.Abstraction;
 using Microsoft.EntityFrameworkCore;
-using MarketManager.Application.Common.Models;
 
 namespace MarketManager.Application.UseCases.ExpiredProducts.Report
 {
@@ -12,7 +12,7 @@ namespace MarketManager.Application.UseCases.ExpiredProducts.Report
     {
         public string FileName { get; set; }
     }
-    public class GetExpiredProductExcelHandler : IRequestHandler<GetExpiredProductExcel,ExcelReportResponse>
+    public class GetExpiredProductExcelHandler : IRequestHandler<GetExpiredProductExcel, ExcelReportResponse>
     {
         private readonly IApplicationDbContext _context;
         private readonly GenericExcelReport _generic;

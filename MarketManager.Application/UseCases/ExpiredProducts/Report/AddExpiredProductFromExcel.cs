@@ -33,7 +33,7 @@ namespace MarketManager.Application.UseCases.ExpiredProducts.Report
                             Id = Guid.Parse(sheet1.Cell(row, 1).GetString()),
                             PackageId = Guid.Parse(sheet1.Cell(row, 2).GetString()),
                             Count = int.Parse(sheet1.Cell(row, 3).GetString()),
-                           
+
                         };
 
                         result.Add(expiredProduct);

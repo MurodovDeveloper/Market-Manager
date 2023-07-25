@@ -9,7 +9,7 @@ using static MarketManager.Application.UseCases.Orders.Queries.GetAllOrders.Geta
 
 namespace MarketManager.Application.UseCases.Orders.Import.Export
 {
-    public record  AddOrdersFromPDF(IFormFile PdfFile) : IRequest<List<OrderResponse>>;
+    public record AddOrdersFromPDF(IFormFile PdfFile) : IRequest<List<OrderResponse>>;
 
     public class AddOrdersFromPDFHandler : IRequestHandler<AddOrdersFromPDF, List<OrderResponse>>
     {
@@ -26,7 +26,7 @@ namespace MarketManager.Application.UseCases.Orders.Import.Export
 
         public async Task<List<OrderResponse>> Handle(AddOrdersFromPDF request, CancellationToken cancellationToken)
         {
-             byte[] PdfInBytes = ConvertFormFileToByteArray(request.PdfFile);
+            byte[] PdfInBytes = ConvertFormFileToByteArray(request.PdfFile);
             PdfDocument pdf = new(PdfInBytes);
             List<OrderResponse> result = new();
             for (int pageIndex = 0; pageIndex < pdf.Pages.Count; pageIndex++)
@@ -44,7 +44,7 @@ namespace MarketManager.Application.UseCases.Orders.Import.Export
                                 TotalPrice = decimal.Parse(table.GetText(i, 1)),
                                 ItemPriceSum = decimal.Parse(table.GetText(i, 2)),
                                 ItemPurchaseSum = decimal.Parse(table.GetText(i, 3)),
-                                ClientId = Guid.Parse(table.GetText(i, 4).Replace("\n",""))
+                                ClientId = Guid.Parse(table.GetText(i, 4).Replace("\n", ""))
                             };
 
                             await _context.Orders.AddAsync(order);

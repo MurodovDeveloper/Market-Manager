@@ -20,6 +20,13 @@ public class ProductController : BaseApiController
         return await _mediator.Send(command);
     }
 
+    [HttpPost("[action]")]
+    public async Task<List<ProductResponse>> ImportExcelProducts(IFormFile excelfile)
+    {
+        var result = await _mediator.Send(new AddProductsFromExcel(excelfile));
+        return result;
+    }
+
     [HttpGet("[action]")]
     public async ValueTask<ProductResponse> GetProductById(Guid Id)
     {
@@ -27,7 +34,8 @@ public class ProductController : BaseApiController
     }
 
     [HttpGet("[action]")]
-    public async Task<ActionResult<PaginatedList<ProductResponse>>> GetAllProductsFilter([FromBody] GetAllProductsFilterQuery query)
+    public async Task<ActionResult<PaginatedList<ProductResponse>>> GetAllProductsFilter(
+        [FromBody] GetAllProductsFilterQuery query)
     {
         return await _mediator.Send(query);
     }

@@ -7,6 +7,7 @@ using MarketManager.Application.UseCases.Clients.Queries.GetAllClients;
 using MarketManager.Application.UseCases.Clients.Queries.GetClientById;
 using MarketManager.Application.UseCases.Clients.Reports;
 using Microsoft.AspNetCore.Mvc;
+
 namespace MarketManager.API.Controllers
 {
     [Route("api/[controller]")]
@@ -24,7 +25,7 @@ namespace MarketManager.API.Controllers
         [FromQuery] ClientsFilterQuery filterCommand)
         {
             return await _mediator.Send(filterCommand);
-            
+
         }
 
         [HttpGet("[action]")]

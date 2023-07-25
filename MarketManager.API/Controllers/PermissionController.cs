@@ -1,4 +1,5 @@
-﻿using ClosedXML.Excel;
+﻿using System.Data;
+using ClosedXML.Excel;
 using MarketManager.Application.Common.Interfaces;
 using MarketManager.Application.Common.Models;
 using MarketManager.Application.UseCases.Permissions.Commands.CreatePermission;
@@ -10,7 +11,6 @@ using MarketManager.Application.UseCases.Permissions.ResponseModels;
 using MarketManager.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Data;
 
 namespace MarketManager.API.Controllers;
 [Route("api/[controller]")]
@@ -71,14 +71,14 @@ public class PermissionController : BaseApiController
             dataTable.Rows.Add(item.Id, item.Name);
         }
 
-        using(XLWorkbook wb = new XLWorkbook())
+        using (XLWorkbook wb = new XLWorkbook())
         {
             wb.Worksheets.Add(dataTable);
-            using(MemoryStream stream = new MemoryStream())
+            using (MemoryStream stream = new MemoryStream())
             {
                 wb.SaveAs(stream);
-                return File(stream.ToArray(), 
-                    "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", 
+                return File(stream.ToArray(),
+                    "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
                     fileName);
             }
         }

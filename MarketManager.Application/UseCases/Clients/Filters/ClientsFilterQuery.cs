@@ -42,15 +42,15 @@ public class ClientsFilterQueryHandler : IRequestHandler<ClientsFilterQuery, Pag
 
         if (request.OrderByDiscount && !request.OrderByTotalPrice)
         {
-                 allClients =  allClients
-                .Where(date=> DateOnly.FromDateTime(date.CreatedDate) >= request.StartDate && DateOnly.FromDateTime(date.CreatedDate)<= request.EndDate)
-                .OrderByDescending(x => x.Discount);
+            allClients = allClients
+           .Where(date => DateOnly.FromDateTime(date.CreatedDate) >= request.StartDate && DateOnly.FromDateTime(date.CreatedDate) <= request.EndDate)
+           .OrderByDescending(x => x.Discount);
         }
         if (request.OrderByTotalPrice && !request.OrderByDiscount)
         {
-                allClients = allClients
-                 .Where(date => DateOnly.FromDateTime(date.CreatedDate) >= request.StartDate && DateOnly.FromDateTime(date.CreatedDate) <= request.EndDate)
-                .OrderByDescending(x => x.TotalPrice);
+            allClients = allClients
+             .Where(date => DateOnly.FromDateTime(date.CreatedDate) >= request.StartDate && DateOnly.FromDateTime(date.CreatedDate) <= request.EndDate)
+            .OrderByDescending(x => x.TotalPrice);
         }
         //else
         //{
@@ -58,7 +58,7 @@ public class ClientsFilterQueryHandler : IRequestHandler<ClientsFilterQuery, Pag
         //        .Where(date => DateOnly.FromDateTime(date.CreatedDate) >= request.StartDate && DateOnly.FromDateTime(date.CreatedDate) <= request.EndDate)
         //        .OrderByDescending(x => x.TotalPrice).ThenByDescending(x => x.Discount);
         //}
-        var response = allClients.Select (p=> _mapper.Map<Client, GetAllClientsQueryResponse>(p));
+        var response = allClients.Select(p => _mapper.Map<Client, GetAllClientsQueryResponse>(p));
         return await PaginatedList<GetAllClientsQueryResponse>.CreateAsync(response, request.PageNumber, request.PageSize);
 
     }

@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using MarketManager.Application.Common.Interfaces;
-using MarketManager.Application.UseCases.Items.Queries.GetAllItems;
 using MarketManager.Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Http;
@@ -9,7 +8,7 @@ using Spire.Pdf.Utilities;
 
 namespace MarketManager.Application.UseCases.Items.Import.Export
 {
-    public record  AddItemsFromPDF(IFormFile PdfFile) : IRequest<List<ItemResponse>>;
+    public record AddItemsFromPDF(IFormFile PdfFile) : IRequest<List<ItemResponse>>;
 
     public class AddItemsFromPDFHandler : IRequestHandler<AddItemsFromPDF, List<ItemResponse>>
     {
@@ -26,7 +25,7 @@ namespace MarketManager.Application.UseCases.Items.Import.Export
 
         public async Task<List<ItemResponse>> Handle(AddItemsFromPDF request, CancellationToken cancellationToken)
         {
-             byte[] PdfInBytes = ConvertFormFileToByteArray(request.PdfFile);
+            byte[] PdfInBytes = ConvertFormFileToByteArray(request.PdfFile);
             PdfDocument pdf = new(PdfInBytes);
             List<ItemResponse> result = new();
             for (int pageIndex = 0; pageIndex < pdf.Pages.Count; pageIndex++)
@@ -44,7 +43,7 @@ namespace MarketManager.Application.UseCases.Items.Import.Export
                                 PackageId = Guid.Parse(table.GetText(i, 1)),
                                 OrderId = Guid.Parse(table.GetText(i, 2)),
                                 Count = double.Parse(table.GetText(i, 3)),
-                                SoldPrice = double.Parse(table.GetText(i, 4).Replace("\n",""))
+                                SoldPrice = double.Parse(table.GetText(i, 4).Replace("\n", ""))
                             };
 
                             await _context.Items.AddAsync(item);

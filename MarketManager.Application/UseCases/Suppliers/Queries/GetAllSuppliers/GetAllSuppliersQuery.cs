@@ -1,11 +1,8 @@
 ﻿using AutoMapper;
 using MarketManager.Application.Common.Interfaces;
 using MarketManager.Application.Common.Models;
-using MarketManager.Application.UseCases.Clients.Queries.GetAllClients;
 using MarketManager.Domain.Entities;
-using MarketManager.Domain.Entities.Identity;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 
 namespace MarketManager.Application.UseCases.Suppliers.Queries.GetAllSuppliers;
 
@@ -33,13 +30,13 @@ public class GetAllSuppliersQueryHandler : IRequestHandler<GetAllSuppliersQuery,
         var suppliers = _context.Suppliers.AsQueryable();
         if (!string.IsNullOrEmpty(search))
         {
-            suppliers = suppliers.Where(s=>s.Name.ToLower().Contains(search.ToLower()) || s.Phone.Contains(search));
+            suppliers = suppliers.Where(s => s.Name.ToLower().Contains(search.ToLower()) || s.Phone.Contains(search));
         }
         if (suppliers is null || suppliers.Count() <= 0)
         {
             throw new NotFoundException(nameof(Supplier), search);
         }
-       
+
 
         var paginatedSuppliers = await PaginatedList<Supplier>.CreateAsync(suppliers, request.PageNumber, request.PageSize);
 
@@ -47,7 +44,7 @@ public class GetAllSuppliersQueryHandler : IRequestHandler<GetAllSuppliersQuery,
         var res = new PaginatedList<GetAllSuppliersQueryResponse>
             (response, paginatedSuppliers.TotalCount, paginatedSuppliers.PageNumber, paginatedSuppliers.TotalPages);
         return res;
-        
+
     }
 }
 public class GetAllSuppliersQueryResponse

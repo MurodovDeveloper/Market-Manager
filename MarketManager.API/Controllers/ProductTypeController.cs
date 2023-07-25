@@ -3,7 +3,6 @@ using MarketManager.Application.UseCases.ProductsType.Commands.UpdateProductType
 using MarketManager.Application.UseCases.ProductTypes.Commands.CreateProductsType;
 using MarketManager.Application.UseCases.ProductTypes.Queries.GetAllProductTypes;
 using MarketManager.Application.UseCases.ProductTypes.Queries.GetByIdProductTypeQuery;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MarketManager.API.Controllers

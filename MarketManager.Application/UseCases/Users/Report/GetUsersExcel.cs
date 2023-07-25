@@ -1,14 +1,14 @@
-﻿using AutoMapper;
+﻿using System.Data;
+using AutoMapper;
 using ClosedXML.Excel;
 using MarketManager.Application.Common.Interfaces;
 using MarketManager.Application.Common.Models;
 using MarketManager.Application.UseCases.Users.Response;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using System.Data;
 
 namespace MarketManager.Application.UseCases.Users.Report;
-public class GetUsersExcel:IRequest<ExcelReportResponse>
+public class GetUsersExcel : IRequest<ExcelReportResponse>
 {
     public string FileName { get; set; }
 }
@@ -31,42 +31,42 @@ public class GetUsersExcelHandler : IRequestHandler<GetUsersExcel, ExcelReportRe
             var userData = await GetUsersAsync();
             var sheet1 = wb.AddWorksheet(userData, "Users");
 
-            sheet1.Columns().AdjustToContents(20,80);
-            //sheet1.Column(1).Style.Font.FontColor = XLColor.Red;
 
-            //sheet1.Columns(2, 4).Style.Font.FontColor = XLColor.Blue;
+            sheet1.Column(1).Style.Font.FontColor = XLColor.Red;
 
-            //sheet1.Row(1).CellsUsed().Style.Fill.BackgroundColor = XLColor.Black;
+            sheet1.Columns(2, 4).Style.Font.FontColor = XLColor.Blue;
 
-            //sheet1.Row(1).Style.Font.FontColor = XLColor.White;
+            sheet1.Row(1).CellsUsed().Style.Fill.BackgroundColor = XLColor.Black;
 
-            //sheet1.Row(1).Style.Font.Bold = true;
-            //sheet1.Row(1).Style.Font.Shadow = true;
-            //sheet1.Row(1).Style.Font.Underline = XLFontUnderlineValues.Single;
-            //sheet1.Row(1).Style.Font.VerticalAlignment = XLFontVerticalTextAlignmentValues.Superscript;
-            //sheet1.Row(1).Style.Font.Italic = true;
+            sheet1.Row(1).Style.Font.FontColor = XLColor.White;
+
+            sheet1.Row(1).Style.Font.Bold = true;
+            sheet1.Row(1).Style.Font.Shadow = true;
+            sheet1.Row(1).Style.Font.Underline = XLFontUnderlineValues.Single;
+            sheet1.Row(1).Style.Font.VerticalAlignment = XLFontVerticalTextAlignmentValues.Superscript;
+            sheet1.Row(1).Style.Font.Italic = true;
 
             sheet1.RowHeight = 20;
-            //sheet1.Column(1).Width = 38;
-            //sheet1.Column(2).Width = 20;
-            //sheet1.Column(3).Width = 20;
-            //sheet1.Column(4).Width = 20;
+            sheet1.Column(1).Width = 38;
+            sheet1.Column(2).Width = 20;
+            sheet1.Column(3).Width = 20;
+            sheet1.Column(4).Width = 20;
 
 
 
             using (MemoryStream ms = new MemoryStream())
             {
                 wb.SaveAs(ms);
-               return new ExcelReportResponse(ms.ToArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", $"{request.FileName}.xlsx");
-              
+                return new ExcelReportResponse(ms.ToArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", $"{request.FileName}.xlsx");
+
             }
         }
     }
 
-    private async Task<DataTable> GetUsersAsync(CancellationToken cancellationToken=default)
+    private async Task<DataTable> GetUsersAsync(CancellationToken cancellationToken = default)
     {
         var allUser = await _context.Users.ToListAsync(cancellationToken);
-         
+
         DataTable dt = new DataTable();
         dt.TableName = "Empdata";
         dt.Columns.Add("Code", typeof(Guid));

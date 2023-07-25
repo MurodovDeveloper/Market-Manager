@@ -1,16 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using ClosedXML.Excel;
 using MarketManager.Application.Common.Interfaces;
 using MarketManager.Application.UseCases.Products.Response;
 using MarketManager.Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Http;
-using static MarketManager.Application.UseCases.Orders.Queries.GetAllOrders.GetallOrderCommmandHandler;
 
 namespace MarketManager.Application.UseCases.Products.Reports
 {
@@ -49,8 +43,8 @@ namespace MarketManager.Application.UseCases.Products.Reports
                     {
                         var product = new Product()
                         {
-                            Name =sheet1.Cell(row, 1).GetString(),
-                            Description=sheet1.Cell(row, 2).GetString(),
+                            Name = sheet1.Cell(row, 1).GetString(),
+                            Description = sheet1.Cell(row, 2).GetString(),
                             ProductTypeId = Guid.Parse(sheet1.Cell(row, 3).GetString())
                         };
 
