@@ -57,7 +57,7 @@ namespace MarketManager.API.Controllers
             return NoContent();
         }
         [HttpGet("[action]")]
-        public async Task<FileResult> ExportExcelUsers(string fileName = "users")
+        public async Task<FileResult> ExportExcelClients(string fileName = "clients")
         {
             var result = await _mediator.Send(new ClientExportExcel { FileName = fileName });
             return File(result.FileContents, result.Option, result.FileName);
