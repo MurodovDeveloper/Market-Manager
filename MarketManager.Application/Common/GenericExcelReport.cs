@@ -1,7 +1,7 @@
-﻿using System.Data;
-using AutoMapper;
+﻿using AutoMapper;
 using ClosedXML.Excel;
 using MarketManager.Application.Common.Models;
+using System.Data;
 
 namespace MarketManager.Application.Common;
 public class GenericExcelReport
@@ -81,7 +81,31 @@ public class GenericExcelReport
                 DataRow row = dt.NewRow();
                 foreach (var prop in item.GetType().GetProperties())
                 {
-                    row.SetField(prop.Name, prop.GetValue(item));
+                    string a = prop.PropertyType.AssemblyQualifiedName;
+                    if (a.Contains("System.Collections.Generic"))
+                    {
+
+                        continue;
+                        //if (((IList)prop.GetValue(item)).Count > 0)
+                        //{
+                        //    foreach (var prop2 in (IList)prop.GetValue(item))
+                        //    {
+                        //        foreach (var prop3 in prop2.GetType().GetProperties())
+                        //        {
+
+                        //            if (prop3.Name != "Id")
+                        //                row.SetField(prop3.Name, prop3.GetValue(prop2));
+
+                        //        }
+                        //    }
+                        //}
+                    }
+                    else
+                    {
+                        row.SetField(prop.Name, prop.GetValue(item));
+
+                    }
+
                 }
 
 

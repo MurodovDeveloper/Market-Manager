@@ -1,5 +1,4 @@
-﻿using System.Data;
-using AutoMapper;
+﻿using AutoMapper;
 using ClosedXML.Excel;
 using MarketManager.Application.Common.Interfaces;
 using MarketManager.Application.Common.Models;
@@ -7,6 +6,7 @@ using MarketManager.Domain.Entities;
 using MarketManager.Domain.Entities.Identity;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using System.Data;
 
 namespace MarketManager.Application.UseCases.Permissions.Reports;
 public record GenericReportToExcel : IRequest<ExcelReportResponse>
@@ -72,7 +72,15 @@ public class GenericReportToExcelHandler : IRequestHandler<GenericReportToExcel,
         dt.TableName = typeof(T).Name + "Data";
         foreach (var property in typeof(T).GetProperties())
         {
-            dt.Columns.Add(property.Name, property.PropertyType);
+            if (property.PropertyType.AssemblyQualifiedName.Contains("System.Collections.Generic"))
+            {
+                continue;
+            }
+            else
+            {
+                dt.Columns.Add(property.Name, property.PropertyType);
+            }
+
         }
 
         foreach (var entity in entities)
@@ -80,7 +88,15 @@ public class GenericReportToExcelHandler : IRequestHandler<GenericReportToExcel,
             DataRow row = dt.NewRow();
             foreach (var property in typeof(T).GetProperties())
             {
-                row[property.Name] = property.GetValue(entity);
+                if (property.PropertyType.AssemblyQualifiedName.Contains("System.Collections.Generic"))
+                {
+                    continue;
+                }
+                else
+                {
+                    row[property.Name] = property.GetValue(entity);
+
+                }
             }
             dt.Rows.Add(row);
         }
