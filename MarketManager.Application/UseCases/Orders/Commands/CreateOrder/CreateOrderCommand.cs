@@ -2,7 +2,6 @@
 using MarketManager.Application.Common.Interfaces;
 using MarketManager.Domain.Entities;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 
 namespace MarketManager.Application.UseCases.Orders.Commands.CreateOrder;
 
@@ -10,9 +9,10 @@ namespace MarketManager.Application.UseCases.Orders.Commands.CreateOrder;
 public class CreateOrderCommand : IRequest<Guid>
 {
     public decimal TotalPrice { get; set; }
-    public decimal ItemPriceSum { get; set; }
+
     public Guid ClientId { get; set; }
-    public decimal ItemPurchaseSum { get; set; }
+    public decimal CardPriceSum { get; set; }
+    public decimal CashPurchaseSum { get; set; }
 
 }
 
@@ -31,11 +31,11 @@ public class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand, Gui
     {
 
 
-            Order order = _mapper.Map<Order>(request);
-            await _dbContext.Orders.AddAsync(order, cancellationToken);
-            await _dbContext.SaveChangesAsync(cancellationToken);
+        Order order = _mapper.Map<Order>(request);
+        await _dbContext.Orders.AddAsync(order, cancellationToken);
+        await _dbContext.SaveChangesAsync(cancellationToken);
 
-            return order.Id;
-        }
- }
+        return order.Id;
+    }
+}
 

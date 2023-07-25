@@ -1,13 +1,8 @@
-﻿using MarketManager.Application.Common.Interfaces;
+﻿using MarketManager.Application.Common;
+using MarketManager.Application.Common.Interfaces;
 using MarketManager.Application.Common.Models;
-using MarketManager.Application.Common;
-using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using MarketManager.Domain.Entities;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 namespace MarketManager.Application.UseCases.Clients.Reports

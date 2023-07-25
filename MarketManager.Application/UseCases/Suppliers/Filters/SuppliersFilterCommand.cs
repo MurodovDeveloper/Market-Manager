@@ -10,7 +10,7 @@ public class SuppliersFilterCommand : IRequest<List<Supplier>>
     public DateOnly? StartDate { get; set; }
     public DateOnly? EndDate { get; set; }
     public bool OrderByName { get; set; } = false;
-    public bool OrderByPhone { get; set;} = false;
+    public bool OrderByPhone { get; set; } = false;
 }
 public class SuppliersFilterCommandHandler : IRequestHandler<SuppliersFilterCommand, List<Supplier>>
 {

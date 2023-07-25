@@ -7,7 +7,6 @@ using MarketManager.Application.UseCases.Users.Commands.UpdateUser;
 using MarketManager.Application.UseCases.Users.Queries.GetAllUser;
 using MarketManager.Application.UseCases.Users.Queries.GetByIdUser;
 using MarketManager.Application.UseCases.Users.Response;
-using MarketManager.Domain.Entities.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MarketManager.API.Controllers;
@@ -24,7 +23,7 @@ public class UserController : BaseApiController
     public async ValueTask<List<UserResponse>> GetAllUser()
            => await _mediator.Send(new GetAllUserQuery());
 
-    
+
 
 
     [HttpPost("[action]")]

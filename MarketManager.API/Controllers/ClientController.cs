@@ -6,10 +6,7 @@ using MarketManager.Application.UseCases.Clients.Filters;
 using MarketManager.Application.UseCases.Clients.Queries.GetAllClients;
 using MarketManager.Application.UseCases.Clients.Queries.GetClientById;
 using MarketManager.Application.UseCases.Clients.Reports;
-using MarketManager.Application.UseCases.Users.Report;
-using MarketManager.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
-using static MarketManager.Application.UseCases.Clients.Filters.ClientsFilterQueryHandler;
 
 namespace MarketManager.API.Controllers
 {
@@ -28,7 +25,7 @@ namespace MarketManager.API.Controllers
         [FromQuery] ClientsFilterQuery filterCommand)
         {
             return await _mediator.Send(filterCommand);
-            
+
         }
 
         [HttpGet("[action]")]

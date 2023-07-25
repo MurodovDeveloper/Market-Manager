@@ -1,10 +1,10 @@
-﻿using ClosedXML.Excel;
+﻿using System.Data;
+using ClosedXML.Excel;
 using MarketManager.Application.Common.Interfaces;
 using MarketManager.Application.Common.Models;
 using MarketManager.Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using System.Data;
 
 namespace MarketManager.Application.UseCases.Suppliers.Report.GetExelSuplier;
 

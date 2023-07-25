@@ -22,7 +22,7 @@ public class GlobalExceptionMiddleware
     {
         try
         {
-           
+
             await _next(httpContext);
         }
 

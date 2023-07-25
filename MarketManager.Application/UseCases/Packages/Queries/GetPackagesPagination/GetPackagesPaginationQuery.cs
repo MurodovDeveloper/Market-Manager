@@ -7,7 +7,7 @@ using MediatR;
 
 namespace MarketManager.Application.UseCases.Packages.Queries.GetPackagesPagination
 {
-    public class GetPackagesPaginationQuery:IRequest<PaginatedList<PackageResponse>>
+    public class GetPackagesPaginationQuery : IRequest<PaginatedList<PackageResponse>>
     {
         public string? SearchTerm { get; init; }
         public int PageNumber { get; init; } = 1;
@@ -30,17 +30,17 @@ namespace MarketManager.Application.UseCases.Packages.Queries.GetPackagesPaginat
         {
             var search = request.SearchTerm?.Trim();
             var packages = _context.Packages.AsQueryable();
-            
+
             if (!string.IsNullOrEmpty(search))
             {
-                packages = packages.Where(s => s.IncomingCount.ToString().Contains(search) 
-                                            || s.ExistCount.ToString().Contains(search) 
+                packages = packages.Where(s => s.IncomingCount.ToString().Contains(search)
+                                            || s.ExistCount.ToString().Contains(search)
                                             || s.IncomingPrice.ToString().Contains(search)
                                             || s.SalePrice.ToString().Contains(search)
                                             || s.IncomingDate.ToString().Contains(search));
             }
 
-            if(packages is null || packages.Count() <= 0)
+            if (packages is null || packages.Count() <= 0)
             {
                 throw new NotFoundException(nameof(Package), search);
             }
@@ -48,7 +48,7 @@ namespace MarketManager.Application.UseCases.Packages.Queries.GetPackagesPaginat
             var paginatedPackages = await PaginatedList<Package>.CreateAsync(
                 packages, request.PageNumber, request.PageSize);
 
-            var response=_mapper.Map<List<PackageResponse>>(paginatedPackages.Items);
+            var response = _mapper.Map<List<PackageResponse>>(paginatedPackages.Items);
 
             var result = new PaginatedList<PackageResponse>
                (response, paginatedPackages.TotalCount, paginatedPackages.PageNumber, paginatedPackages.TotalPages);

@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System.Data;
+using AutoMapper;
 using ClosedXML.Excel;
 using MarketManager.Application.Common.Interfaces;
 using MarketManager.Application.Common.Models;
@@ -6,7 +7,6 @@ using MarketManager.Domain.Entities;
 using MarketManager.Domain.Entities.Identity;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using System.Data;
 
 namespace MarketManager.Application.UseCases.Permissions.Reports;
 public record GenericReportToExcel : IRequest<ExcelReportResponse>
@@ -32,7 +32,7 @@ public class GenericReportToExcelHandler : IRequestHandler<GenericReportToExcel,
 
         try
         {
-            dataTable = WordSimilarityCalculator.CalculateSimilarity(endpointName.ToLower()) switch
+            dataTable = endpointName.ToLower() switch
             {
                 "user" => await GetEntitiesAsync<User>(await _context.Users.ToListAsync(cancellationToken), cancellationToken),
                 "product" => await GetEntitiesAsync<Product>(await _context.Products.ToListAsync(cancellationToken), cancellationToken),
@@ -57,7 +57,7 @@ public class GenericReportToExcelHandler : IRequestHandler<GenericReportToExcel,
         using (XLWorkbook wb = new XLWorkbook())
         {
             var worksheet = wb.Worksheets.Add(dataTable);
-            worksheet.Columns().AdjustToContents(20.0, 80.0);
+            worksheet.Columns().AdjustToContents();
             using (MemoryStream stream = new MemoryStream())
             {
                 wb.SaveAs(stream);
@@ -72,16 +72,7 @@ public class GenericReportToExcelHandler : IRequestHandler<GenericReportToExcel,
         dt.TableName = typeof(T).Name + "Data";
         foreach (var property in typeof(T).GetProperties())
         {
-
-            if (property.PropertyType.AssemblyQualifiedName.Contains("System.Collections.Generic"))
-            {
-                continue;
-            }
-            else
-            {
-                dt.Columns.Add(property.Name, property.PropertyType);
-            }
-            
+            dt.Columns.Add(property.Name, property.PropertyType);
         }
 
         foreach (var entity in entities)
@@ -89,15 +80,7 @@ public class GenericReportToExcelHandler : IRequestHandler<GenericReportToExcel,
             DataRow row = dt.NewRow();
             foreach (var property in typeof(T).GetProperties())
             {
-                if (property.PropertyType.AssemblyQualifiedName.Contains("System.Collections.Generic"))
-                {
-                    continue;
-                }
-                else
-                {
-                    row[property.Name] = property.GetValue(entity);
-                }
-                
+                row[property.Name] = property.GetValue(entity);
             }
             dt.Rows.Add(row);
         }

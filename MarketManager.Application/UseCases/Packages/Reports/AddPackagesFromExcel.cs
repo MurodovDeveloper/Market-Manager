@@ -5,7 +5,6 @@ using MarketManager.Application.UseCases.Packages.Response;
 using MarketManager.Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Http;
-using static MarketManager.Application.UseCases.Orders.Queries.GetAllOrders.GetallOrderCommmandHandler;
 
 namespace MarketManager.Application.UseCases.Packages.Reports
 {
@@ -44,7 +43,7 @@ namespace MarketManager.Application.UseCases.Packages.Reports
                         var package = new Package()
                         {
                             ProductId = Guid.Parse(sheet1.Cell(row, 1).GetString()),
-                            IncomingCount= double.Parse(sheet1.Cell(row, 2).GetString()),
+                            IncomingCount = double.Parse(sheet1.Cell(row, 2).GetString()),
                             SupplierId = Guid.Parse(sheet1.Cell(row, 3).GetString()),
                             IncomingPrice = double.Parse(sheet1.Cell(row, 4).GetString()),
                             SalePrice = double.Parse(sheet1.Cell(row, 5).GetString()),

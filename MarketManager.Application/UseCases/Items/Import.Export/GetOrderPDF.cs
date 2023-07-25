@@ -90,4 +90,4 @@ public class HeaderFooterHelper : PdfPageEventHelper
     }
 }
 
-public record PDFExportResponse(byte[] FileContents , string Options, string FileName);
+public record PDFExportResponse(byte[] FileContents, string Options, string FileName);

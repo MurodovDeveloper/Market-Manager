@@ -1,16 +1,15 @@
-﻿using AutoMapper;
+﻿using System.Data;
+using AutoMapper;
 using ClosedXML.Excel;
 using MarketManager.Application.Common.Interfaces;
 using MarketManager.Application.Common.Models;
-using MarketManager.Application.UseCases.Users.Report;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using System.Data;
 using static MarketManager.Application.UseCases.Orders.Queries.GetAllOrders.GetallOrderCommmandHandler;
 
 namespace MarketManager.Application.UseCases.Orders.Import.Export
 {
-    public  class GetOrderExcel : IRequest<ExcelReportResponse>
+    public class GetOrderExcel : IRequest<ExcelReportResponse>
     {
         public string FileName { get; set; }
     }
@@ -88,7 +87,7 @@ namespace MarketManager.Application.UseCases.Orders.Import.Export
             {
                 _list.ForEach(item =>
                 {
-                    dt.Rows.Add(item.Id, item.TotalPrice, item.ItemPriceSum, item.ItemPurchaseSum, item.ClientId);
+                    dt.Rows.Add(item.Id, item.TotalPrice, item.CardPriceSum, item.CashPurchaseSum, item.ClientId);
 
                 });
             }

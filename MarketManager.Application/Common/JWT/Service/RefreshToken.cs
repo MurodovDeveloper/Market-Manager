@@ -46,7 +46,7 @@ public class RefreshToken : IUserRefreshToken
             return null;
         }
 
-        var userResponse= _mapper.Map<UserResponse>(founUser);
+        var userResponse = _mapper.Map<UserResponse>(founUser);
 
         //var userResponse = new UserResponse
         //{

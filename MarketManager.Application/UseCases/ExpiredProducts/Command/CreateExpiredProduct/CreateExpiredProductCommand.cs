@@ -29,7 +29,7 @@ namespace MarketManager.Application.UseCases.ExpiredProducts.Command.CreateExpir
             await _context.SaveChangesAsync();
 
             return expiredProduct.Id;
-            
+
         }
     }
 

@@ -13,7 +13,7 @@ namespace MarketManager.Application.UseCases.Products.Queries.GetAllProductsWith
         public int PageNumber { get; init; } = 1;
         public int PageSize { get; init; } = 10;
     }
-    public class GetProductsPaginationQueryHandler : IRequestHandler<GetProductsPaginationQuery, 
+    public class GetProductsPaginationQueryHandler : IRequestHandler<GetProductsPaginationQuery,
         PaginatedList<ProductResponse>>
     {
         private readonly IMapper _mapper;
@@ -33,7 +33,7 @@ namespace MarketManager.Application.UseCases.Products.Queries.GetAllProductsWith
 
             if (!string.IsNullOrEmpty(search))
             {
-                products = products.Where(s => s.Name.ToLower().Contains(search.ToLower()) 
+                products = products.Where(s => s.Name.ToLower().Contains(search.ToLower())
                                             || s.Description.ToLower().Contains(search.ToLower()));
             }
             if (products is null || products.Count() <= 0)

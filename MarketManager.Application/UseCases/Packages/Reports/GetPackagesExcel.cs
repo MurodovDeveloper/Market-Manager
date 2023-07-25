@@ -1,15 +1,15 @@
-﻿using AutoMapper;
+﻿using System.Data;
+using AutoMapper;
 using ClosedXML.Excel;
 using MarketManager.Application.Common.Interfaces;
 using MarketManager.Application.Common.Models;
 using MarketManager.Application.UseCases.Packages.Response;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using System.Data;
 
 namespace MarketManager.Application.UseCases.Packages.Reports
 {
-    public class GetPackagesExcel:IRequest<ExcelReportResponse>
+    public class GetPackagesExcel : IRequest<ExcelReportResponse>
     {
         public string FileName { get; set; }
     }
@@ -27,7 +27,7 @@ namespace MarketManager.Application.UseCases.Packages.Reports
 
         public async Task<ExcelReportResponse> Handle(GetPackagesExcel request, CancellationToken cancellationToken)
         {
-            using (XLWorkbook workbook= new())
+            using (XLWorkbook workbook = new())
             {
                 var orderData = await GetPackagesAsync(cancellationToken);
                 var excelSheet = workbook.AddWorksheet(orderData, "Packages");

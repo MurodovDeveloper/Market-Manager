@@ -1,6 +1,4 @@
 ﻿using MarketManager.Application.Common.Models;
-using MarketManager.Application.UseCases.Packages.Reports;
-using MarketManager.Application.UseCases.Packages.Response;
 using MarketManager.Application.UseCases.Products.Commands.CreateProduct;
 using MarketManager.Application.UseCases.Products.Commands.UpdateProduct;
 using MarketManager.Application.UseCases.Products.Queries.GetAllProducts;
