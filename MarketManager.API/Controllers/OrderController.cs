@@ -6,6 +6,7 @@ using MarketManager.Application.UseCases.Orders.Queries.GetAllOrders;
 using MarketManager.Application.UseCases.Orders.Queries.GetOrder;
 using Microsoft.AspNetCore.Mvc;
 using X.PagedList;
+using static MarketManager.Application.UseCases.Orders.Import.Export.GetOrderExcel;
 using static MarketManager.Application.UseCases.Orders.Queries.GetAllOrders.GetallOrderCommmandHandler;
 
 namespace MarketManager.API.Controllers
@@ -50,7 +51,7 @@ namespace MarketManager.API.Controllers
         [HttpGet("[action]")]
         public async Task<FileResult> ExportExcelOrders(string fileName = "orders")
         {
-            var result = await _mediator.Send(new GetOrderExcel { FileName = fileName });
+            var result = await _mediator.Send(new GetOrderExcelQuery { FileName = fileName });
             return File(result.FileContents, result.Option, result.FileName);
         }
 
