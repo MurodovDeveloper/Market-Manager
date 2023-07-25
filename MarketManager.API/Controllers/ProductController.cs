@@ -4,6 +4,7 @@ using MarketManager.Application.UseCases.Products.Commands.UpdateProduct;
 using MarketManager.Application.UseCases.Products.Queries.GetAllProducts;
 using MarketManager.Application.UseCases.Products.Queries.GetAllProductsWithPagination;
 using MarketManager.Application.UseCases.Products.Queries.GetByIdProduct;
+using MarketManager.Application.UseCases.Products.Reports;
 using MarketManager.Application.UseCases.Products.Response;
 using Microsoft.AspNetCore.Mvc;
 
@@ -19,6 +20,13 @@ public class ProductController : BaseApiController
         return await _mediator.Send(command);
     }
 
+    [HttpPost("[action]")]
+    public async Task<List<ProductResponse>> ImportExcelProducts(IFormFile excelfile)
+    {
+        var result = await _mediator.Send(new AddProductsFromExcel(excelfile));
+        return result;
+    }
+
     [HttpGet("[action]")]
     public async ValueTask<ProductResponse> GetProductById(Guid Id)
     {
@@ -26,10 +34,12 @@ public class ProductController : BaseApiController
     }
 
     [HttpGet("[action]")]
-    public async Task<ActionResult<PaginatedList<ProductResponse>>> GetAllProductsFilter([FromBody] GetAllProductsFilterQuery query)
+    public async Task<ActionResult<PaginatedList<ProductResponse>>> GetAllProductsFilter(
+        [FromBody] GetAllProductsFilterQuery query)
     {
         return await _mediator.Send(query);
     }
+
     [HttpGet("[action]")]
     public async ValueTask<IEnumerable<ProductResponse>> GetAllProducts()
     {
@@ -41,6 +51,14 @@ public class ProductController : BaseApiController
         [FromQuery] GetProductsPaginationQuery query)
     {
         return await _mediator.Send(query);
+    }
+
+
+    [HttpGet("[action]")]
+    public async Task<FileResult> ExportExcelProducts(string fileName = "products")
+    {
+        var result = await _mediator.Send(new GetProductsExcel { FileName = fileName });
+        return File(result.FileContents, result.Option, result.FileName);
     }
 
     [HttpPut("[action]")]

@@ -1,10 +1,11 @@
-﻿using AutoMapper;
+﻿using System.Data;
+using AutoMapper;
 using ClosedXML.Excel;
 using MarketManager.Application.Common.Interfaces;
+using MarketManager.Application.Common.Models;
 using MarketManager.Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using System.Data;
 
 namespace MarketManager.Application.UseCases.ExpiredProducts.Report
 {
@@ -71,7 +72,7 @@ namespace MarketManager.Application.UseCases.ExpiredProducts.Report
             dt.Columns.Add("Code", typeof(Guid));
             dt.Columns.Add("Code", typeof(Guid));
             dt.Columns.Add("Count", typeof(int));
-            
+
 
             var _list = _mapper.Map<List<ExpiredProduct>>(allExpiredProduct);
             if (_list.Count > 0)
@@ -88,7 +89,7 @@ namespace MarketManager.Application.UseCases.ExpiredProducts.Report
 
     }
 
-    public record ExcelReportResponse(byte[] FileContents, string Option, string FileName);
+
 
 
 }

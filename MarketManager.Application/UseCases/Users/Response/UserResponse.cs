@@ -1,5 +1,4 @@
-﻿using MarketManager.Application.UseCases.Roles.Response;
-using MarketManager.Domain.Entities.Identity;
+﻿using MarketManager.Domain.Entities.Identity;
 
 namespace MarketManager.Application.UseCases.Users.Response;
 public class UserResponse
@@ -9,7 +8,7 @@ public class UserResponse
     public string Phone { get; set; }
     public string Username { get; set; }
 
-    public  List<Role>? Roles { get; set; }
+    public List<Role>? Roles { get; set; }
 
 
 }

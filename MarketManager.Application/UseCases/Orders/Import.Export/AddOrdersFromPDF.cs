@@ -7,7 +7,9 @@ using Spire.Pdf;
 using Spire.Pdf.Utilities;
 using static MarketManager.Application.UseCases.Orders.Queries.GetAllOrders.GetallOrderCommmandHandler;
 
-namespace MarketManager.Application.UseCases.Orders.Import.Export;
+namespace MarketManager.Application.UseCases.Orders.Import.Export
+{
+    public record AddOrdersFromPDF(IFormFile PdfFile) : IRequest<List<OrderResponse>>;
 
 public record AddOrdersFromPDF(IFormFile PdfFile) : IRequest<List<OrderResponse>>;
 
@@ -24,28 +26,28 @@ public class AddOrdersFromPDFHandler : IRequestHandler<AddOrdersFromPDF, List<Or
         _mapper = mapper;
     }
 
-    public async Task<List<OrderResponse>> Handle(AddOrdersFromPDF request, CancellationToken cancellationToken)
-    {
-        byte[] PdfInBytes = ConvertFormFileToByteArray(request.PdfFile);
-        PdfDocument pdf = new(PdfInBytes);
-        List<OrderResponse> result = new();
-        for (int pageIndex = 0; pageIndex < pdf.Pages.Count; pageIndex++)
+        public async Task<List<OrderResponse>> Handle(AddOrdersFromPDF request, CancellationToken cancellationToken)
         {
-            PdfTableExtractor extractor = new(pdf);
-            PdfTable[] tableLists = extractor.ExtractTable(pageIndex);
-            if (tableLists != null && tableLists.Length > 0)
+             byte[] PdfInBytes = ConvertFormFileToByteArray(request.PdfFile);
+            PdfDocument pdf = new(PdfInBytes);
+            List<OrderResponse> result = new();
+            for (int pageIndex = 0; pageIndex < pdf.Pages.Count; pageIndex++)
             {
-                foreach (PdfTable table in tableLists)
+                PdfTableExtractor extractor = new PdfTableExtractor(pdf);
+                PdfTable[] tableLists = extractor.ExtractTable(pageIndex);
+                if (tableLists != null && tableLists.Length > 0)
                 {
-                    for (int i = 2; i < table.GetRowCount(); i++)
+                    foreach (PdfTable table in tableLists)
                     {
-                        Order order = new()
+                        for (int i = 2; i < table.GetRowCount(); i++)
                         {
-                            TotalPrice = decimal.Parse(table.GetText(i, 1)),
-                            CardPriceSum = decimal.Parse(table.GetText(i, 2)),
-                            CashPurchaseSum = decimal.Parse(table.GetText(i, 3)),
-                            ClientId = Guid.Parse(table.GetText(i, 4).Replace("\n", ""))
-                        };
+                            Order order = new()
+                            {
+                                TotalPrice = decimal.Parse(table.GetText(i, 1)),
+                                CardPriceSum = decimal.Parse(table.GetText(i, 2)),
+                                CashPurchaseSum = decimal.Parse(table.GetText(i, 3)),
+                                ClientId = Guid.Parse(table.GetText(i, 4).Replace("\n",""))
+                            };
 
                         await _context.Orders.AddAsync(order);
                         result.Add(_mapper.Map<OrderResponse>(order));

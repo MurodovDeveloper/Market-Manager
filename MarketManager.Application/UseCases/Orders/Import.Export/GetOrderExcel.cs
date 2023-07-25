@@ -1,18 +1,20 @@
-﻿using AutoMapper;
+﻿using System.Data;
+using AutoMapper;
 using ClosedXML.Excel;
 using MarketManager.Application.Common.Interfaces;
-using MarketManager.Application.UseCases.Users.Report;
+using MarketManager.Application.Common.Models;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using System.Data;
 using static MarketManager.Application.UseCases.Orders.Queries.GetAllOrders.GetallOrderCommmandHandler;
 
 namespace MarketManager.Application.UseCases.Orders.Import.Export;
 
 public class GetOrderExcel : IRequest<ExcelReportResponse>
 {
-    public string FileName { get; set; }
-}
+    public class GetOrderExcel : IRequest<ExcelReportResponse>
+    {
+        public string FileName { get; set; }
+    }
 
 public class GetOrderExcelHandler : IRequestHandler<GetOrderExcel, ExcelReportResponse>
 {
@@ -75,17 +77,21 @@ public class GetOrderExcelHandler : IRequestHandler<GetOrderExcel, ExcelReportRe
         dt.Columns.Add("ClientId", typeof(Guid));
 
 
-        var _list = _mapper.Map<List<OrderResponse>>(AllOrders);
-        if (_list.Count > 0)
-        {
-            _list.ForEach(item =>
+            var _list = _mapper.Map<List<OrderResponse>>(AllOrders);
+            if (_list.Count > 0)
             {
-                dt.Rows.Add(item.Id, item.TotalPrice, item.CardPriceSum, item.CashPurchaseSum, item.ClientId);
+                _list.ForEach(item =>
+                {
+                    dt.Rows.Add(item.Id, item.TotalPrice, item.CardPriceSum, item.CashPurchaseSum, item.ClientId);
 
             });
         }
 
-        return dt;
+            return dt;
+        }
+
+
+
     }
 }
 

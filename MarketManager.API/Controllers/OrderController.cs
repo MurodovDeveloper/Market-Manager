@@ -4,7 +4,6 @@ using MarketManager.Application.UseCases.Orders.Commands.UpdateOrder;
 using MarketManager.Application.UseCases.Orders.Import.Export;
 using MarketManager.Application.UseCases.Orders.Queries.GetAllOrders;
 using MarketManager.Application.UseCases.Orders.Queries.GetOrder;
-using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using X.PagedList;
 using static MarketManager.Application.UseCases.Orders.Queries.GetAllOrders.GetallOrderCommmandHandler;
@@ -14,7 +13,7 @@ namespace MarketManager.API.Controllers
     public class OrderController : BaseApiController
     {
         [HttpGet("[action]")]
-        public async ValueTask<IEnumerable<OrderResponse>> GetAllOrders(int page =1)
+        public async ValueTask<IEnumerable<OrderResponse>> GetAllOrders(int page = 1)
         {
             IPagedList<OrderResponse> query = (await _mediator
                .Send(new GetAllOrderQuery()))
@@ -48,6 +47,33 @@ namespace MarketManager.API.Controllers
             return NoContent();
         }
 
+        [HttpGet("[action]")]
+        public async Task<FileResult> ExportExcelOrders(string fileName = "orders")
+        {
+            var result = await _mediator.Send(new GetOrderExcel { FileName = fileName });
+            return File(result.FileContents, result.Option, result.FileName);
+        }
 
+
+        [HttpPost("[action]")]
+        public async Task<List<OrderResponse>> ImportExcelOrders(IFormFile excelfile)
+        {
+            var result = await _mediator.Send(new AddOrdersFromExcel(excelfile));
+            return result;
+        }
+
+        [HttpGet("[action]")]
+        public async Task<FileResult> ExportPdfOrders(string fileName = "orders")
+        {
+            var result = await _mediator.Send(new GetOrderPDF(fileName));
+            return File(result.FileContents, result.Options, result.FileName);
+        }
+
+        [HttpPost("[action]")]
+        public async Task<List<OrderResponse>> ImportPdfOrders(IFormFile excelfile)
+        {
+            var result = await _mediator.Send(new AddOrdersFromPDF(excelfile));
+            return result;
+        }
     }
 }

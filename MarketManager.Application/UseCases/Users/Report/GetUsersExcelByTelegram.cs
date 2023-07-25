@@ -1,15 +1,9 @@
 ﻿using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Telegram.Bot;
-using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.InputFiles;
 
 namespace MarketManager.Application.UseCases.Users.Report;
-public record GetUsersExcelByTelegram(string userId,string fileName):IRequest;
+public record GetUsersExcelByTelegram(string userId, string fileName) : IRequest;
 public class GetUsersExcelByTelegramHandler : IRequestHandler<GetUsersExcelByTelegram>
 {
 
@@ -24,13 +18,13 @@ public class GetUsersExcelByTelegramHandler : IRequestHandler<GetUsersExcelByTel
 
     public async Task Handle(GetUsersExcelByTelegram request, CancellationToken cancellationToken)
     {
-        var file= await _mediator.Send(new GetUsersExcel() { FileName = request.fileName });
-        using (var ms = new MemoryStream(file.FileContents)) 
-        { 
-          var OnlineFile = new InputOnlineFile(ms, file.FileName);
+        var file = await _mediator.Send(new GetUsersExcel() { FileName = request.fileName });
+        using (var ms = new MemoryStream(file.FileContents))
+        {
+            var OnlineFile = new InputOnlineFile(ms, file.FileName);
 
-           await _botClient.SendDocumentAsync(request.userId, OnlineFile);
-           
+            await _botClient.SendDocumentAsync(request.userId, OnlineFile);
+
         }
 
 

@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using MarketManager.Application.Common.Interfaces;
 using MarketManager.Application.Common.Models;
-using MarketManager.Application.UseCases.Products.Queries.GetAllProducts;
 using MarketManager.Application.UseCases.Products.Response;
 using MarketManager.Domain.Entities;
 using MediatR;

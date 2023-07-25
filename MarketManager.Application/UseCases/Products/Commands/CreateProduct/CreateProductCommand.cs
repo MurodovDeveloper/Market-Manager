@@ -19,7 +19,7 @@ namespace MarketManager.Application.UseCases.Products.Commands.CreateProduct
         public CreateProductCommandHandler(IMapper mapper, IApplicationDbContext context)
         {
             _mapper = mapper;
-            
+
             _context = context;
         }
 
@@ -31,5 +31,5 @@ namespace MarketManager.Application.UseCases.Products.Commands.CreateProduct
 
             return Product.Id;
         }
-    } 
+    }
 }

@@ -38,14 +38,14 @@ namespace MarketManager.Application.UseCases.ExpiredProducts.Queries.GetAllExpir
             var pageNumber = request.PageNumber;
             var searchingText = request.SearchingText;
 
-           
+
 
 
             var expiredProducts = _context.ExpiredProducts.AsQueryable();
             if (!string.IsNullOrEmpty(searchingText))
             {
                 expiredProducts = expiredProducts.Where(p => p.Packages.Product.Name.ToLower().Contains(searchingText.ToLower()));
-               
+
             }
             if (expiredProducts == null || expiredProducts.Count() < 0)
             {

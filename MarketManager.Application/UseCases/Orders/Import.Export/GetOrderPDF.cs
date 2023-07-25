@@ -63,8 +63,8 @@ public class GetOrderPDFHandler : IRequestHandler<GetOrderPDF, PDFExportResponse
             {
                 table.AddCell(order.Id.ToString());
                 table.AddCell($"{order.TotalPrice}");
-                table.AddCell(order.CardPriceSum.ToString());
-                table.AddCell(order.CashPurchaseSum.ToString());
+                table.AddCell(order.ItemPriceSum.ToString());
+                table.AddCell(order.ItemPurchaseSum.ToString());
                 table.AddCell(order.ClientId.ToString());
                 table.CompleteRow();
             }
@@ -72,7 +72,7 @@ public class GetOrderPDFHandler : IRequestHandler<GetOrderPDF, PDFExportResponse
             document.Add(table);
             document.Close();
 
-            return new PDFExportResponse(ms.ToArray(), "application/pdf", request.FileName);
+            return await Task.FromResult(new PDFExportResponse(ms.ToArray(), "application/pdf", request.FileName));
         }
     }
 }
@@ -90,4 +90,4 @@ public class HeaderFooterHelper : PdfPageEventHelper
     }
 }
 
-public record PDFExportResponse(byte[] FileContents , string Options, string FileName);
+public record PDFExportResponse(byte[] FileContents, string Options, string FileName);

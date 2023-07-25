@@ -1,5 +1,5 @@
-﻿using MarketManager.Domain.Entities.Identity;
-using System.Text.Json.Serialization;
+﻿using System.Text.Json.Serialization;
+using MarketManager.Domain.Entities.Identity;
 
 namespace MarketManager.Domain.Entities;
 

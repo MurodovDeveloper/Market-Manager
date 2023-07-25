@@ -1,13 +1,14 @@
-﻿using AutoMapper;
+﻿using System.Data;
+using AutoMapper;
 using ClosedXML.Excel;
 using MarketManager.Application.Common.Interfaces;
+using MarketManager.Application.Common.Models;
 using MarketManager.Application.UseCases.Users.Response;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using System.Data;
 
 namespace MarketManager.Application.UseCases.Users.Report;
-public class GetUsersExcel:IRequest<ExcelReportResponse>
+public class GetUsersExcel : IRequest<ExcelReportResponse>
 {
     public string FileName { get; set; }
 }
@@ -56,16 +57,16 @@ public class GetUsersExcelHandler : IRequestHandler<GetUsersExcel, ExcelReportRe
             using (MemoryStream ms = new MemoryStream())
             {
                 wb.SaveAs(ms);
-               return new ExcelReportResponse(ms.ToArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", $"{request.FileName}.xlsx");
-              
+                return new ExcelReportResponse(ms.ToArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", $"{request.FileName}.xlsx");
+
             }
         }
     }
 
-    private async Task<DataTable> GetUsersAsync(CancellationToken cancellationToken=default)
+    private async Task<DataTable> GetUsersAsync(CancellationToken cancellationToken = default)
     {
         var allUser = await _context.Users.ToListAsync(cancellationToken);
-         
+
         DataTable dt = new DataTable();
         dt.TableName = "Empdata";
         dt.Columns.Add("Code", typeof(Guid));
@@ -89,5 +90,5 @@ public class GetUsersExcelHandler : IRequestHandler<GetUsersExcel, ExcelReportRe
 
 }
 
-public record ExcelReportResponse(byte[] FileContents, string Option,string FileName);
+
 

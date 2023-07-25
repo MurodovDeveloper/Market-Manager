@@ -228,12 +228,6 @@ namespace MarketManager.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<decimal>("CardPriceSum")
-                        .HasColumnType("numeric");
-
-                    b.Property<decimal>("CashPurchaseSum")
-                        .HasColumnType("numeric");
-
                     b.Property<Guid>("ClientId")
                         .HasColumnType("uuid");
 
@@ -242,6 +236,12 @@ namespace MarketManager.Infrastructure.Migrations
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("timestamp with time zone");
+
+                    b.Property<decimal>("ItemPriceSum")
+                        .HasColumnType("numeric");
+
+                    b.Property<decimal>("ItemPurchaseSum")
+                        .HasColumnType("numeric");
 
                     b.Property<string>("ModifyBy")
                         .HasColumnType("text");

@@ -2,8 +2,6 @@
 using MarketManager.Application.Common.Interfaces;
 using MarketManager.Domain.Entities;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
-using Telegram.Bot.Types.InlineQueryResults;
 using static MarketManager.Application.UseCases.Orders.Queries.GetAllOrders.GetallOrderCommmandHandler;
 
 namespace MarketManager.Application.UseCases.Orders.Queries.GetOrder;
@@ -26,11 +24,11 @@ public class GetOrderQueryHandler : IRequestHandler<GetOrderQuery, OrderResponse
     {
         var order = FilterIfOrderExsists(request.Id);
 
-        var result =  _mapper.Map<OrderResponse>(order);
-        return result;
+        var result = _mapper.Map<OrderResponse>(order);
+        return await Task.FromResult(result);
     }
 
-    private  Order FilterIfOrderExsists(Guid id)
+    private Order FilterIfOrderExsists(Guid id)
         => _dbContext.Orders
             .Find(id)
                  ?? throw new NotFoundException(

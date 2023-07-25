@@ -16,6 +16,10 @@
     <Compile Include="UseCases\Items\Commands\CreateItem\CreateItemCommand.cs" />
     <Compile Include="UseCases\Items\Commands\DeleteItem\DeleteItemommand.cs" />
     <Compile Include="UseCases\Items\Commands\UpdateItem\UpdateItemCommand.cs" />
+    <Compile Include="UseCases\Items\Import.Export\AddOrdersFromExcel.cs" />
+    <Compile Include="UseCases\Items\Import.Export\AddOrdersFromPDF.cs" />
+    <Compile Include="UseCases\Items\Import.Export\GetOrderExcel.cs" />
+    <Compile Include="UseCases\Items\Import.Export\GetOrderPDF.cs" />
     <Compile Include="UseCases\Items\Queries\GetAllItem\GetAllItemsQuery.cs" />
     <Compile Include="UseCases\Items\Queries\GetItemById\GetItemByIdQuery.cs" />
   </ItemGroup>

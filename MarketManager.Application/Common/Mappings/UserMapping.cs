@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using MarketManager.Application.Common.Models;
 using MarketManager.Application.UseCases.Users.Commands.CreateUser;
 using MarketManager.Application.UseCases.Users.Commands.RegisterUser;
 using MarketManager.Application.UseCases.Users.Response;
@@ -12,5 +13,8 @@ public class UserMapping : Profile
         CreateMap<UserResponse, User>().ReverseMap();
         CreateMap<RegisterUserCommand, User>().ReverseMap();
         CreateMap<CreateUserCommand, User>().ReverseMap();
+        CreateMap<UsersResponseExcelReport, User>().ReverseMap();
+            //     .ForMember(dest => dest.Roles, opt => opt.MapFrom(src => src.Roles))
+            //.ReverseMap();    
     }
 }

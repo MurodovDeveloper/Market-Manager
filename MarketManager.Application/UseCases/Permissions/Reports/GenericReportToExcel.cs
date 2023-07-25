@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using ClosedXML.Excel;
 using MarketManager.Application.Common.Interfaces;
+using MarketManager.Application.Common.Models;
 using MarketManager.Domain.Entities;
 using MarketManager.Domain.Entities.Identity;
 using MediatR;
@@ -8,12 +9,12 @@ using Microsoft.EntityFrameworkCore;
 using System.Data;
 
 namespace MarketManager.Application.UseCases.Permissions.Reports;
-public record GenericReportToExcel : IRequest<ExcelResponse>
+public record GenericReportToExcel : IRequest<ExcelReportResponse>
 {
     public string EndpoinName { get; set; }
 }
 
-public class GenericReportToExcelHandler : IRequestHandler<GenericReportToExcel, ExcelResponse>
+public class GenericReportToExcelHandler : IRequestHandler<GenericReportToExcel, ExcelReportResponse>
 {
     private readonly IApplicationDbContext _context;
     private readonly IMapper _mapper;
@@ -24,7 +25,7 @@ public class GenericReportToExcelHandler : IRequestHandler<GenericReportToExcel,
         _mapper = mapper;
     }
 
-    public async Task<ExcelResponse> Handle(GenericReportToExcel request, CancellationToken cancellationToken)
+    public async Task<ExcelReportResponse> Handle(GenericReportToExcel request, CancellationToken cancellationToken)
     {
         var endpointName = request.EndpoinName;
         var dataTable = new DataTable();
@@ -60,7 +61,7 @@ public class GenericReportToExcelHandler : IRequestHandler<GenericReportToExcel,
             using (MemoryStream stream = new MemoryStream())
             {
                 wb.SaveAs(stream);
-                return new ExcelResponse(stream.ToArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", $"{endpointName}.xlsx");
+                return new ExcelReportResponse(stream.ToArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", $"{endpointName}.xlsx");
             }
         }
     }
@@ -71,7 +72,15 @@ public class GenericReportToExcelHandler : IRequestHandler<GenericReportToExcel,
         dt.TableName = typeof(T).Name + "Data";
         foreach (var property in typeof(T).GetProperties())
         {
-            dt.Columns.Add(property.Name, property.PropertyType);
+            if (property.PropertyType.AssemblyQualifiedName.Contains("System.Collections.Generic"))
+            {
+                continue;
+            }
+            else
+            {
+                dt.Columns.Add(property.Name, property.PropertyType);
+            }
+
         }
 
         foreach (var entity in entities)
@@ -79,7 +88,15 @@ public class GenericReportToExcelHandler : IRequestHandler<GenericReportToExcel,
             DataRow row = dt.NewRow();
             foreach (var property in typeof(T).GetProperties())
             {
-                row[property.Name] = property.GetValue(entity);
+                if (property.PropertyType.AssemblyQualifiedName.Contains("System.Collections.Generic"))
+                {
+                    continue;
+                }
+                else
+                {
+                    row[property.Name] = property.GetValue(entity);
+
+                }
             }
             dt.Rows.Add(row);
         }
@@ -88,4 +105,4 @@ public class GenericReportToExcelHandler : IRequestHandler<GenericReportToExcel,
     }
 }
 
-public record ExcelResponse(byte[] FileContents, string Option, string FileName);
+
